@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full" data-theme="minimal">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +42,85 @@
           document.documentElement.classList.remove('dark')
         }
     </script>
+    <!-- Crusher UI Kit: published static contract -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/dist/crusher-ui.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/glass.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/brutal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/neumorph.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/neobrutal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/minimal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/futuristic.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/src/css/themes/bento.css">
+    <style id="crusher-tools-framework-bridge">
+        :root {
+            --crusher-style-switcher-top: var(--crusher-spacing-6);
+            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
+            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
+            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
+            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
+            --crusher-style-switcher-color-justify: flex-start;
+        }
+        html[data-mode="dark"] { color-scheme: dark; }
+        body {
+            background:
+                radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
+                var(--crusher-background-canvas) !important;
+            color: var(--crusher-text-primary) !important;
+        }
+        #theme-toggle { display: none !important; }
+        h1, h2, h3 { color: var(--crusher-text-primary) !important; }
+        p, label, .text-slate-400, .text-slate-500, .text-slate-600, .dark\:text-slate-400, .dark\:text-slate-500 {
+            color: var(--crusher-text-secondary) !important;
+        }
+        .text-sky-400, .text-sky-500, .dark\:text-sky-400,
+        a:not(.tool-card):not(#hub-bubble) {
+            color: var(--crusher-color-brand-primary) !important;
+        }
+        .tool-card,
+        main.bg-white,
+        .bg-white,
+        .bg-slate-50,
+        .bg-slate-100,
+        .dark .dark\:bg-slate-700,
+        .dark .dark\:bg-slate-800 {
+            background-color: var(--crusher-background-surface) !important;
+            border-color: var(--crusher-border-primary) !important;
+            box-shadow: var(--crusher-shadow-lg) !important;
+        }
+        input, textarea, select,
+        .dark .dark\:bg-slate-700:is(input, textarea, select) {
+            background-color: var(--crusher-background-muted) !important;
+            color: var(--crusher-text-primary) !important;
+            border-color: var(--crusher-border-primary) !important;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--crusher-color-brand-primary) !important;
+            box-shadow: 0 0 0 var(--crusher-focus-width) color-mix(in srgb, var(--crusher-color-brand-primary) 26%, transparent) !important;
+        }
+        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn),
+        .case-btn {
+            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-surface)) !important;
+            color: var(--crusher-text-primary) !important;
+            border-color: color-mix(in srgb, var(--crusher-color-brand-primary) 28%, var(--crusher-border-primary)) !important;
+        }
+        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn):hover,
+        .case-btn:hover,
+        .tool-card:hover {
+            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-surface)) !important;
+            border-color: var(--crusher-color-brand-primary) !important;
+        }
+        #hub-bubble {
+            background-color: var(--crusher-color-brand-primary) !important;
+            box-shadow: var(--crusher-shadow-lg) !important;
+        }
+        #hub-bubble:hover {
+            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 82%, black) !important;
+            transform: translateY(-2px) scale(1.03) !important;
+        }
+        crusher-style-switcher {
+            --crusher-style-switcher-width: 15rem;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased transition-colors duration-300">
 
@@ -213,5 +292,21 @@
         // Set initial icon state on page load
         updateIcons();
     </script>
+    <crusher-style-switcher default-theme="minimal"></crusher-style-switcher>
+    <script>
+        (() => {
+            const root = document.documentElement;
+            if (!root.hasAttribute('data-theme')) root.setAttribute('data-theme', 'minimal');
+            const syncMode = () => {
+                const mode = root.getAttribute('data-mode') || (root.classList.contains('dark') ? 'dark' : 'light');
+                root.setAttribute('data-mode', mode);
+                root.classList.toggle('dark', mode === 'dark');
+                try { localStorage.theme = mode; } catch {}
+            };
+            window.addEventListener('crusher:themechange', syncMode);
+            requestAnimationFrame(syncMode);
+        })();
+    </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.1/dist/crusher-ui.standalone.esm.js"></script>
 </body>
 </html>
