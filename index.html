@@ -156,80 +156,28 @@
     </div>
 
     <script>
-        const tools = [
-            {
-                name: "Transparent PNG Generator",
-                description: "Create transparent PNG images of any dimension or aspect ratio instantly.",
-                url: "https://crusher-labs.github.io/transparent-png-generator/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
-            },
-            {
-                name: "Case Converter",
-                description: "Convert text between UPPERCASE, lowercase, Title Case, and more.",
-                url: "https://crusher-labs.github.io/case-converter/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg>`
-            },
-            {
-                name: "Word & Character Counter",
-                description: "Count words, characters, sentences, and paragraphs in a block of text.",
-                url: "https://crusher-labs.github.io/word-character-counter/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6.1H3M17 12.1H3M10 18.1H3"></path><path d="M21 15a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2z"></path></svg>`
-            },
-            {
-                name: "Markdown Previewer",
-                description: "Write Markdown and see a real-time preview of the rendered HTML.",
-                url: "https://crusher-labs.github.io/markdown-previewer/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M19 9h-2.5a2.5 2.5 0 0 0 0 5H19"></path><path d="M5 9h2.5a2.5 2.5 0 0 1 0 5H5z"></path></svg>`
-            },
-            {
-                name: "Color Converter",
-                description: "Convert color codes between HEX, RGB, and HSL formats with a preview.",
-                url: "https://crusher-labs.github.io/color-converter/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 1 0 10 10"></path></svg>`
-            },
-            {
-                name: "CSS Gradient Generator",
-                description: "Visually create, customize, and copy CSS linear or radial gradients.",
-                url: "https://crusher-labs.github.io/css-gradient-generator/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 3 3"></path><path d="M21 21 18 18"></path><path d="m16 3-9.5 9.5"></path><path d="M3 16 12.5 6.5"></path><path d="M21 8 12.5 16.5"></path><path d="M8 3H3v5"></path><path d="M16 21h5v-5"></path></svg>`
-            },
-            {
-                name: "SVG Placeholder Generator",
-                description: "Generate and download simple, customizable SVG placeholder images.",
-                url: "https://crusher-labs.github.io/svg-placeholder-generator/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`
-            },
-            {
-                name: "QR Code Generator",
-                description: "A fast and simple tool to generate and download QR codes from text or URLs.",
-                url: "https://crusher-labs.github.io/qr-code-generator/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><path d="M14 14h7v7h-7z"></path></svg>`
-            },
-            {
-                name: "Video to Audio Converter",
-                description: "Extract MP3 audio from video files locally in your browser.",
-                url: "https://crusher-labs.github.io/video-to-audio-converter/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"></path><rect x="2" y="6" width="14" height="12" rx="2" ry="2"></rect><path d="M8 12h.01"></path><path d="M11 12h.01"></path></svg>`
-            },
-            {
-                name: "Secure Password Generator",
-                description: "Create strong, cryptographically random passwords with custom options.",
-                url: "https://crusher-labs.github.io/secure-password-generator/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`
-            },
-            {
-                name: "Unix Timestamp Converter",
-                description: "Convert dates and times to and from Unix timestamps in your local time.",
-                url: "https://crusher-labs.github.io/unix-timestamp-converter/",
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`
-            }
-        ];
-
+        const icons = {
+            moon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
+            case: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg>`,
+            text: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6.1H3M17 12.1H3M10 18.1H3"></path><path d="M21 15a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2z"></path></svg>`,
+            markdown: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M19 9h-2.5a2.5 2.5 0 0 0 0 5H19"></path><path d="M5 9h2.5a2.5 2.5 0 0 1 0 5H5z"></path></svg>`,
+            color: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 1 0 10 10"></path></svg>`,
+            gradient: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 3 3"></path><path d="M21 21 18 18"></path><path d="m16 3-9.5 9.5"></path><path d="M3 16 12.5 6.5"></path><path d="M21 8 12.5 16.5"></path><path d="M8 3H3v5"></path><path d="M16 21h5v-5"></path></svg>`,
+            image: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`,
+            qr: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><path d="M14 14h7v7h-7z"></path></svg>`,
+            video: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"></path><rect x="2" y="6" width="14" height="12" rx="2" ry="2"></rect><path d="M8 12h.01"></path><path d="M11 12h.01"></path></svg>`,
+            shield: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`,
+            clock: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`
+        };
         const main = document.querySelector('main');
         const searchBar = document.getElementById('search-bar');
         const toolCards = [];
 
-        tools.forEach(tool => {
+        const renderTools = (tools) => {
+          main.innerHTML = '';
+          toolCards.length = 0;
+
+          tools.forEach(tool => {
             const card = document.createElement('a');
             card.href = tool.url;
             card.target = '_blank';
@@ -240,7 +188,7 @@
             // Updated innerHTML with light/dark mode classes
             card.innerHTML = `
                 <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-lg text-sky-500 dark:text-sky-400">
-                    ${tool.icon}
+                    ${icons[tool.icon] || icons.qr}
                 </div>
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-white">${tool.name}</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-400 flex-grow">${tool.description}</p>
@@ -251,7 +199,23 @@
             `;
             main.appendChild(card);
             toolCards.push({element: card, name: tool.name.toLowerCase(), description: tool.description.toLowerCase()});
-        });
+          });
+        };
+
+        const loadTools = async () => {
+          try {
+            const response = await fetch('./tools.json', { cache: 'no-store' });
+            if (!response.ok) throw new Error(`Unable to load tools.json (${response.status})`);
+            renderTools(await response.json());
+          } catch (error) {
+            main.innerHTML = `
+              <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Tools unavailable</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">${error.message}</p>
+              </section>
+            `;
+          }
+        };
 
         // Search functionality
         searchBar.addEventListener('input', (e) => {
@@ -291,6 +255,7 @@
 
         // Set initial icon state on page load
         updateIcons();
+        loadTools();
     </script>
     <crusher-style-switcher default-theme="minimal"></crusher-style-switcher>
     <script>

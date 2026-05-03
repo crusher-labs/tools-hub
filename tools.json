@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Transparent PNG Generator",
+    "description": "Create transparent PNG images of any dimension or aspect ratio instantly.",
+    "url": "https://crusher-labs.github.io/transparent-png-generator/",
+    "icon": "moon"
+  },
+  {
+    "name": "Case Converter",
+    "description": "Convert text between UPPERCASE, lowercase, Title Case, and more.",
+    "url": "https://crusher-labs.github.io/case-converter/",
+    "icon": "case"
+  },
+  {
+    "name": "Word & Character Counter",
+    "description": "Count words, characters, sentences, and paragraphs in a block of text.",
+    "url": "https://crusher-labs.github.io/word-character-counter/",
+    "icon": "text"
+  },
+  {
+    "name": "Markdown Previewer",
+    "description": "Write Markdown and see a real-time preview of the rendered HTML.",
+    "url": "https://crusher-labs.github.io/markdown-previewer/",
+    "icon": "markdown"
+  },
+  {
+    "name": "Color Converter",
+    "description": "Convert color codes between HEX, RGB, and HSL formats with a preview.",
+    "url": "https://crusher-labs.github.io/color-converter/",
+    "icon": "color"
+  },
+  {
+    "name": "CSS Gradient Generator",
+    "description": "Visually create, customize, and copy CSS linear or radial gradients.",
+    "url": "https://crusher-labs.github.io/css-gradient-generator/",
+    "icon": "gradient"
+  },
+  {
+    "name": "SVG Placeholder Generator",
+    "description": "Generate and download simple, customizable SVG placeholder images.",
+    "url": "https://crusher-labs.github.io/svg-placeholder-generator/",
+    "icon": "image"
+  },
+  {
+    "name": "QR Code Generator",
+    "description": "A fast and simple tool to generate and download QR codes from text or URLs.",
+    "url": "https://crusher-labs.github.io/qr-code-generator/",
+    "icon": "qr"
+  },
+  {
+    "name": "Video to Audio Converter",
+    "description": "Extract MP3 audio from video files locally in your browser.",
+    "url": "https://crusher-labs.github.io/video-to-audio-converter/",
+    "icon": "video"
+  },
+  {
+    "name": "Secure Password Generator",
+    "description": "Create strong, cryptographically random passwords with custom options.",
+    "url": "https://crusher-labs.github.io/secure-password-generator/",
+    "icon": "shield"
+  },
+  {
+    "name": "Unix Timestamp Converter",
+    "description": "Convert dates and times to and from Unix timestamps in your local time.",
+    "url": "https://crusher-labs.github.io/unix-timestamp-converter/",
+    "icon": "clock"
+  }
+]
