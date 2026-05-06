@@ -21,6 +21,7 @@ Workflow:
 - Active branch: `dev`.
 - Keep this hub public while tools are simple/static.
 - Do not merge `dev` to `main` until the current UI/catalog changes are manually checked.
+- Run `npm run check:static` before committing catalog or static contract changes.
 - If a tool becomes heavy, private, backend-dependent, or commercially sensitive, move it to a more appropriate private repo/hosting path instead of forcing it into this static hub.
 
 Next steps:
