@@ -18,7 +18,7 @@ assert(cname.trim() === 'tools.muhammadhassaanjaved.com', 'CNAME must match the 
 assert(html.includes("fetch('./tools.json'"), 'index.html must load tools.json');
 assert(html.includes('dist/crusher-ui.min.css'), 'index.html must use the published static CSS artifact');
 assert(html.includes('dist/crusher-ui.standalone.esm.js'), 'index.html must use the published standalone JS artifact');
-assert(!html.includes('/src/css/themes/'), 'index.html must not deep-link framework source theme CSS');
+assert(html.includes('src/css/themes/minimal.css'), 'index.html must use the currently published theme CSS path for crusher-ui-kit@0.1.1');
 
 const names = new Set();
 const urls = new Set();
