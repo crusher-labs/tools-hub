@@ -36,6 +36,27 @@ Next steps:
 4. Add the pending local utility tools after their repos/pages are published.
 5. Keep this hub as a directory/wrapper, not the implementation repo for every tool.
 
+Pending tools to add to `tools.json` after their GitHub Pages URLs resolve:
+- `aspect-ratio-calculator`
+- `base64-encoder`
+- `binary-converter`
+- `color-palette-generator`
+- `css-box-shadow-generator`
+- `diff-checker`
+- `epoch-converter`
+- `hash-generator`
+- `html-entity-encoder`
+- `image-compressor`
+- `json-prettifier`
+- `json-yaml-csv-converter`
+- `jwt-decoder`
+- `lorem-ipsum-generator`
+- `morse-code-converter`
+- `regex-tester`
+- `url-encoder-decoder`
+- `uuid-generator`
+- `word-frequency-counter`
+
 ## Branching and QA Policy
 
 - Every tool repo and `tools-hub` should keep both `main` and `dev`.
