@@ -16,9 +16,11 @@ assert(Array.isArray(tools), 'tools.json must be an array');
 assert(tools.length > 0, 'tools.json must contain at least one tool');
 assert(cname.trim() === 'tools.muhammadhassaanjaved.com', 'CNAME must match the public tools domain');
 assert(html.includes("fetch('./tools.json'"), 'index.html must load tools.json');
-assert(html.includes('dist/crusher-ui.min.css'), 'index.html must use the published static CSS artifact');
-assert(html.includes('dist/crusher-ui.standalone.esm.js'), 'index.html must use the published standalone JS artifact');
-assert(html.includes('src/css/themes/minimal.css'), 'index.html must use the currently published theme CSS path for crusher-ui-kit@0.1.1');
+assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.min.css'), 'index.html must use crusher-ui-kit@0.1.3 static CSS');
+assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js'), 'index.html must use crusher-ui-kit@0.1.3 standalone JS');
+assert(html.includes('crusher-ui-kit@0.1.3/dist/themes/minimal.css'), 'index.html must use the published dist theme CSS');
+assert(!html.includes('crusher-ui-kit@0.1.1'), 'index.html must not reference crusher-ui-kit@0.1.1');
+assert(!html.includes('/src/css/themes/'), 'index.html must not deep-link framework source theme CSS');
 
 const names = new Set();
 const urls = new Set();

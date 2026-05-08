@@ -6,7 +6,7 @@ Live: https://tools.muhammadhassaanjaved.com/
 
 ## Continuation State
 
-Updated: 2026-05-07
+Updated: 2026-05-08
 
 This repo belongs to the broader Hassaan/Crusher ecosystem, but it is intentionally simpler than `hassaan-site`, `crusher-portfolio`, and `crusher-ui-kit`.
 
@@ -17,8 +17,8 @@ Current contract:
 - Current catalog has 30 tools and is validated by `npm run check:static`.
 - Each simple tool should stay independently hosted under `https://crusher-labs.github.io/<repo>/` unless it grows enough to justify a separate domain or hosting stack.
 - Use the latest published `crusher-ui-kit` package/static contract for public tools. Do not depend on unpublished local framework dev work here.
-- Static framework paths should use published assets only. For `crusher-ui-kit@0.1.1`, core CSS/JS are available under `dist/`, but theme CSS is currently available under `src/css/themes/<theme>.css`.
-- Move tools from `src/css/themes/<theme>.css` to `dist/themes/<theme>.css` after a published UI kit release exposes those files on the CDN.
+- Static framework paths should use the published `crusher-ui-kit@0.1.3` `dist/` assets only, including `dist/crusher-ui.min.css`, `dist/crusher-ui.standalone.esm.js`, `dist/themes/<theme>.css`, and `dist/static/tool-shell.css` where a static tool shell is needed.
+- Do not deep-link `crusher-ui-kit/src/...` files from tools.
 - GitHub Pages deployment is expected from each tool repo's `main` branch after QA.
 
 Workflow:
@@ -44,8 +44,7 @@ Next steps:
 
 ## Crusher UI Kit Suggestions
 
-- Add a published static bundle for all dialect theme CSS, for example `dist/themes/all.css`, so no-build tools do not need seven repeated theme links.
-- Ensure the next package publish includes `dist/themes/*.css` and `dist/static/tool-shell.css`; `crusher-ui-kit@0.1.1` does not expose those CDN paths even though the local build contains them.
+- Consider adding a published static bundle for all dialect theme CSS, for example `dist/themes/all.css`, so no-build tools do not need seven repeated theme links.
 - Keep `dist/static/tool-shell.css` as the recommended starting point for utility pages and expand it with common two-panel, textarea, action-row, result-card, and floating hub-link patterns.
 - Consider adding a tiny static runtime helper for tool pages that syncs `data-mode`, the old Tailwind `dark` class, saved theme state, and `<crusher-style-switcher>` events.
 - Document one canonical CDN snippet pinned to a concrete version for public tools, then update tools only after that package version is published.
