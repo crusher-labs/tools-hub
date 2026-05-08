@@ -20,7 +20,9 @@ assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.min.css'), 'index.htm
 assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js'), 'index.html must use crusher-ui-kit@0.1.3 standalone JS');
 assert(html.includes('crusher-ui-kit@0.1.3/dist/themes/minimal.css'), 'index.html must use the published minimal dist theme CSS');
 assert(html.includes('data-theme-lock="minimal"'), 'index.html must lock the public UI to the minimal theme');
-assert(!html.includes('<crusher-style-switcher'), 'index.html must not expose the dialect/color style switcher');
+assert(html.includes('<crusher-style-switcher default-theme="minimal" hide-themes></crusher-style-switcher>'), 'index.html must expose the style switcher with dialects hidden');
+assert(!html.includes('hide-colors'), 'index.html style switcher must keep color controls visible');
+assert(!html.includes('hide-mode'), 'index.html style switcher must keep light/dark controls visible');
 assert(!html.includes('crusher-ui-kit@0.1.1'), 'index.html must not reference crusher-ui-kit@0.1.1');
 assert(!html.includes('/src/css/themes/'), 'index.html must not deep-link framework source theme CSS');
 

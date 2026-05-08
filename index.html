@@ -46,7 +46,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/minimal.css">
     <style id="crusher-tools-framework-bridge">
-html[data-mode="dark"] { color-scheme: dark; }
+        :root {
+            --crusher-style-switcher-top: var(--crusher-spacing-6);
+            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
+            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
+            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
+            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
+            --crusher-style-switcher-color-justify: flex-start;
+        }
+        html[data-mode="dark"] { color-scheme: dark; }
+                #theme-toggle { display: none !important; }
         body {
             background:
                 radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
@@ -239,34 +248,44 @@ html[data-mode="dark"] { color-scheme: dark; }
         updateIcons();
         loadTools();
     </script>
-<script id="crusher-minimal-mode-lock">
+    <crusher-style-switcher default-theme="minimal" hide-themes></crusher-style-switcher>
+    <script id="crusher-minimal-mode-lock">
       (() => {
         const root = document.documentElement;
+        const readPrefs = () => {
+          try { return JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); } catch { return {}; }
+        };
         const getStoredMode = () => {
           try { return localStorage.theme === 'dark' ? 'dark' : localStorage.theme === 'light' ? 'light' : null; } catch { return null; }
         };
         const writePrefs = (mode) => {
           try {
-            const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}');
+            const prefs = readPrefs();
             prefs.theme = 'minimal';
             prefs.mode = mode;
-            delete prefs.brand;
             localStorage.setItem('crusher_prefs', JSON.stringify(prefs));
             localStorage.theme = mode;
           } catch {}
         };
-        const sync = () => {
+        const resolveMode = (forcedMode) => {
+          if (forcedMode === 'dark' || forcedMode === 'light') return forcedMode;
           const stored = getStoredMode();
-          const mode = root.classList.contains('dark') || stored === 'dark' ? 'dark' : 'light';
+          if (stored) return stored;
+          const attr = root.getAttribute('data-mode');
+          if (attr === 'dark' || attr === 'light') return attr;
+          return root.classList.contains('dark') ? 'dark' : 'light';
+        };
+        const sync = (forcedMode) => {
+          const mode = resolveMode(forcedMode);
           root.setAttribute('data-theme', 'minimal');
           root.setAttribute('data-theme-lock', 'minimal');
           root.setAttribute('data-mode', mode);
           root.classList.toggle('dark', mode === 'dark');
-          root.style.removeProperty('--crusher-color-brand-primary');
           writePrefs(mode);
         };
-        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(sync));
-        requestAnimationFrame(sync);
+        window.addEventListener('crusher:themechange', (event) => sync(event.detail?.mode));
+        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(() => sync()));
+        requestAnimationFrame(() => sync());
       })();
     </script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
