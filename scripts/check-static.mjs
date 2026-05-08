@@ -18,9 +18,15 @@ assert(cname.trim() === 'tools.muhammadhassaanjaved.com', 'CNAME must match the 
 assert(html.includes("fetch('./tools.json'"), 'index.html must load tools.json');
 assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.min.css'), 'index.html must use crusher-ui-kit@0.1.3 static CSS');
 assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js'), 'index.html must use crusher-ui-kit@0.1.3 standalone JS');
-assert(html.includes('crusher-ui-kit@0.1.3/dist/themes/minimal.css'), 'index.html must use the published dist theme CSS');
+assert(html.includes('crusher-ui-kit@0.1.3/dist/themes/minimal.css'), 'index.html must use the published minimal dist theme CSS');
+assert(html.includes('data-theme-lock="minimal"'), 'index.html must lock the public UI to the minimal theme');
+assert(!html.includes('<crusher-style-switcher'), 'index.html must not expose the dialect/color style switcher');
 assert(!html.includes('crusher-ui-kit@0.1.1'), 'index.html must not reference crusher-ui-kit@0.1.1');
 assert(!html.includes('/src/css/themes/'), 'index.html must not deep-link framework source theme CSS');
+
+for (const theme of ['glass', 'brutal', 'neumorph', 'neobrutal', 'futuristic', 'bento']) {
+  assert(!html.includes(`dist/themes/${theme}.css`), `index.html must not load the ${theme} theme CSS`);
+}
 
 const names = new Set();
 const urls = new Set();

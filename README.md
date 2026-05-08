@@ -17,7 +17,8 @@ Current contract:
 - Current catalog has 30 tools and is validated by `npm run check:static`.
 - Each simple tool should stay independently hosted under `https://crusher-labs.github.io/<repo>/` unless it grows enough to justify a separate domain or hosting stack.
 - Use the latest published `crusher-ui-kit` package/static contract for public tools. Do not depend on unpublished local framework dev work here.
-- Static framework paths should use the published `crusher-ui-kit@0.1.3` `dist/` assets only, including `dist/crusher-ui.min.css`, `dist/crusher-ui.standalone.esm.js`, `dist/themes/<theme>.css`, and `dist/static/tool-shell.css` where a static tool shell is needed.
+- Static framework paths should use the published `crusher-ui-kit@0.1.3` `dist/` assets only, including `dist/crusher-ui.min.css`, `dist/crusher-ui.standalone.esm.js`, `dist/themes/minimal.css`, and `dist/static/tool-shell.css` where a static tool shell is needed.
+- Public tools and the hub are pinned to the `minimal` dialect with default colors. Keep light/dark mode available, but do not expose the dialect/color style switcher on these simple public utilities.
 - Do not deep-link `crusher-ui-kit/src/...` files from tools.
 - GitHub Pages deployment is expected from each tool repo's `main` branch after QA.
 
@@ -44,8 +45,7 @@ Next steps:
 
 ## Crusher UI Kit Suggestions
 
-- Consider adding a published static bundle for all dialect theme CSS, for example `dist/themes/all.css`, so no-build tools do not need seven repeated theme links.
 - Keep `dist/static/tool-shell.css` as the recommended starting point for utility pages and expand it with common two-panel, textarea, action-row, result-card, and floating hub-link patterns.
-- Consider adding a tiny static runtime helper for tool pages that syncs `data-mode`, the old Tailwind `dark` class, saved theme state, and `<crusher-style-switcher>` events.
+- Consider adding a tiny static runtime helper for tool pages that syncs `data-mode`, the old Tailwind `dark` class, saved mode state, and a fixed `data-theme-lock="minimal"` contract.
 - Document one canonical CDN snippet pinned to a concrete version for public tools, then update tools only after that package version is published.
 - Avoid requiring public tools to deep-link into `src/`; all static consumers should stay on published `dist/` artifacts.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full" data-theme="minimal">
+<html lang="en" class="h-full" data-theme="minimal" data-theme-lock="minimal" data-mode="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,37 +37,22 @@
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark')
+          document.documentElement.classList.add('dark'); document.documentElement.setAttribute('data-mode', 'dark')
         } else {
-          document.documentElement.classList.remove('dark')
+          document.documentElement.classList.remove('dark'); document.documentElement.setAttribute('data-mode', 'light')
         }
     </script>
     <!-- Crusher UI Kit: published static contract -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/glass.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/brutal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/neumorph.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/neobrutal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/minimal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/futuristic.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/bento.css">
     <style id="crusher-tools-framework-bridge">
-        :root {
-            --crusher-style-switcher-top: var(--crusher-spacing-6);
-            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
-            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
-            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
-            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
-            --crusher-style-switcher-color-justify: flex-start;
-        }
-        html[data-mode="dark"] { color-scheme: dark; }
+html[data-mode="dark"] { color-scheme: dark; }
         body {
             background:
                 radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
                 var(--crusher-background-canvas) !important;
             color: var(--crusher-text-primary) !important;
         }
-        #theme-toggle { display: none !important; }
         h1, h2, h3 { color: var(--crusher-text-primary) !important; }
         p, label, .text-slate-400, .text-slate-500, .text-slate-600, .dark\:text-slate-400, .dark\:text-slate-500 {
             color: var(--crusher-text-secondary) !important;
@@ -117,10 +102,7 @@
             background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 82%, black) !important;
             transform: translateY(-2px) scale(1.03) !important;
         }
-        crusher-style-switcher {
-            --crusher-style-switcher-width: 15rem;
-        }
-    </style>
+</style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased transition-colors duration-300">
 
@@ -257,20 +239,35 @@
         updateIcons();
         loadTools();
     </script>
-    <crusher-style-switcher default-theme="minimal"></crusher-style-switcher>
-    <script>
-        (() => {
-            const root = document.documentElement;
-            if (!root.hasAttribute('data-theme')) root.setAttribute('data-theme', 'minimal');
-            const syncMode = () => {
-                const mode = root.getAttribute('data-mode') || (root.classList.contains('dark') ? 'dark' : 'light');
-                root.setAttribute('data-mode', mode);
-                root.classList.toggle('dark', mode === 'dark');
-                try { localStorage.theme = mode; } catch {}
-            };
-            window.addEventListener('crusher:themechange', syncMode);
-            requestAnimationFrame(syncMode);
-        })();
+<script id="crusher-minimal-mode-lock">
+      (() => {
+        const root = document.documentElement;
+        const getStoredMode = () => {
+          try { return localStorage.theme === 'dark' ? 'dark' : localStorage.theme === 'light' ? 'light' : null; } catch { return null; }
+        };
+        const writePrefs = (mode) => {
+          try {
+            const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}');
+            prefs.theme = 'minimal';
+            prefs.mode = mode;
+            delete prefs.brand;
+            localStorage.setItem('crusher_prefs', JSON.stringify(prefs));
+            localStorage.theme = mode;
+          } catch {}
+        };
+        const sync = () => {
+          const stored = getStoredMode();
+          const mode = root.classList.contains('dark') || stored === 'dark' ? 'dark' : 'light';
+          root.setAttribute('data-theme', 'minimal');
+          root.setAttribute('data-theme-lock', 'minimal');
+          root.setAttribute('data-mode', mode);
+          root.classList.toggle('dark', mode === 'dark');
+          root.style.removeProperty('--crusher-color-brand-primary');
+          writePrefs(mode);
+        };
+        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(sync));
+        requestAnimationFrame(sync);
+      })();
     </script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
 </body>
