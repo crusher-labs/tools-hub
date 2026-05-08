@@ -18,7 +18,7 @@ Current contract:
 - Each simple tool should stay independently hosted under `https://crusher-labs.github.io/<repo>/` unless it grows enough to justify a separate domain or hosting stack.
 - Use the latest published `crusher-ui-kit` package/static contract for public tools. Do not depend on unpublished local framework dev work here.
 - Static framework paths should use the published `crusher-ui-kit@0.1.3` `dist/` assets only, including `dist/crusher-ui.min.css`, `dist/crusher-ui.standalone.esm.js`, `dist/themes/minimal.css`, and `dist/static/tool-shell.css` where a static tool shell is needed.
-- Public tools and the hub are pinned to the `minimal` dialect. Keep the style switcher available for brand color and light/dark mode controls, but hide dialect selection with `<crusher-style-switcher default-theme="minimal" hide-themes>`.
+- Public tools and the hub are pinned to the `minimal` dialect. Keep the style switcher available for brand color and light/dark mode controls, but use the fixed-theme contract: `<crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color>`.
 - Do not deep-link `crusher-ui-kit/src/...` files from tools.
 - GitHub Pages deployment is expected from each tool repo's `main` branch after QA.
 

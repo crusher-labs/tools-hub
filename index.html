@@ -36,7 +36,7 @@
     </style>
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if ((() => { try { const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); return localStorage.getItem('crusher_tools_mode_contract') === 'style-switcher-v3' && prefs.mode === 'dark'; } catch { return false; } })()) {
           document.documentElement.classList.add('dark'); document.documentElement.setAttribute('data-mode', 'dark')
         } else {
           document.documentElement.classList.remove('dark'); document.documentElement.setAttribute('data-mode', 'light')
@@ -48,6 +48,7 @@
     <style id="crusher-tools-framework-bridge">
         :root {
             --crusher-style-switcher-top: var(--crusher-spacing-6);
+            --crusher-style-switcher-width: 16.5rem;
             --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
             --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
             --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
@@ -248,44 +249,92 @@
         updateIcons();
         loadTools();
     </script>
-    <crusher-style-switcher default-theme="minimal" hide-themes></crusher-style-switcher>
+    <crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color></crusher-style-switcher>
     <script id="crusher-minimal-mode-lock">
       (() => {
         const root = document.documentElement;
+        const CONTRACT_VERSION = 'style-switcher-v3';
+        const DEFAULT_BRAND = '#0ea5e9';
+        const SWITCHER_COLORS = {
+          sky: '#0ea5e9',
+          emerald: '#10b981',
+          violet: '#8b5cf6',
+          orange: '#f97316',
+          pink: '#ec4899'
+        };
         const readPrefs = () => {
           try { return JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); } catch { return {}; }
         };
-        const getStoredMode = () => {
-          try { return localStorage.theme === 'dark' ? 'dark' : localStorage.theme === 'light' ? 'light' : null; } catch { return null; }
+        const writePrefs = (prefs) => {
+          try { localStorage.setItem('crusher_prefs', JSON.stringify(prefs)); } catch {}
         };
-        const writePrefs = (mode) => {
-          try {
-            const prefs = readPrefs();
-            prefs.theme = 'minimal';
-            prefs.mode = mode;
-            localStorage.setItem('crusher_prefs', JSON.stringify(prefs));
-            localStorage.theme = mode;
-          } catch {}
-        };
-        const resolveMode = (forcedMode) => {
-          if (forcedMode === 'dark' || forcedMode === 'light') return forcedMode;
-          const stored = getStoredMode();
-          if (stored) return stored;
-          const attr = root.getAttribute('data-mode');
-          if (attr === 'dark' || attr === 'light') return attr;
-          return root.classList.contains('dark') ? 'dark' : 'light';
+        const normalizeMode = (mode) => mode === 'dark' ? 'dark' : 'light';
+        const ensurePrefs = (forcedMode) => {
+          const prefs = readPrefs();
+          const currentContract = (() => { try { return localStorage.getItem('crusher_tools_mode_contract'); } catch { return ''; } })();
+          if (currentContract !== CONTRACT_VERSION) {
+            prefs.mode = 'light';
+            try { localStorage.setItem('crusher_tools_mode_contract', CONTRACT_VERSION); } catch {}
+          } else if (forcedMode === 'dark' || forcedMode === 'light') {
+            prefs.mode = forcedMode;
+          } else {
+            prefs.mode = normalizeMode(prefs.mode);
+          }
+          prefs.theme = 'minimal';
+          if (!prefs.brand) prefs.brand = DEFAULT_BRAND;
+          try { localStorage.theme = prefs.mode; } catch {}
+          writePrefs(prefs);
+          return prefs;
         };
         const sync = (forcedMode) => {
-          const mode = resolveMode(forcedMode);
+          const prefs = ensurePrefs(forcedMode);
           root.setAttribute('data-theme', 'minimal');
           root.setAttribute('data-theme-lock', 'minimal');
-          root.setAttribute('data-mode', mode);
-          root.classList.toggle('dark', mode === 'dark');
-          writePrefs(mode);
+          root.setAttribute('data-mode', prefs.mode);
+          root.classList.toggle('dark', prefs.mode === 'dark');
+          root.style.setProperty('--crusher-color-brand-primary', prefs.brand || DEFAULT_BRAND);
         };
+        const patchSwitcher = async () => {
+          await customElements.whenDefined('crusher-style-switcher');
+          const switcher = document.querySelector('crusher-style-switcher');
+          if (!switcher) return;
+          switcher.hideThemes = true;
+          switcher.hideThemeColor = true;
+          switcher.colors = SWITCHER_COLORS;
+          switcher._cacheSwatchColors?.();
+          switcher.requestUpdate?.();
+          await switcher.updateComplete?.catch?.(() => {});
+          const applyShadowFixes = () => {
+            const shadow = switcher.shadowRoot;
+            if (!shadow) return;
+            shadow.querySelectorAll('button').forEach((button) => { button.style.cursor = 'pointer'; });
+            shadow.querySelectorAll('.colors').forEach((row) => {
+              row.style.flexWrap = 'nowrap';
+              row.style.justifyContent = 'flex-start';
+              row.style.gap = '0.45rem';
+            });
+            shadow.querySelectorAll('.swatch').forEach((swatch) => {
+              swatch.style.inlineSize = '1.65rem';
+              swatch.style.blockSize = '1.65rem';
+              swatch.style.flex = '0 0 auto';
+              swatch.style.cursor = 'pointer';
+            });
+          };
+          applyShadowFixes();
+          const originalRequestUpdate = switcher.requestUpdate?.bind(switcher);
+          if (originalRequestUpdate && !switcher.__crusherToolsPatched) {
+            switcher.__crusherToolsPatched = true;
+            switcher.requestUpdate = (...args) => {
+              const result = originalRequestUpdate(...args);
+              requestAnimationFrame(applyShadowFixes);
+              return result;
+            };
+          }
+        };
+        sync();
         window.addEventListener('crusher:themechange', (event) => sync(event.detail?.mode));
         document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(() => sync()));
-        requestAnimationFrame(() => sync());
+        patchSwitcher();
       })();
     </script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
