@@ -154,7 +154,7 @@
                 <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No analytics</span>
             </p>
             <div class="hub-search">
-                <input type="search" id="search-bar" class="crusher-tool-control" placeholder="Search for a tool..." aria-label="Search for a tool">
+                <input type="search" id="search-bar" class="crusher-tool-control" placeholder="Search for a tool…  (press / to focus)" aria-label="Search for a tool. Press slash to focus, escape to clear.">
             </div>
         </header>
 
@@ -338,6 +338,24 @@
             searchBar.value = '';
             searchBar.dispatchEvent(new Event('input', { bubbles: true }));
             searchBar.focus();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const ae = document.activeElement;
+            const inField = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
+            if (e.key === '/' && !inField && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                e.preventDefault();
+                searchBar.focus();
+                searchBar.select();
+            }
+            if (e.key === 'Escape' && ae === searchBar) {
+                if (searchBar.value !== '') {
+                    searchBar.value = '';
+                    searchBar.dispatchEvent(new Event('input', { bubbles: true }));
+                } else {
+                    searchBar.blur();
+                }
+            }
         });
 
         loadTools();
