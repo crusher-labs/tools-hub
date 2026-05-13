@@ -20,6 +20,17 @@
         body { font-family: 'Inter', sans-serif; }
         .crusher-tool-shell { padding-block-start: 5rem; }
 
+        .hub-trust-signal {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: var(--crusher-spacing-2) var(--crusher-spacing-4);
+            margin-block-start: var(--crusher-spacing-3);
+            font-size: var(--crusher-font-size-xs);
+            color: var(--crusher-text-secondary);
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .hub-trust-signal span { display: inline-flex; align-items: center; gap: var(--crusher-spacing-1); }
+        .hub-trust-signal svg { color: var(--crusher-color-brand-primary); }
+
         .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
         .hub-search input.crusher-tool-control { padding: var(--crusher-spacing-3); }
         .hub-empty { padding: var(--crusher-spacing-6); text-align: center; color: var(--crusher-text-secondary); }
@@ -84,6 +95,12 @@
         <header class="crusher-tool-header">
             <h1 class="crusher-tool-title">Web Utility Tools</h1>
             <p class="crusher-tool-lede">A collection of simple, free, and open-source tools built to solve common problems, right in your browser.</p>
+            <p class="hub-trust-signal" aria-label="Trust signals">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>30 tools</span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No uploads</span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No sign-up</span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No analytics</span>
+            </p>
             <div class="hub-search">
                 <input type="search" id="search-bar" class="crusher-tool-control" placeholder="Search for a tool..." aria-label="Search for a tool">
             </div>
