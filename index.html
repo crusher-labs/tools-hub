@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Utility Tools by CRUSHER</title>
+    <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .crusher-tool-shell { padding-block-start: 5rem; }
 
         .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
         .hub-search input.crusher-tool-control { padding: var(--crusher-spacing-3); }
@@ -71,6 +73,9 @@
         </header>
 
         <div id="hub-grid" class="hub-grid"></div>
+        <section id="hub-no-results" class="crusher-tool-surface hub-empty" hidden>
+            <p>No tools match your search.</p>
+        </section>
     </main>
 
     <footer class="hub-footer">
@@ -99,6 +104,7 @@
     <script>
         const grid = document.getElementById('hub-grid');
         const searchBar = document.getElementById('search-bar');
+        const noResults = document.getElementById('hub-no-results');
         const toolCards = [];
 
         function cloneIcon(name) {
@@ -178,10 +184,13 @@
 
         searchBar.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
+            let visibleCount = 0;
             for (const card of toolCards) {
                 const visible = card.name.includes(term) || card.description.includes(term);
                 card.element.style.display = visible ? '' : 'none';
+                if (visible) visibleCount++;
             }
+            noResults.hidden = visibleCount > 0 || toolCards.length === 0;
         });
 
         loadTools();

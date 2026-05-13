@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Static tools directory for the Crusher Labs ecosystem.",
   "scripts": {
-    "check:static": "node ./scripts/check-static.mjs"
+    "check:static": "node ./scripts/check-static.mjs",
+    "preview": "python -m http.server 8723 --bind 127.0.0.1"
   },
   "engines": {
     "node": ">=22"

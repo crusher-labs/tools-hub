@@ -31,6 +31,9 @@ Workflow:
 - CI runs the same static contract check on GitHub Actions.
 - If a tool becomes heavy, private, backend-dependent, or commercially sensitive, move it to a more appropriate private repo/hosting path instead of forcing it into this static hub.
 
+Local QA:
+- Open the hub via `npm run preview` (serves on http://127.0.0.1:8723/). Browsers block `fetch('./tools.json')` under `file://`, so opening `index.html` directly shows "Tools unavailable / Failed to fetch". Individual tools open fine via `file://` because they don't `fetch()`.
+
 Next steps:
 1. Keep `tools.json` accurate as tools are added or renamed.
 2. Make sure each listed tool link resolves before promoting changes.
