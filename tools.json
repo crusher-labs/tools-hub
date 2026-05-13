@@ -3,180 +3,210 @@
     "name": "Aspect Ratio Calculator",
     "description": "Calculate and maintain aspect ratios for images, videos, and responsive layouts.",
     "url": "https://crusher-labs.github.io/aspect-ratio-calculator/",
-    "icon": "image"
+    "icon": "image",
+    "category": "media"
   },
   {
     "name": "Base64 Encoder/Decoder",
     "description": "Encode and decode Base64 text instantly in your browser.",
     "url": "https://crusher-labs.github.io/base64-encoder/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Binary Converter",
     "description": "Convert text, binary, decimal, hexadecimal, and ASCII values.",
     "url": "https://crusher-labs.github.io/binary-converter/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Case Converter",
     "description": "Convert text between UPPERCASE, lowercase, Title Case, and more.",
     "url": "https://crusher-labs.github.io/case-converter/",
-    "icon": "case"
+    "icon": "case",
+    "category": "text"
   },
   {
     "name": "Color Converter",
     "description": "Convert color codes between HEX, RGB, and HSL formats with a preview.",
     "url": "https://crusher-labs.github.io/color-converter/",
-    "icon": "color"
+    "icon": "color",
+    "category": "design"
   },
   {
     "name": "Color Palette Generator",
     "description": "Generate color palettes for websites, apps, and design projects.",
     "url": "https://crusher-labs.github.io/color-palette-generator/",
-    "icon": "color"
+    "icon": "color",
+    "category": "design"
   },
   {
     "name": "CSS Box-Shadow Generator",
     "description": "Create, preview, and copy CSS box-shadow styles in real time.",
     "url": "https://crusher-labs.github.io/css-box-shadow-generator/",
-    "icon": "gradient"
+    "icon": "gradient",
+    "category": "design"
   },
   {
     "name": "CSS Gradient Generator",
     "description": "Visually create, customize, and copy CSS linear or radial gradients.",
     "url": "https://crusher-labs.github.io/css-gradient-generator/",
-    "icon": "gradient"
+    "icon": "gradient",
+    "category": "design"
   },
   {
     "name": "Diff Checker",
     "description": "Compare two pieces of text and highlight the differences.",
     "url": "https://crusher-labs.github.io/diff-checker/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Epoch/Human Date Converter",
     "description": "Convert epoch time to human-readable dates and back.",
     "url": "https://crusher-labs.github.io/epoch-converter/",
-    "icon": "clock"
+    "icon": "clock",
+    "category": "time"
   },
   {
     "name": "Hash Generator",
     "description": "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text.",
     "url": "https://crusher-labs.github.io/hash-generator/",
-    "icon": "shield"
+    "icon": "shield",
+    "category": "security"
   },
   {
     "name": "HTML Entity Encoder",
     "description": "Encode and decode HTML entities safely in your browser.",
     "url": "https://crusher-labs.github.io/html-entity-encoder/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Image Compressor",
     "description": "Compress images and reduce file size without uploading them to a server.",
     "url": "https://crusher-labs.github.io/image-compressor/",
-    "icon": "image"
+    "icon": "image",
+    "category": "media"
   },
   {
     "name": "JSON Prettifier/Minifier",
     "description": "Format, validate, minify, and beautify JSON instantly.",
     "url": "https://crusher-labs.github.io/json-prettifier/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "JSON to YAML/CSV Converter",
     "description": "Convert data between JSON, YAML, and CSV formats in your browser.",
     "url": "https://crusher-labs.github.io/json-yaml-csv-converter/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "JWT Decoder",
     "description": "Decode and inspect JWT tokens without sending them to a server.",
     "url": "https://crusher-labs.github.io/jwt-decoder/",
-    "icon": "shield"
+    "icon": "shield",
+    "category": "security"
   },
   {
     "name": "Lorem Ipsum Generator",
     "description": "Create placeholder text for designs, mockups, and content drafts.",
     "url": "https://crusher-labs.github.io/lorem-ipsum-generator/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Markdown Previewer",
     "description": "Write Markdown and see a real-time preview of the rendered HTML.",
     "url": "https://crusher-labs.github.io/markdown-previewer/",
-    "icon": "markdown"
+    "icon": "markdown",
+    "category": "text"
   },
   {
     "name": "Morse Code Converter",
     "description": "Convert text to Morse code and Morse code back to readable text.",
     "url": "https://crusher-labs.github.io/morse-code-converter/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "QR Code Generator",
     "description": "Generate and download QR codes from text or URLs.",
     "url": "https://crusher-labs.github.io/qr-code-generator/",
-    "icon": "qr"
+    "icon": "qr",
+    "category": "media"
   },
   {
     "name": "Regex Tester",
     "description": "Test regular expressions against sample text in real time.",
     "url": "https://crusher-labs.github.io/regex-tester/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Secure Password Generator",
     "description": "Create strong, cryptographically random passwords with custom options.",
     "url": "https://crusher-labs.github.io/secure-password-generator/",
-    "icon": "shield"
+    "icon": "shield",
+    "category": "security"
   },
   {
     "name": "SVG Placeholder Generator",
     "description": "Generate and download simple, customizable SVG placeholder images.",
     "url": "https://crusher-labs.github.io/svg-placeholder-generator/",
-    "icon": "image"
+    "icon": "image",
+    "category": "media"
   },
   {
     "name": "Transparent PNG Generator",
     "description": "Create transparent PNG images of any dimension or aspect ratio instantly.",
     "url": "https://crusher-labs.github.io/transparent-png-generator/",
-    "icon": "image"
+    "icon": "image",
+    "category": "media"
   },
   {
     "name": "Unix Timestamp Converter",
     "description": "Convert dates and times to and from Unix timestamps in your local time.",
     "url": "https://crusher-labs.github.io/unix-timestamp-converter/",
-    "icon": "clock"
+    "icon": "clock",
+    "category": "time"
   },
   {
     "name": "URL Encoder/Decoder",
     "description": "Encode and decode URLs and query strings instantly.",
     "url": "https://crusher-labs.github.io/url-encoder-decoder/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "UUID/GUID Generator",
     "description": "Generate random UUIDs for development, testing, and databases.",
     "url": "https://crusher-labs.github.io/uuid-generator/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Video to Audio Converter",
     "description": "Extract MP3 audio from video files locally in your browser.",
     "url": "https://crusher-labs.github.io/video-to-audio-converter/",
-    "icon": "video"
+    "icon": "video",
+    "category": "media"
   },
   {
     "name": "Word & Character Counter",
     "description": "Count words, characters, sentences, and paragraphs in a block of text.",
     "url": "https://crusher-labs.github.io/word-character-counter/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Word Frequency Counter",
     "description": "Count word frequency and find the most repeated words in any text.",
     "url": "https://crusher-labs.github.io/word-frequency-counter/",
-    "icon": "text"
+    "icon": "text",
+    "category": "text"
   }
 ]

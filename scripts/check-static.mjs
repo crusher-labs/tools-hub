@@ -8,6 +8,7 @@ const repoRoot = resolve(__dirname, '..');
 const workspaceRoot = resolve(repoRoot, '..');
 const utilityToolsRoot = join(workspaceRoot, 'utility-tools');
 const TARGET_VERSION = '0.1.6';
+const KNOWN_CATEGORIES = new Set(['text', 'design', 'media', 'security', 'time']);
 
 function assert(condition, message) {
   if (!condition) throw new Error(`[tools-hub] ${message}`);
@@ -42,6 +43,8 @@ for (const [index, tool] of tools.entries()) {
   assert(typeof tool.description === 'string' && tool.description.trim(), `${label} needs a description`);
   assert(typeof tool.icon === 'string' && tool.icon.trim(), `${label} needs an icon`);
   assert(typeof tool.url === 'string' && tool.url.trim(), `${label} needs a URL`);
+  assert(typeof tool.category === 'string' && tool.category.trim(), `${label} needs a category`);
+  assert(KNOWN_CATEGORIES.has(tool.category), `${label} category "${tool.category}" not in [${[...KNOWN_CATEGORIES].join(', ')}]`);
 
   const url = new URL(tool.url);
   assert(url.protocol === 'https:', `${tool.name} URL must use https`);
