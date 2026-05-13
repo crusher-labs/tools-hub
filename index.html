@@ -1,342 +1,190 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full" data-theme="minimal" data-theme-lock="minimal" data-mode="light">
+<html lang="en"
+      data-default-theme="minimal"
+      data-theme-lock="minimal"
+      data-default-mode="light"
+      data-default-brand="#0ea5e9">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Utility Tools by CRUSHER</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/themes/minimal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { font-family: 'Inter', sans-serif; }
+
+        .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
+        .hub-search input.crusher-tool-control { padding: var(--crusher-spacing-3); }
+        .hub-empty { padding: var(--crusher-spacing-6); text-align: center; color: var(--crusher-text-secondary); }
+        .hub-grid { display: grid; gap: var(--crusher-spacing-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+        .hub-card { display: grid; align-content: start; gap: var(--crusher-spacing-3); padding: var(--crusher-spacing-6); }
+        .hub-card-icon {
+            inline-size: 2.75rem; block-size: 2.75rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: var(--crusher-radius-lg);
+            background: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-muted));
+            color: var(--crusher-color-brand-primary);
         }
-        .tool-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        .hub-card-title { margin: 0; font-size: var(--crusher-font-size-lg); color: var(--crusher-text-primary); }
+        .hub-card-desc { margin: 0; color: var(--crusher-text-secondary); font-size: var(--crusher-font-size-sm); }
+        .hub-card-cta {
+            margin-top: var(--crusher-spacing-2);
+            display: inline-flex; align-items: center; gap: var(--crusher-spacing-1);
+            font-size: var(--crusher-font-size-xs); font-weight: 600;
+            color: var(--crusher-color-brand-primary);
         }
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.1), 0 4px 6px -2px rgba(14, 165, 233, 0.05); /* sky-500 shadow */
+
+        .hub-home {
+            position: absolute; inset-block-start: var(--crusher-spacing-6); inset-inline-start: var(--crusher-spacing-6);
+            inline-size: 2.75rem; block-size: 2.75rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid var(--crusher-border-primary); border-radius: var(--crusher-radius-full);
+            background: var(--crusher-background-surface); color: var(--crusher-text-secondary);
+            transition: color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard),
+                        border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
         }
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
+        .hub-home:hover { color: var(--crusher-color-brand-primary); border-color: var(--crusher-color-brand-primary); }
+
+        .hub-footer { text-align: center; margin-block: var(--crusher-spacing-8) var(--crusher-spacing-6); color: var(--crusher-text-secondary); }
+        .hub-footer a { color: var(--crusher-color-brand-primary); text-decoration: none; }
+        .hub-footer a:hover { text-decoration: underline; }
     </style>
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if ((() => { try { const prefs = JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); return localStorage.getItem('crusher_tools_mode_contract') === 'style-switcher-v3' && prefs.mode === 'dark'; } catch { return false; } })()) {
-          document.documentElement.classList.add('dark'); document.documentElement.setAttribute('data-mode', 'dark')
-        } else {
-          document.documentElement.classList.remove('dark'); document.documentElement.setAttribute('data-mode', 'light')
-        }
-    </script>
-    <!-- Crusher UI Kit: published static contract -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/themes/minimal.css">
-    <style id="crusher-tools-framework-bridge">
-        :root {
-            --crusher-style-switcher-top: var(--crusher-spacing-6);
-            --crusher-style-switcher-width: 16.5rem;
-            --crusher-style-switcher-bg: color-mix(in srgb, var(--crusher-background-surface) 94%, transparent);
-            --crusher-style-switcher-shadow: var(--crusher-shadow-xl);
-            --crusher-style-switcher-icon-shadow: var(--crusher-shadow-md);
-            --crusher-style-switcher-color-gap: var(--crusher-spacing-2);
-            --crusher-style-switcher-color-justify: flex-start;
-        }
-        html[data-mode="dark"] { color-scheme: dark; }
-                #theme-toggle { display: none !important; }
-        body {
-            background:
-                radial-gradient(circle at top left, color-mix(in srgb, var(--crusher-color-brand-primary) 14%, transparent), transparent 28rem),
-                var(--crusher-background-canvas) !important;
-            color: var(--crusher-text-primary) !important;
-        }
-        h1, h2, h3 { color: var(--crusher-text-primary) !important; }
-        p, label, .text-slate-400, .text-slate-500, .text-slate-600, .dark\:text-slate-400, .dark\:text-slate-500 {
-            color: var(--crusher-text-secondary) !important;
-        }
-        .text-sky-400, .text-sky-500, .dark\:text-sky-400,
-        a:not(.tool-card):not(#hub-bubble) {
-            color: var(--crusher-color-brand-primary) !important;
-        }
-        .tool-card,
-        main.bg-white,
-        .bg-white,
-        .bg-slate-50,
-        .bg-slate-100,
-        .dark .dark\:bg-slate-700,
-        .dark .dark\:bg-slate-800 {
-            background-color: var(--crusher-background-surface) !important;
-            border-color: var(--crusher-border-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        input, textarea, select,
-        .dark .dark\:bg-slate-700:is(input, textarea, select) {
-            background-color: var(--crusher-background-muted) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: var(--crusher-border-primary) !important;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: 0 0 0 var(--crusher-focus-width) color-mix(in srgb, var(--crusher-color-brand-primary) 26%, transparent) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn),
-        .case-btn {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-surface)) !important;
-            color: var(--crusher-text-primary) !important;
-            border-color: color-mix(in srgb, var(--crusher-color-brand-primary) 28%, var(--crusher-border-primary)) !important;
-        }
-        button:not(#theme-toggle):not(.style-switcher-toggler):not(.day-night):not(.swatch):not(.dialect-btn):hover,
-        .case-btn:hover,
-        .tool-card:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-surface)) !important;
-            border-color: var(--crusher-color-brand-primary) !important;
-        }
-        #hub-bubble {
-            background-color: var(--crusher-color-brand-primary) !important;
-            box-shadow: var(--crusher-shadow-lg) !important;
-        }
-        #hub-bubble:hover {
-            background-color: color-mix(in srgb, var(--crusher-color-brand-primary) 82%, black) !important;
-            transform: translateY(-2px) scale(1.03) !important;
-        }
-</style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased transition-colors duration-300">
+<body class="crusher-tool-page">
 
-    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 relative">
-        <!-- Home Button Moved to Top Left -->
-        <a href="https://muhammadhassaanjaved.com/" title="Back to Hassaan Site" target="_blank" class="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 bg-white dark:bg-slate-800 p-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </a>
+    <a href="https://muhammadhassaanjaved.com/" class="hub-home" title="Back to Hassaan Site" target="_blank" rel="noopener noreferrer" aria-label="Back to Hassaan site">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
 
-        <!-- Theme Toggle Button Added to Top Right -->
-        <button id="theme-toggle" type="button" title="Toggle light/dark mode" class="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 bg-white dark:bg-slate-800 p-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
-            <svg id="theme-toggle-sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg id="theme-toggle-moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        </button>
-        
-        <header class="text-center my-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white">Web Utility Tools</h1>
-            <p class="text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto">A collection of simple, free, and open-source tools built to solve common problems, right in your browser.</p>
-            
-            <!-- Search Bar -->
-            <div class="mt-8 max-w-xl mx-auto">
-                <input type="search" id="search-bar" placeholder="Search for a tool..." class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg p-3 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+    <main class="crusher-tool-shell">
+        <header class="crusher-tool-header">
+            <h1 class="crusher-tool-title">Web Utility Tools</h1>
+            <p class="crusher-tool-lede">A collection of simple, free, and open-source tools built to solve common problems, right in your browser.</p>
+            <div class="hub-search">
+                <input type="search" id="search-bar" class="crusher-tool-control" placeholder="Search for a tool..." aria-label="Search for a tool">
             </div>
         </header>
 
-        <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Tool Cards will be inserted here -->
-        </main>
+        <div id="hub-grid" class="hub-grid"></div>
+    </main>
 
-        <footer class="text-center mt-16 text-slate-500 dark:text-slate-500">
-            <p>Created with 🩶 by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer" class="text-sky-500 dark:text-sky-400 hover:underline">CRUSHER</a>. All tools are hosted on GitHub Pages.</p>
-        </footer>
-    </div>
+    <footer class="hub-footer">
+        <p>Created with care by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer">CRUSHER</a>. All tools are hosted on GitHub Pages.</p>
+    </footer>
+
+    <template id="icon-case"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg></template>
+    <template id="icon-text"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 6.1H3M17 12.1H3M10 18.1H3"></path><path d="M21 15a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2z"></path></svg></template>
+    <template id="icon-markdown"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"></path><path d="M19 9h-2.5a2.5 2.5 0 0 0 0 5H19"></path><path d="M5 9h2.5a2.5 2.5 0 0 1 0 5H5z"></path></svg></template>
+    <template id="icon-color"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 1 0 10 10"></path></svg></template>
+    <template id="icon-gradient"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 3 3 3"></path><path d="M21 21 18 18"></path><path d="m16 3-9.5 9.5"></path><path d="M3 16 12.5 6.5"></path><path d="M21 8 12.5 16.5"></path><path d="M8 3H3v5"></path><path d="M16 21h5v-5"></path></svg></template>
+    <template id="icon-image"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg></template>
+    <template id="icon-qr"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><path d="M14 14h7v7h-7z"></path></svg></template>
+    <template id="icon-video"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"></path><rect x="2" y="6" width="14" height="12" rx="2" ry="2"></rect></svg></template>
+    <template id="icon-shield"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg></template>
+    <template id="icon-clock"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></template>
+    <template id="icon-cta"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17l9.2-9.2M17 17V7H7"></path></svg></template>
+
+    <crusher-style-switcher
+      default-theme="minimal"
+      default-brand="#0ea5e9"
+      hide-themes
+      hide-theme-color></crusher-style-switcher>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.standalone.esm.js"></script>
 
     <script>
-        const icons = {
-            moon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
-            case: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg>`,
-            text: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6.1H3M17 12.1H3M10 18.1H3"></path><path d="M21 15a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2z"></path></svg>`,
-            markdown: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M19 9h-2.5a2.5 2.5 0 0 0 0 5H19"></path><path d="M5 9h2.5a2.5 2.5 0 0 1 0 5H5z"></path></svg>`,
-            color: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 1 0 10 10"></path></svg>`,
-            gradient: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 3 3"></path><path d="M21 21 18 18"></path><path d="m16 3-9.5 9.5"></path><path d="M3 16 12.5 6.5"></path><path d="M21 8 12.5 16.5"></path><path d="M8 3H3v5"></path><path d="M16 21h5v-5"></path></svg>`,
-            image: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>`,
-            qr: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><path d="M14 14h7v7h-7z"></path></svg>`,
-            video: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"></path><rect x="2" y="6" width="14" height="12" rx="2" ry="2"></rect><path d="M8 12h.01"></path><path d="M11 12h.01"></path></svg>`,
-            shield: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`,
-            clock: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`
-        };
-        const main = document.querySelector('main');
+        const grid = document.getElementById('hub-grid');
         const searchBar = document.getElementById('search-bar');
         const toolCards = [];
 
-        const renderTools = (tools) => {
-          main.innerHTML = '';
-          toolCards.length = 0;
+        function cloneIcon(name) {
+            const tpl = document.getElementById('icon-' + name) || document.getElementById('icon-qr');
+            return tpl.content.cloneNode(true);
+        }
 
-          tools.forEach(tool => {
+        function buildCard(tool) {
             const card = document.createElement('a');
             card.href = tool.url;
             card.target = '_blank';
             card.rel = 'noopener noreferrer';
-            // Updated classes for light/dark mode
-            card.className = 'tool-card bg-white dark:bg-slate-800 rounded-xl p-6 flex flex-col items-start gap-4 border border-slate-200 dark:border-slate-700 hover:border-sky-500 dark:hover:border-sky-500';
+            card.className = 'crusher-tool-card hub-card';
 
-            // Updated innerHTML with light/dark mode classes
-            card.innerHTML = `
-                <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-lg text-sky-500 dark:text-sky-400">
-                    ${icons[tool.icon] || icons.qr}
-                </div>
-                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">${tool.name}</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 flex-grow">${tool.description}</p>
-                <div class="text-xs font-semibold text-sky-500 dark:text-sky-400 flex items-center gap-1">
-                    <span>Launch Tool</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"></path></svg>
-                </div>
-            `;
-            main.appendChild(card);
-            toolCards.push({element: card, name: tool.name.toLowerCase(), description: tool.description.toLowerCase()});
-          });
-        };
+            const iconWrap = document.createElement('span');
+            iconWrap.className = 'hub-card-icon';
+            iconWrap.appendChild(cloneIcon(tool.icon));
+            card.appendChild(iconWrap);
 
-        const loadTools = async () => {
-          try {
-            const response = await fetch('./tools.json', { cache: 'no-store' });
-            if (!response.ok) throw new Error(`Unable to load tools.json (${response.status})`);
-            renderTools(await response.json());
-          } catch (error) {
-            main.innerHTML = `
-              <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
-                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Tools unavailable</h2>
-                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">${error.message}</p>
-              </section>
-            `;
-          }
-        };
+            const title = document.createElement('h3');
+            title.className = 'hub-card-title';
+            title.textContent = tool.name;
+            card.appendChild(title);
 
-        // Search functionality
+            const desc = document.createElement('p');
+            desc.className = 'hub-card-desc';
+            desc.textContent = tool.description;
+            card.appendChild(desc);
+
+            const cta = document.createElement('span');
+            cta.className = 'hub-card-cta';
+            const ctaLabel = document.createElement('span');
+            ctaLabel.textContent = 'Launch Tool';
+            cta.appendChild(ctaLabel);
+            cta.appendChild(cloneIcon('cta'));
+            card.appendChild(cta);
+
+            return card;
+        }
+
+        function renderTools(tools) {
+            grid.replaceChildren();
+            toolCards.length = 0;
+            for (const tool of tools) {
+                const card = buildCard(tool);
+                grid.appendChild(card);
+                toolCards.push({
+                    element: card,
+                    name: String(tool.name || '').toLowerCase(),
+                    description: String(tool.description || '').toLowerCase()
+                });
+            }
+        }
+
+        function renderError(message) {
+            grid.replaceChildren();
+            const empty = document.createElement('section');
+            empty.className = 'crusher-tool-surface hub-empty';
+            const heading = document.createElement('h2');
+            heading.textContent = 'Tools unavailable';
+            const p = document.createElement('p');
+            p.textContent = message;
+            empty.appendChild(heading);
+            empty.appendChild(p);
+            grid.appendChild(empty);
+        }
+
+        async function loadTools() {
+            try {
+                const response = await fetch('./tools.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error('Unable to load tools.json (' + response.status + ')');
+                renderTools(await response.json());
+            } catch (error) {
+                renderError(error.message);
+            }
+        }
+
         searchBar.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            toolCards.forEach(card => {
-                const isVisible = card.name.includes(searchTerm) || card.description.includes(searchTerm);
-                card.element.style.display = isVisible ? 'flex' : 'none';
-            });
+            const term = e.target.value.toLowerCase();
+            for (const card of toolCards) {
+                const visible = card.name.includes(term) || card.description.includes(term);
+                card.element.style.display = visible ? '' : 'none';
+            }
         });
 
-        // Theme Toggle Logic
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-toggle-sun-icon');
-        const moonIcon = document.getElementById('theme-toggle-moon-icon');
-
-        const updateIcons = () => {
-            if (document.documentElement.classList.contains('dark')) {
-                // If it's dark mode, show the sun icon to switch to light
-                sunIcon.classList.remove('hidden');
-                moonIcon.classList.add('hidden');
-            } else {
-                // If it's light mode, show the moon icon to switch to dark
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-            }
-        };
-
-        themeToggleBtn.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-            updateIcons();
-        });
-
-        // Set initial icon state on page load
-        updateIcons();
         loadTools();
     </script>
-    <crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color></crusher-style-switcher>
-    <script id="crusher-minimal-mode-lock">
-      (() => {
-        const root = document.documentElement;
-        const CONTRACT_VERSION = 'style-switcher-v3';
-        const DEFAULT_BRAND = '#0ea5e9';
-        const SWITCHER_COLORS = {
-          sky: '#0ea5e9',
-          emerald: '#10b981',
-          violet: '#8b5cf6',
-          orange: '#f97316',
-          pink: '#ec4899'
-        };
-        const readPrefs = () => {
-          try { return JSON.parse(localStorage.getItem('crusher_prefs') || '{}'); } catch { return {}; }
-        };
-        const writePrefs = (prefs) => {
-          try { localStorage.setItem('crusher_prefs', JSON.stringify(prefs)); } catch {}
-        };
-        const normalizeMode = (mode) => mode === 'dark' ? 'dark' : 'light';
-        const ensurePrefs = (forcedMode) => {
-          const prefs = readPrefs();
-          const currentContract = (() => { try { return localStorage.getItem('crusher_tools_mode_contract'); } catch { return ''; } })();
-          if (currentContract !== CONTRACT_VERSION) {
-            prefs.mode = 'light';
-            try { localStorage.setItem('crusher_tools_mode_contract', CONTRACT_VERSION); } catch {}
-          } else if (forcedMode === 'dark' || forcedMode === 'light') {
-            prefs.mode = forcedMode;
-          } else {
-            prefs.mode = normalizeMode(prefs.mode);
-          }
-          prefs.theme = 'minimal';
-          if (!prefs.brand) prefs.brand = DEFAULT_BRAND;
-          try { localStorage.theme = prefs.mode; } catch {}
-          writePrefs(prefs);
-          return prefs;
-        };
-        const sync = (forcedMode) => {
-          const prefs = ensurePrefs(forcedMode);
-          root.setAttribute('data-theme', 'minimal');
-          root.setAttribute('data-theme-lock', 'minimal');
-          root.setAttribute('data-mode', prefs.mode);
-          root.classList.toggle('dark', prefs.mode === 'dark');
-          root.style.setProperty('--crusher-color-brand-primary', prefs.brand || DEFAULT_BRAND);
-        };
-        const patchSwitcher = async () => {
-          await customElements.whenDefined('crusher-style-switcher');
-          const switcher = document.querySelector('crusher-style-switcher');
-          if (!switcher) return;
-          switcher.hideThemes = true;
-          switcher.hideThemeColor = true;
-          switcher.colors = SWITCHER_COLORS;
-          switcher._cacheSwatchColors?.();
-          switcher.requestUpdate?.();
-          await switcher.updateComplete?.catch?.(() => {});
-          const applyShadowFixes = () => {
-            const shadow = switcher.shadowRoot;
-            if (!shadow) return;
-            shadow.querySelectorAll('button').forEach((button) => { button.style.cursor = 'pointer'; });
-            shadow.querySelectorAll('.colors').forEach((row) => {
-              row.style.flexWrap = 'nowrap';
-              row.style.justifyContent = 'flex-start';
-              row.style.gap = '0.45rem';
-            });
-            shadow.querySelectorAll('.swatch').forEach((swatch) => {
-              swatch.style.inlineSize = '1.65rem';
-              swatch.style.blockSize = '1.65rem';
-              swatch.style.flex = '0 0 auto';
-              swatch.style.cursor = 'pointer';
-            });
-          };
-          applyShadowFixes();
-          const originalRequestUpdate = switcher.requestUpdate?.bind(switcher);
-          if (originalRequestUpdate && !switcher.__crusherToolsPatched) {
-            switcher.__crusherToolsPatched = true;
-            switcher.requestUpdate = (...args) => {
-              const result = originalRequestUpdate(...args);
-              requestAnimationFrame(applyShadowFixes);
-              return result;
-            };
-          }
-        };
-        sync();
-        window.addEventListener('crusher:themechange', (event) => sync(event.detail?.mode));
-        document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(() => sync()));
-        patchSwitcher();
-      })();
-    </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js"></script>
 </body>
 </html>

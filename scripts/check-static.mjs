@@ -1,35 +1,38 @@
 #!/usr/bin/env node
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const repoRoot = resolve(__dirname, '..');
+const workspaceRoot = resolve(repoRoot, '..');
+const utilityToolsRoot = join(workspaceRoot, 'utility-tools');
+const TARGET_VERSION = '0.1.6';
 
 function assert(condition, message) {
   if (!condition) throw new Error(`[tools-hub] ${message}`);
 }
 
-const [html, rawTools, cname] = await Promise.all([
-  readFile('index.html', 'utf8'),
-  readFile('tools.json', 'utf8'),
-  readFile('CNAME', 'utf8')
+const errors = [];
+function softAssert(label, condition, message) {
+  if (!condition) errors.push(`[${label}] ${message}`);
+}
+
+// ---- Hub contract -----------------------------------------------------------
+
+const [hubHtml, rawTools, cname] = await Promise.all([
+  readFile(join(repoRoot, 'index.html'), 'utf8'),
+  readFile(join(repoRoot, 'tools.json'), 'utf8'),
+  readFile(join(repoRoot, 'CNAME'), 'utf8')
 ]);
 
 const tools = JSON.parse(rawTools);
 assert(Array.isArray(tools), 'tools.json must be an array');
 assert(tools.length > 0, 'tools.json must contain at least one tool');
 assert(cname.trim() === 'tools.muhammadhassaanjaved.com', 'CNAME must match the public tools domain');
-assert(html.includes("fetch('./tools.json'"), 'index.html must load tools.json');
-assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.min.css'), 'index.html must use crusher-ui-kit@0.1.3 static CSS');
-assert(html.includes('crusher-ui-kit@0.1.3/dist/crusher-ui.standalone.esm.js'), 'index.html must use crusher-ui-kit@0.1.3 standalone JS');
-assert(html.includes('crusher-ui-kit@0.1.3/dist/themes/minimal.css'), 'index.html must use the published minimal dist theme CSS');
-assert(html.includes('data-theme-lock="minimal"'), 'index.html must lock the public UI to the minimal theme');
-assert(html.includes('<crusher-style-switcher default-theme="minimal" hide-themes hide-theme-color></crusher-style-switcher>'), 'index.html must expose the fixed-minimal style switcher with dialect and theme-primary swatches hidden');
-assert(!html.includes('hide-colors'), 'index.html style switcher must keep color controls visible');
-assert(!html.includes('hide-mode'), 'index.html style switcher must keep light/dark controls visible');
-assert(html.includes('style-switcher-v3'), 'index.html must reset stale mode prefs to the current style-switcher contract');
-assert(!html.includes('crusher-ui-kit@0.1.1'), 'index.html must not reference crusher-ui-kit@0.1.1');
-assert(!html.includes('/src/css/themes/'), 'index.html must not deep-link framework source theme CSS');
 
-for (const theme of ['glass', 'brutal', 'neumorph', 'neobrutal', 'futuristic', 'bento']) {
-  assert(!html.includes(`dist/themes/${theme}.css`), `index.html must not load the ${theme} theme CSS`);
-}
+assertStaticContract('tools-hub/index.html', hubHtml);
+assert(hubHtml.includes("fetch('./tools.json'"), 'index.html must load tools.json');
 
 const names = new Set();
 const urls = new Set();
@@ -50,4 +53,100 @@ for (const [index, tool] of tools.entries()) {
   urls.add(tool.url);
 }
 
-console.log(`[tools-hub] ${tools.length} tools validated`);
+// ---- Workspace-wide utility-tools audit ------------------------------------
+
+let toolsAudited = 0;
+try {
+  const entries = await readdir(utilityToolsRoot, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const toolDir = join(utilityToolsRoot, entry.name);
+    const indexPath = join(toolDir, 'index.html');
+    try {
+      const html = await readFile(indexPath, 'utf8');
+      assertStaticContract(`utility-tools/${entry.name}/index.html`, html);
+      toolsAudited += 1;
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        softAssert(`utility-tools/${entry.name}`, false, 'missing index.html');
+      } else {
+        throw err;
+      }
+    }
+  }
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err;
+  // utility-tools dir not present alongside hub — silent ok for hub-only checkouts.
+}
+
+if (errors.length > 0) {
+  for (const e of errors) console.error(e);
+  throw new Error(`[tools-hub] ${errors.length} static-contract violation(s) across hub + utility-tools`);
+}
+
+console.log(`[tools-hub] ${tools.length} catalog entries validated`);
+console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} utility-tool(s)`);
+
+// ---- Helpers ---------------------------------------------------------------
+
+function assertStaticContract(label, html) {
+  const must = (cond, msg) => softAssert(label, cond, msg);
+
+  must(
+    html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/crusher-ui.min.css`),
+    `must load crusher-ui-kit@${TARGET_VERSION} CSS bundle`
+  );
+  must(
+    html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/themes/minimal.css`),
+    `must load the published minimal theme CSS from @${TARGET_VERSION}`
+  );
+  must(
+    html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/static/tool-shell.css`),
+    `must load the static tool-shell CSS from @${TARGET_VERSION}`
+  );
+  must(
+    html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/static/tool-shell.js`),
+    `must defer-load the static tool-shell.js helper from @${TARGET_VERSION}`
+  );
+  must(
+    html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/crusher-ui.standalone.esm.js`),
+    `must load standalone ESM bundle from @${TARGET_VERSION}`
+  );
+
+  must(html.includes('data-theme-lock="minimal"'), 'must lock the public UI to the minimal theme');
+  must(html.includes('data-default-theme="minimal"'), 'must declare data-default-theme="minimal" on <html>');
+  must(html.includes('data-default-mode="light"'), 'must declare data-default-mode="light" on <html>');
+  must(html.includes('data-default-brand='), 'must declare a data-default-brand color on <html>');
+  must(html.includes('<crusher-style-switcher'), 'must mount <crusher-style-switcher>');
+  must(html.includes('hide-themes'), 'style switcher must hide dialect choices');
+  must(html.includes('hide-theme-color'), 'style switcher must hide theme-primary swatch');
+
+  // Forbidden legacy bits — replaced by the 0.1.6 contract.
+  const forbidden = [
+    ['crusher-ui-kit@0.1.1', 'must not reference crusher-ui-kit@0.1.1'],
+    ['crusher-ui-kit@0.1.2', 'must not reference crusher-ui-kit@0.1.2'],
+    ['crusher-ui-kit@0.1.3', 'must not reference crusher-ui-kit@0.1.3 — bump to ' + TARGET_VERSION],
+    ['crusher-ui-kit@0.1.4', 'must not reference crusher-ui-kit@0.1.4'],
+    ['crusher-ui-kit@0.1.5', 'must not reference crusher-ui-kit@0.1.5'],
+    ['/src/css/themes/', 'must not deep-link framework source theme CSS'],
+    ['cdn.tailwindcss.com', 'must not load the Tailwind CDN (chrome should use crusher-tool-* primitives)'],
+    ['crusher-minimal-mode-lock', 'must not ship the legacy crusher-minimal-mode-lock IIFE — tool-shell.js replaces it'],
+    ['crusher-tools-framework-bridge', 'must not ship the framework-bridge style block — tool-shell.css replaces it'],
+    ['id="theme-toggle"', 'must not ship the legacy #theme-toggle button — style switcher provides the mode toggle'],
+    ['style-switcher-v3', 'must not reset stale mode prefs via the legacy contract version key'],
+    ['_setActiveColor', 'must not call private style-switcher member _setActiveColor'],
+    ['_cacheSwatchColors', 'must not call private style-switcher member _cacheSwatchColors'],
+    ['.hasCustomBrand', 'must not access private style-switcher member hasCustomBrand'],
+    ['.activeBrand', 'must not access private style-switcher member activeBrand']
+  ];
+  for (const [needle, msg] of forbidden) {
+    must(!html.includes(needle), msg);
+  }
+
+  for (const theme of ['glass', 'brutal', 'neumorph', 'neobrutal', 'futuristic', 'bento']) {
+    must(!html.includes(`dist/themes/${theme}.css`), `must not load the ${theme} theme CSS`);
+  }
+
+  must(!html.includes('hide-colors'), 'style switcher must keep color controls visible');
+  must(!html.includes('hide-mode'), 'style switcher must keep light/dark controls visible');
+}
