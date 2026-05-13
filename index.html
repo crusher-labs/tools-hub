@@ -33,7 +33,31 @@
 
         .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
         .hub-search input.crusher-tool-control { padding: var(--crusher-spacing-3); }
-        .hub-empty { padding: var(--crusher-spacing-6); text-align: center; color: var(--crusher-text-secondary); }
+        .hub-empty {
+            padding: var(--crusher-spacing-10) var(--crusher-spacing-6);
+            text-align: center; color: var(--crusher-text-secondary);
+            display: grid; justify-items: center; gap: var(--crusher-spacing-3);
+        }
+        .hub-empty-icon {
+            inline-size: 3rem; block-size: 3rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: var(--crusher-radius-full);
+            background: var(--crusher-background-muted);
+            color: var(--crusher-text-secondary);
+        }
+        .hub-empty p { margin: 0; }
+        .hub-empty-clear {
+            margin-top: var(--crusher-spacing-2);
+            padding: var(--crusher-spacing-2) var(--crusher-spacing-4);
+            border-radius: var(--crusher-radius-full);
+            background: transparent;
+            border: 1px solid var(--crusher-border-primary);
+            color: var(--crusher-color-brand-primary);
+            font-weight: 600; font-size: var(--crusher-font-size-sm);
+            cursor: pointer;
+            transition: border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
+        }
+        .hub-empty-clear:hover { border-color: var(--crusher-color-brand-primary); }
         .hub-grid { display: grid; gap: var(--crusher-spacing-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
         .hub-card {
             display: grid; align-content: start;
@@ -110,7 +134,11 @@
 
         <div id="hub-grid" class="hub-grid"></div>
         <section id="hub-no-results" class="crusher-tool-surface hub-empty" hidden>
+            <span class="hub-empty-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="m8 11h6"/></svg>
+            </span>
             <p>No tools match your search.</p>
+            <button type="button" id="hub-clear-search" class="hub-empty-clear">Clear search</button>
         </section>
     </main>
 
@@ -231,6 +259,12 @@
                 if (visible) visibleCount++;
             }
             noResults.hidden = visibleCount > 0 || toolCards.length === 0;
+        });
+
+        document.getElementById('hub-clear-search').addEventListener('click', () => {
+            searchBar.value = '';
+            searchBar.dispatchEvent(new Event('input', { bubbles: true }));
+            searchBar.focus();
         });
 
         loadTools();
