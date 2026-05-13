@@ -124,6 +124,19 @@ function assertStaticContract(label, html) {
   must(html.includes('hide-themes'), 'style switcher must hide dialect choices');
   must(html.includes('hide-theme-color'), 'style switcher must hide theme-primary swatch');
 
+  // Page-level hygiene
+  const titleMatch = html.match(/<title>([^<]*)<\/title>/);
+  must(titleMatch && titleMatch[1].trim().length > 0, 'must have a non-empty <title>');
+  must(html.includes('rel="icon"'), 'must declare a favicon link (use <link rel="icon" href="data:,"> at minimum)');
+  must(
+    html.includes('http-equiv="Content-Security-Policy"'),
+    'must declare a Content-Security-Policy meta tag'
+  );
+  must(
+    html.includes("slot=\"mode-light-icon\"") && html.includes("slot=\"mode-dark-icon\""),
+    'style switcher must slot custom sun/moon icons (framework fallback is FA5; tools should use FA6 paths)'
+  );
+
   // Forbidden legacy bits — replaced by the 0.1.6 contract.
   const forbidden = [
     ['crusher-ui-kit@0.1.1', 'must not reference crusher-ui-kit@0.1.1'],
