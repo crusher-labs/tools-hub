@@ -118,7 +118,7 @@ function assertStaticContract(label, html) {
 
   must(html.includes('data-theme-lock="minimal"'), 'must lock the public UI to the minimal theme');
   must(html.includes('data-default-theme="minimal"'), 'must declare data-default-theme="minimal" on <html>');
-  must(html.includes('data-default-mode="light"'), 'must declare data-default-mode="light" on <html>');
+  must(html.includes('data-default-mode="dark"'), 'must declare data-default-mode="dark" on <html> (default mode for the crusher-labs aesthetic — flipped 2026-05-14)');
   must(html.includes('data-default-brand='), 'must declare a data-default-brand color on <html>');
   must(html.includes('<crusher-style-switcher'), 'must mount <crusher-style-switcher>');
   must(html.includes('hide-themes'), 'style switcher must hide dialect choices');
