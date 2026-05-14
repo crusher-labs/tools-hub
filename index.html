@@ -95,19 +95,34 @@
         .hub-trust-signal svg { color: var(--crusher-color-brand-primary); }
 
         .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
-        .hub-search input.crusher-tool-control {
-            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
-            background: color-mix(in srgb, var(--crusher-background-surface) 70%, transparent);
-            backdrop-filter: blur(8px);
+
+        /* === Premium input/control surface (page-level until framework ships proper form primitives) === */
+        .crusher-tool-control {
+            background: color-mix(in srgb, var(--crusher-background-surface) 72%, transparent);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--crusher-border-primary);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            backdrop-filter: blur(8px);
+            border: 1px solid color-mix(in srgb, var(--crusher-border-primary) 70%, transparent);
+            color: var(--crusher-text-primary);
+            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
+            border-radius: var(--crusher-radius-lg);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        .hub-search input.crusher-tool-control:focus-visible {
+        .crusher-tool-control:hover { border-color: var(--crusher-border-primary); }
+        .crusher-tool-control:focus-visible {
             border-color: var(--crusher-color-brand-primary);
             box-shadow: 0 0 0 4px color-mix(in srgb, var(--crusher-color-brand-primary) 18%, transparent);
             outline: none;
+            background: var(--crusher-background-surface);
         }
+        .crusher-tool-control::placeholder {
+            color: var(--crusher-text-secondary);
+            opacity: 0.7;
+        }
+        .crusher-tool-control:focus::placeholder { opacity: 0.4; }
+        textarea.crusher-tool-control { resize: vertical; min-block-size: 4.5rem; }
         .hub-empty {
             padding: var(--crusher-spacing-10) var(--crusher-spacing-6);
             text-align: center; color: var(--crusher-text-secondary);
@@ -277,80 +292,106 @@
         }
         .hub-home:hover { color: var(--crusher-color-brand-primary); border-color: var(--crusher-color-brand-primary); }
 
+        /* === Unified footer (forms + brand + attribution in one surface) === */
         .hub-footer {
-            text-align: center;
             margin-block-start: var(--crusher-spacing-16);
-            padding-block: var(--crusher-spacing-8);
-            color: var(--crusher-text-secondary);
-            border-block-start: 1px solid var(--crusher-border-primary);
+            padding-block: var(--crusher-spacing-12) var(--crusher-spacing-8);
+            padding-inline: var(--crusher-spacing-6);
+            border-block-start: 1px solid color-mix(in srgb, var(--crusher-border-primary) 60%, transparent);
+        }
+        .hub-footer-inner {
+            max-width: 60rem;
+            margin-inline: auto;
+            display: grid;
+            gap: var(--crusher-spacing-12);
+        }
+        .hub-footer-brand {
+            text-align: center;
+            display: grid;
+            gap: var(--crusher-spacing-3);
         }
         .hub-footer-mark {
             font-family: 'Fraunces', 'Georgia', serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 1.5rem;
+            font-size: 1.625rem;
             letter-spacing: -0.025em;
             color: var(--crusher-text-primary);
-            margin: 0 0 var(--crusher-spacing-3);
+            margin: 0;
             line-height: 1;
         }
-        .hub-footer p { margin: 0; font-size: 0.875rem; line-height: 1.5; }
-        .hub-footer .hub-footer-meta {
-            margin-top: var(--crusher-spacing-3);
-            font-size: 0.6875rem;
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+        .hub-footer-tagline {
+            margin: 0 auto;
+            color: var(--crusher-text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.55;
+            max-width: 30rem;
         }
-        .hub-footer a { color: var(--crusher-color-brand-primary); text-decoration: none; }
-        .hub-footer a:hover { text-decoration: underline; }
 
-        .hub-capture {
-            margin-block-start: var(--crusher-spacing-10);
-            padding: var(--crusher-spacing-8);
+        .hub-footer-cols {
             display: grid;
-            gap: var(--crusher-spacing-4);
+            gap: var(--crusher-spacing-10);
+            grid-template-columns: 1fr;
         }
-        .hub-capture-head h2 {
-            margin: 0 0 var(--crusher-spacing-1);
-            font-size: var(--crusher-font-size-xl);
-            color: var(--crusher-text-primary);
+        @media (min-width: 720px) {
+            .hub-footer-cols { grid-template-columns: 1fr 1fr; gap: var(--crusher-spacing-14); }
         }
-        .hub-capture-head p {
+        .hub-footer-col { display: grid; gap: var(--crusher-spacing-3); }
+        .hub-footer-col-title {
             margin: 0;
-            color: var(--crusher-text-secondary);
-            font-size: var(--crusher-font-size-sm);
-        }
-        .hub-capture-form { display: grid; gap: var(--crusher-spacing-3); }
-        .hub-capture-row { display: grid; gap: var(--crusher-spacing-3); }
-        @media (min-width: 640px) {
-            .hub-newsletter .hub-capture-row { grid-template-columns: 1fr auto; align-items: start; }
-        }
-        .hub-capture-field { display: grid; gap: var(--crusher-spacing-1); }
-        .hub-capture-field > span {
-            font-size: var(--crusher-font-size-xs);
-            color: var(--crusher-text-secondary);
+            font-family: 'Fraunces', 'Georgia', serif;
+            font-optical-sizing: auto;
             font-weight: 500;
+            font-style: normal;
+            font-size: 1.1875rem;
+            letter-spacing: -0.015em;
+            color: var(--crusher-text-primary);
+            line-height: 1.2;
         }
-        .hub-capture-submit {
+        .hub-footer-col-helper {
+            margin: 0 0 var(--crusher-spacing-1);
+            color: var(--crusher-text-secondary);
+            font-size: 0.8125rem;
+            line-height: 1.55;
+        }
+        .hub-footer-form { display: grid; gap: var(--crusher-spacing-3); }
+        .hub-footer-actions { display: flex; }
+        .hub-footer-submit {
             padding-inline: var(--crusher-spacing-5);
             padding-block: var(--crusher-spacing-3);
+            font-size: 0.875rem;
             font-weight: 600;
             white-space: nowrap;
         }
-        .hub-capture-submit[disabled] { opacity: 0.6; cursor: not-allowed; }
-        .hub-capture-status {
+        .hub-footer-submit[disabled] { opacity: 0.6; cursor: not-allowed; }
+        .hub-footer-status {
             margin: 0;
             min-block-size: 1.25rem;
-            font-size: var(--crusher-font-size-sm);
+            font-size: 0.8125rem;
             color: var(--crusher-text-secondary);
         }
-        .hub-capture-status[data-kind="ok"] { color: var(--crusher-color-brand-primary); }
-        .hub-capture-status[data-kind="error"] { color: #dc2626; }
-        .hub-capture-honey {
+        .hub-footer-status[data-kind="ok"] { color: var(--crusher-color-brand-primary); }
+        .hub-footer-status[data-kind="error"] { color: #ef4444; }
+        .hub-footer-honey {
             position: absolute; left: -9999px; top: -9999px;
             opacity: 0; pointer-events: none;
         }
+
+        .hub-footer-bottom {
+            text-align: center;
+            padding-block-start: var(--crusher-spacing-6);
+            border-block-start: 1px solid color-mix(in srgb, var(--crusher-border-primary) 30%, transparent);
+        }
+        .hub-footer-bottom p { margin: 0; font-size: 0.8125rem; color: var(--crusher-text-secondary); line-height: 1.5; }
+        .hub-footer-bottom p + p { margin-top: var(--crusher-spacing-2); }
+        .hub-footer-bottom .hub-footer-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6875rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .hub-footer-bottom a { color: var(--crusher-color-brand-primary); text-decoration: none; }
+        .hub-footer-bottom a:hover { text-decoration: underline; }
     </style>
 </head>
 <body class="crusher-tool-page">
@@ -382,55 +423,50 @@
             <p>No tools match your search.</p>
             <button type="button" id="hub-clear-search" class="hub-empty-clear">Clear search</button>
         </section>
-        <section id="hub-suggest" class="crusher-tool-surface hub-capture hub-suggest">
-            <div class="hub-capture-head">
-                <h2>Want a tool that's not here?</h2>
-                <p>Tell me what you need. I might build it.</p>
-            </div>
-            <form id="suggest-form" class="hub-capture-form" novalidate>
-                <label class="hub-capture-field">
-                    <span>What tool would you like?</span>
-                    <input type="text" name="tool_idea" required maxlength="200" class="crusher-tool-control" placeholder="e.g. CSV to Markdown table">
-                </label>
-                <label class="hub-capture-field">
-                    <span>Details (optional)</span>
-                    <textarea name="details" rows="3" maxlength="2000" class="crusher-tool-control" placeholder="What problem would it solve? Any specific behavior?"></textarea>
-                </label>
-                <label class="hub-capture-field">
-                    <span>Your email (optional, only if you want a reply)</span>
-                    <input type="email" name="replyto" maxlength="200" class="crusher-tool-control" placeholder="your@email.com">
-                </label>
-                <input type="text" name="botcheck" class="hub-capture-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-                <div>
-                    <button type="submit" class="crusher-tool-action hub-capture-submit">Send suggestion</button>
-                </div>
-                <p id="suggest-status" class="hub-capture-status" role="status" aria-live="polite"></p>
-            </form>
-        </section>
-
-        <section id="hub-newsletter" class="crusher-tool-surface hub-capture hub-newsletter">
-            <div class="hub-capture-head">
-                <h2>Get updates</h2>
-                <p>When I add new tools or launch paid products. No spam, unsubscribe anytime.</p>
-            </div>
-            <form id="newsletter-form" class="hub-capture-form" novalidate>
-                <div class="hub-capture-row">
-                    <label class="hub-capture-field">
-                        <span class="sr-only">Email address</span>
-                        <input type="email" name="email" required maxlength="200" class="crusher-tool-control" placeholder="your@email.com" aria-label="Email address">
-                    </label>
-                    <button type="submit" class="crusher-tool-action hub-capture-submit">Notify me</button>
-                </div>
-                <input type="text" name="botcheck" class="hub-capture-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-                <p id="newsletter-status" class="hub-capture-status" role="status" aria-live="polite"></p>
-            </form>
-        </section>
     </main>
 
     <footer class="hub-footer">
-        <p class="hub-footer-mark">crusher labs</p>
-        <p>Crafted by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer">CRUSHER</a> · hosted on GitHub Pages</p>
-        <p class="hub-footer-meta">Open source · <a href="https://github.com/crusher-labs" target="_blank" rel="noopener noreferrer">view on GitHub</a></p>
+        <div class="hub-footer-inner">
+            <div class="hub-footer-brand">
+                <p class="hub-footer-mark">crusher labs</p>
+                <p class="hub-footer-tagline">Free, open-source tools that run entirely in your browser. No accounts, no uploads.</p>
+            </div>
+
+            <div class="hub-footer-cols">
+                <section class="hub-footer-col" aria-labelledby="footer-suggest-title">
+                    <h2 id="footer-suggest-title" class="hub-footer-col-title">Want a tool that's not here?</h2>
+                    <p class="hub-footer-col-helper">Tell me what you need — I might build it.</p>
+                    <form id="suggest-form" class="hub-footer-form" novalidate>
+                        <input type="text" name="tool_idea" required maxlength="200" class="crusher-tool-control" placeholder="The tool you'd like — e.g. CSV to Markdown table" aria-label="What tool would you like?">
+                        <input type="email" name="replyto" maxlength="200" class="crusher-tool-control" placeholder="Your email (optional, only if you want a reply)" aria-label="Your email (optional)">
+                        <textarea name="details" rows="2" maxlength="2000" class="crusher-tool-control" placeholder="Any details? (optional)" aria-label="Details (optional)"></textarea>
+                        <input type="text" name="botcheck" class="hub-footer-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <div class="hub-footer-actions">
+                            <button type="submit" class="crusher-tool-action hub-footer-submit">Send suggestion</button>
+                        </div>
+                        <p id="suggest-status" class="hub-footer-status" role="status" aria-live="polite"></p>
+                    </form>
+                </section>
+
+                <section class="hub-footer-col" aria-labelledby="footer-newsletter-title">
+                    <h2 id="footer-newsletter-title" class="hub-footer-col-title">Get updates</h2>
+                    <p class="hub-footer-col-helper">When I add new tools or ship paid products. No spam, unsubscribe anytime.</p>
+                    <form id="newsletter-form" class="hub-footer-form" novalidate>
+                        <input type="email" name="email" required maxlength="200" class="crusher-tool-control" placeholder="your@email.com" aria-label="Email address">
+                        <input type="text" name="botcheck" class="hub-footer-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <div class="hub-footer-actions">
+                            <button type="submit" class="crusher-tool-action hub-footer-submit">Notify me</button>
+                        </div>
+                        <p id="newsletter-status" class="hub-footer-status" role="status" aria-live="polite"></p>
+                    </form>
+                </section>
+            </div>
+
+            <div class="hub-footer-bottom">
+                <p>Crafted by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer">CRUSHER</a> · hosted on GitHub Pages</p>
+                <p class="hub-footer-meta">Open source · <a href="https://github.com/crusher-labs" target="_blank" rel="noopener noreferrer">view on GitHub</a></p>
+            </div>
+        </div>
     </footer>
 
     <template id="icon-case"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg></template>
