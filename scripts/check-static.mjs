@@ -165,4 +165,29 @@ function assertStaticContract(label, html) {
 
   must(!html.includes('hide-colors'), 'style switcher must keep color controls visible');
   must(!html.includes('hide-mode'), 'style switcher must keep light/dark controls visible');
+
+  // Web3Forms email-capture contract (2026-05-14).
+  must(
+    html.includes('https://api.web3forms.com'),
+    'must allow https://api.web3forms.com in CSP connect-src (email capture endpoint)'
+  );
+  if (label.startsWith('utility-tools/')) {
+    must(
+      html.includes('id="tool-feedback-form"'),
+      'utility tool must ship the "Suggest an improvement" feedback disclosure form'
+    );
+    must(
+      html.includes('class="tool-feedback-honey"'),
+      'feedback form must include the botcheck honeypot'
+    );
+    must(
+      html.includes("'30e570c5-aeeb-439d-8a8a-bd2516a5dc5d'") ||
+        html.includes('"30e570c5-aeeb-439d-8a8a-bd2516a5dc5d"'),
+      'feedback form must carry the Web3Forms access key (rotate via batch script if compromised)'
+    );
+  }
+  if (label === 'tools-hub/index.html') {
+    must(html.includes('id="newsletter-form"'), 'tools-hub must ship the newsletter signup form');
+    must(html.includes('id="suggest-form"'), 'tools-hub must ship the suggest-a-tool form');
+  }
 }
