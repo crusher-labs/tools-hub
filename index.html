@@ -12,28 +12,100 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://unpkg.com https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/crusher-ui.min.css" integrity="sha384-EIv1tRpD4TjJA0H6sAVfeiJJyJt6DwPxbTYWSsJzylRFMkqMI6xVARApOqqWm5iI" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/themes/minimal.css" integrity="sha384-QYfQeMTJKWZuoEgfBv8ZvJwG12qr6YW8SF6ziK3aHL9luxKjnoswdj/yek7EwpJN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.css" integrity="sha384-+mIUnYgeB+0Qf10OjT3tSbT2al2Y8erQfw/uws4os7AxVKNLYeEUW5zHUehGBTVq" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/crusher-ui-kit@0.1.6/dist/static/tool-shell.js" integrity="sha384-gNDnPKn5AoF0e4Q555fGbM+snO+UCP3/z4ErG3cyS/Akusg/bzTO+AYmG1WAMnab" crossorigin="anonymous"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .crusher-tool-shell { padding-block-start: 5rem; }
+        body {
+            font-family: 'Inter', sans-serif;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        ::selection { background: color-mix(in srgb, var(--crusher-color-brand-primary) 30%, transparent); }
+
+        /* === Editorial hero backdrop === */
+        body { position: relative; isolation: isolate; }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0 0 auto 0;
+            block-size: 48rem;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 0%,
+                    color-mix(in srgb, var(--crusher-color-brand-primary) 22%, transparent),
+                    transparent 65%),
+                radial-gradient(ellipse 50% 45% at 15% 8%,
+                    color-mix(in srgb, #8b5cf6 12%, transparent),
+                    transparent 60%),
+                radial-gradient(ellipse 50% 45% at 85% 12%,
+                    color-mix(in srgb, #10b981 10%, transparent),
+                    transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.9;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            body::before { animation: hub-drift 30s ease-in-out infinite alternate; }
+        }
+        @keyframes hub-drift {
+            0%   { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-2%, 1%, 0); }
+        }
+
+        .crusher-tool-shell { padding-block-start: 6rem; }
+        .crusher-tool-header {
+            padding-block-end: var(--crusher-spacing-10);
+            display: grid; gap: var(--crusher-spacing-5);
+            text-align: center;
+        }
+        .crusher-tool-title {
+            font-family: 'Fraunces', 'Georgia', serif;
+            font-optical-sizing: auto;
+            font-variation-settings: 'opsz' 144, 'SOFT' 30;
+            font-weight: 500;
+            font-style: italic;
+            font-size: clamp(2.75rem, 7vw, 5rem);
+            line-height: 1.02;
+            letter-spacing: -0.025em;
+            margin: 0;
+        }
+        .crusher-tool-lede {
+            font-size: var(--crusher-font-size-md);
+            color: var(--crusher-text-secondary);
+            max-width: 36rem;
+            margin: var(--crusher-spacing-2) auto 0;
+            line-height: 1.6;
+        }
 
         .hub-trust-signal {
             display: flex; flex-wrap: wrap; justify-content: center;
             gap: var(--crusher-spacing-2) var(--crusher-spacing-4);
-            margin-block-start: var(--crusher-spacing-3);
+            margin-block-start: var(--crusher-spacing-2);
             font-size: var(--crusher-font-size-xs);
             color: var(--crusher-text-secondary);
             text-transform: uppercase; letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', monospace;
         }
         .hub-trust-signal span { display: inline-flex; align-items: center; gap: var(--crusher-spacing-1); }
         .hub-trust-signal svg { color: var(--crusher-color-brand-primary); }
 
         .hub-search { display: grid; gap: var(--crusher-spacing-2); max-width: 36rem; margin: var(--crusher-spacing-6) auto 0; }
-        .hub-search input.crusher-tool-control { padding: var(--crusher-spacing-3); }
+        .hub-search input.crusher-tool-control {
+            padding: var(--crusher-spacing-3) var(--crusher-spacing-4);
+            background: color-mix(in srgb, var(--crusher-background-surface) 70%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--crusher-border-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hub-search input.crusher-tool-control:focus-visible {
+            border-color: var(--crusher-color-brand-primary);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--crusher-color-brand-primary) 18%, transparent);
+            outline: none;
+        }
         .hub-empty {
             padding: var(--crusher-spacing-10) var(--crusher-spacing-6);
             text-align: center; color: var(--crusher-text-secondary);
@@ -60,25 +132,41 @@
             transition: border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
         }
         .hub-empty-clear:hover { border-color: var(--crusher-color-brand-primary); }
-        .hub-sections { display: grid; gap: var(--crusher-spacing-10); }
-        .hub-section { display: grid; gap: var(--crusher-spacing-5); }
+        .hub-sections { display: grid; gap: var(--crusher-spacing-14); margin-block-start: var(--crusher-spacing-8); }
+        .hub-section { display: grid; gap: var(--crusher-spacing-6); }
         .hub-section-header {
-            display: flex; align-items: baseline; gap: var(--crusher-spacing-3);
-            padding-block-end: var(--crusher-spacing-3);
-            border-block-end: 1px solid var(--crusher-border-primary);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: end;
+            gap: var(--crusher-spacing-4);
+            padding-block-end: var(--crusher-spacing-4);
+            border-block-end: 1px solid color-mix(in srgb, var(--crusher-color-brand-primary) 20%, var(--crusher-border-primary));
+        }
+        .hub-section-index {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: var(--crusher-font-size-xs);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--crusher-color-brand-primary);
+            font-variant-numeric: tabular-nums;
+            padding-block-end: 0.25rem;
         }
         .hub-section-title {
             margin: 0;
-            font-size: var(--crusher-font-size-xs);
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--crusher-color-brand-primary);
+            font-family: 'Fraunces', 'Georgia', serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            letter-spacing: -0.015em;
+            color: var(--crusher-text-primary);
+            line-height: 1.1;
         }
         .hub-section-count {
+            font-family: 'JetBrains Mono', monospace;
             font-size: var(--crusher-font-size-xs);
             color: var(--crusher-text-secondary);
             font-variant-numeric: tabular-nums;
+            padding-block-end: 0.5rem;
         }
 
         .hub-section[data-category="design"] { --crusher-color-brand-primary: #8b5cf6; }
@@ -86,40 +174,83 @@
         .hub-section[data-category="security"] { --crusher-color-brand-primary: #f43f5e; }
         .hub-section[data-category="time"]   { --crusher-color-brand-primary: #f59e0b; }
 
-        .hub-grid { display: grid; gap: var(--crusher-spacing-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+        .hub-grid { display: grid; gap: var(--crusher-spacing-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
         .hub-card {
+            position: relative;
             display: grid; align-content: start;
             gap: var(--crusher-spacing-3);
             padding: var(--crusher-spacing-6);
-            border: 1px solid transparent;
-            transition: transform var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard),
-                        border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard),
-                        box-shadow var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard);
+            border: 1px solid var(--crusher-border-primary);
+            background: color-mix(in srgb, var(--crusher-background-surface) 88%, transparent);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            overflow: hidden;
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.28s ease,
+                        box-shadow 0.28s ease,
+                        background 0.28s ease;
+        }
+        .hub-card::after {
+            content: '';
+            position: absolute;
+            inset-block-start: 0; inset-inline-start: 0;
+            inline-size: 100%; block-size: 2px;
+            background: linear-gradient(90deg,
+                transparent,
+                color-mix(in srgb, var(--crusher-color-brand-primary) 80%, transparent),
+                transparent);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s ease;
         }
         .hub-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--crusher-color-brand-primary) 45%, var(--crusher-border-primary));
+            background: var(--crusher-background-surface);
+            box-shadow:
+                0 24px 48px -24px color-mix(in srgb, var(--crusher-color-brand-primary) 35%, transparent),
+                0 4px 12px -4px color-mix(in srgb, var(--crusher-color-brand-primary) 15%, transparent);
+        }
+        .hub-card:hover::after { transform: scaleX(1); }
+        .hub-card:focus-visible {
+            outline: none;
             border-color: var(--crusher-color-brand-primary);
-            box-shadow: var(--crusher-shadow-lg);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--crusher-color-brand-primary) 22%, transparent);
         }
         @media (prefers-reduced-motion: reduce) {
-            .hub-card { transition: border-color var(--crusher-motion-duration-fast) var(--crusher-motion-easing-standard); }
+            .hub-card,
+            .hub-card::after { transition: border-color 0.2s ease; }
             .hub-card:hover { transform: none; box-shadow: none; }
+            .hub-card:hover::after { transform: scaleX(1); transition: none; }
         }
         .hub-card-icon {
-            inline-size: 2.75rem; block-size: 2.75rem;
+            inline-size: 3rem; block-size: 3rem;
             display: inline-flex; align-items: center; justify-content: center;
             border-radius: var(--crusher-radius-lg);
-            background: color-mix(in srgb, var(--crusher-color-brand-primary) 12%, var(--crusher-background-muted));
+            background: linear-gradient(135deg,
+                color-mix(in srgb, var(--crusher-color-brand-primary) 18%, var(--crusher-background-muted)),
+                color-mix(in srgb, var(--crusher-color-brand-primary) 8%, var(--crusher-background-muted)));
             color: var(--crusher-color-brand-primary);
+            border: 1px solid color-mix(in srgb, var(--crusher-color-brand-primary) 20%, transparent);
         }
-        .hub-card-title { margin: 0; font-size: var(--crusher-font-size-lg); color: var(--crusher-text-primary); }
-        .hub-card-desc { margin: 0; color: var(--crusher-text-secondary); font-size: var(--crusher-font-size-sm); }
+        .hub-card-title {
+            margin: 0;
+            font-size: var(--crusher-font-size-lg);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--crusher-text-primary);
+        }
+        .hub-card-desc { margin: 0; color: var(--crusher-text-secondary); font-size: var(--crusher-font-size-sm); line-height: 1.55; }
         .hub-card-cta {
-            margin-top: var(--crusher-spacing-2);
+            margin-top: var(--crusher-spacing-3);
             display: inline-flex; align-items: center; gap: var(--crusher-spacing-1);
             font-size: var(--crusher-font-size-xs); font-weight: 600;
             color: var(--crusher-color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
+        .hub-card:hover .hub-card-cta svg { transform: translate(2px, -2px); }
+        .hub-card-cta svg { transition: transform 0.28s ease; }
 
         .hub-home {
             position: absolute; inset-block-start: var(--crusher-spacing-6); inset-inline-start: var(--crusher-spacing-6);
@@ -132,9 +263,29 @@
         }
         .hub-home:hover { color: var(--crusher-color-brand-primary); border-color: var(--crusher-color-brand-primary); }
 
-        .hub-footer { text-align: center; margin-block: var(--crusher-spacing-8) var(--crusher-spacing-6); color: var(--crusher-text-secondary); }
-        .hub-footer p { margin: 0; }
-        .hub-footer .hub-footer-meta { margin-top: var(--crusher-spacing-2); font-size: var(--crusher-font-size-xs); }
+        .hub-footer {
+            text-align: center;
+            margin-block-start: var(--crusher-spacing-16);
+            padding-block: var(--crusher-spacing-8);
+            color: var(--crusher-text-secondary);
+            border-block-start: 1px solid var(--crusher-border-primary);
+        }
+        .hub-footer-mark {
+            font-family: 'Fraunces', 'Georgia', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: var(--crusher-font-size-xl);
+            letter-spacing: -0.01em;
+            color: var(--crusher-text-primary);
+            margin: 0 0 var(--crusher-spacing-3);
+        }
+        .hub-footer p { margin: 0; font-size: var(--crusher-font-size-sm); }
+        .hub-footer .hub-footer-meta {
+            margin-top: var(--crusher-spacing-3);
+            font-size: var(--crusher-font-size-xs);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.04em;
+        }
         .hub-footer a { color: var(--crusher-color-brand-primary); text-decoration: none; }
         .hub-footer a:hover { text-decoration: underline; }
 
@@ -261,8 +412,9 @@
     </main>
 
     <footer class="hub-footer">
-        <p>Created with care by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer">CRUSHER</a>. All tools are hosted on GitHub Pages.</p>
-        <p class="hub-footer-meta">Open source &middot; <a href="https://github.com/crusher-labs" target="_blank" rel="noopener noreferrer">view on GitHub</a></p>
+        <p class="hub-footer-mark">crusher labs</p>
+        <p>Crafted by <a href="https://linktr.ee/itxcrusher" target="_blank" rel="noopener noreferrer">CRUSHER</a> · hosted on GitHub Pages</p>
+        <p class="hub-footer-meta">Open source · <a href="https://github.com/crusher-labs" target="_blank" rel="noopener noreferrer">view on GitHub</a></p>
     </footer>
 
     <template id="icon-case"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12h14"></path><path d="m19 15-3-3 3-3"></path><path d="m5 9 3 3-3 3"></path></svg></template>
@@ -355,12 +507,16 @@
 
                 const header = document.createElement('div');
                 header.className = 'hub-section-header';
+                const idx = document.createElement('span');
+                idx.className = 'hub-section-index';
+                idx.textContent = String(sectionRefs.length + 1).padStart(2, '0');
                 const h2 = document.createElement('h2');
                 h2.className = 'hub-section-title';
                 h2.textContent = meta.label;
                 const count = document.createElement('span');
                 count.className = 'hub-section-count';
                 count.textContent = `${inCat.length} tool${inCat.length === 1 ? '' : 's'}`;
+                header.appendChild(idx);
                 header.appendChild(h2);
                 header.appendChild(count);
                 section.appendChild(header);
