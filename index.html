@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Utility Tools by CRUSHER</title>
     <link rel="icon" href="data:,">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://unpkg.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://unpkg.com https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -137,6 +137,53 @@
         .hub-footer .hub-footer-meta { margin-top: var(--crusher-spacing-2); font-size: var(--crusher-font-size-xs); }
         .hub-footer a { color: var(--crusher-color-brand-primary); text-decoration: none; }
         .hub-footer a:hover { text-decoration: underline; }
+
+        .hub-capture {
+            margin-block-start: var(--crusher-spacing-10);
+            padding: var(--crusher-spacing-8);
+            display: grid;
+            gap: var(--crusher-spacing-4);
+        }
+        .hub-capture-head h2 {
+            margin: 0 0 var(--crusher-spacing-1);
+            font-size: var(--crusher-font-size-xl);
+            color: var(--crusher-text-primary);
+        }
+        .hub-capture-head p {
+            margin: 0;
+            color: var(--crusher-text-secondary);
+            font-size: var(--crusher-font-size-sm);
+        }
+        .hub-capture-form { display: grid; gap: var(--crusher-spacing-3); }
+        .hub-capture-row { display: grid; gap: var(--crusher-spacing-3); }
+        @media (min-width: 640px) {
+            .hub-newsletter .hub-capture-row { grid-template-columns: 1fr auto; align-items: start; }
+        }
+        .hub-capture-field { display: grid; gap: var(--crusher-spacing-1); }
+        .hub-capture-field > span {
+            font-size: var(--crusher-font-size-xs);
+            color: var(--crusher-text-secondary);
+            font-weight: 500;
+        }
+        .hub-capture-submit {
+            padding-inline: var(--crusher-spacing-5);
+            padding-block: var(--crusher-spacing-3);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .hub-capture-submit[disabled] { opacity: 0.6; cursor: not-allowed; }
+        .hub-capture-status {
+            margin: 0;
+            min-block-size: 1.25rem;
+            font-size: var(--crusher-font-size-sm);
+            color: var(--crusher-text-secondary);
+        }
+        .hub-capture-status[data-kind="ok"] { color: var(--crusher-color-brand-primary); }
+        .hub-capture-status[data-kind="error"] { color: #dc2626; }
+        .hub-capture-honey {
+            position: absolute; left: -9999px; top: -9999px;
+            opacity: 0; pointer-events: none;
+        }
     </style>
 </head>
 <body class="crusher-tool-page">
@@ -167,6 +214,49 @@
             </span>
             <p>No tools match your search.</p>
             <button type="button" id="hub-clear-search" class="hub-empty-clear">Clear search</button>
+        </section>
+        <section id="hub-suggest" class="crusher-tool-surface hub-capture hub-suggest">
+            <div class="hub-capture-head">
+                <h2>Want a tool that's not here?</h2>
+                <p>Tell me what you need. I might build it.</p>
+            </div>
+            <form id="suggest-form" class="hub-capture-form" novalidate>
+                <label class="hub-capture-field">
+                    <span>What tool would you like?</span>
+                    <input type="text" name="tool_idea" required maxlength="200" class="crusher-tool-control" placeholder="e.g. CSV to Markdown table">
+                </label>
+                <label class="hub-capture-field">
+                    <span>Details (optional)</span>
+                    <textarea name="details" rows="3" maxlength="2000" class="crusher-tool-control" placeholder="What problem would it solve? Any specific behavior?"></textarea>
+                </label>
+                <label class="hub-capture-field">
+                    <span>Your email (optional, only if you want a reply)</span>
+                    <input type="email" name="replyto" maxlength="200" class="crusher-tool-control" placeholder="your@email.com">
+                </label>
+                <input type="text" name="botcheck" class="hub-capture-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div>
+                    <button type="submit" class="crusher-tool-action hub-capture-submit">Send suggestion</button>
+                </div>
+                <p id="suggest-status" class="hub-capture-status" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="hub-newsletter" class="crusher-tool-surface hub-capture hub-newsletter">
+            <div class="hub-capture-head">
+                <h2>Get updates</h2>
+                <p>When I add new tools or launch paid products. No spam, unsubscribe anytime.</p>
+            </div>
+            <form id="newsletter-form" class="hub-capture-form" novalidate>
+                <div class="hub-capture-row">
+                    <label class="hub-capture-field">
+                        <span class="sr-only">Email address</span>
+                        <input type="email" name="email" required maxlength="200" class="crusher-tool-control" placeholder="your@email.com" aria-label="Email address">
+                    </label>
+                    <button type="submit" class="crusher-tool-action hub-capture-submit">Notify me</button>
+                </div>
+                <input type="text" name="botcheck" class="hub-capture-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <p id="newsletter-status" class="hub-capture-status" role="status" aria-live="polite"></p>
+            </form>
         </section>
     </main>
 
@@ -361,6 +451,54 @@
         });
 
         loadTools();
+
+        // === Web3Forms capture handlers ===
+        const WEB3FORMS_KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+        const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+
+        function bindCaptureForm(formId, statusId, subject) {
+            const form = document.getElementById(formId);
+            const status = document.getElementById(statusId);
+            if (!form || !status) return;
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(form);
+                fd.set('access_key', WEB3FORMS_KEY);
+                fd.set('subject', subject);
+                fd.set('from_name', 'tools-hub');
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalLabel = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending…';
+                status.textContent = '';
+                delete status.dataset.kind;
+                try {
+                    const res = await fetch(WEB3FORMS_ENDPOINT, {
+                        method: 'POST',
+                        body: fd,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        form.reset();
+                        status.textContent = 'Thanks — your message is in.';
+                        status.dataset.kind = 'ok';
+                    } else {
+                        status.textContent = data.message || 'Sorry, that did not go through. Try again later?';
+                        status.dataset.kind = 'error';
+                    }
+                } catch (err) {
+                    status.textContent = 'Network error. Try again?';
+                    status.dataset.kind = 'error';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalLabel;
+                }
+            });
+        }
+
+        bindCaptureForm('newsletter-form', 'newsletter-status', '[tools-hub] Newsletter signup');
+        bindCaptureForm('suggest-form', 'suggest-status', '[tools-hub] Tool suggestion');
     </script>
 </body>
 </html>
