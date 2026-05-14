@@ -76,10 +76,28 @@ try {
         throw err;
       }
     }
+    // SEO discovery files
+    for (const seoFile of ['sitemap.xml', 'robots.txt']) {
+      try {
+        await stat(join(toolDir, seoFile));
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          softAssert(`utility-tools/${entry.name}`, false, `missing ${seoFile}`);
+        } else throw err;
+      }
+    }
   }
 } catch (err) {
   if (err.code !== 'ENOENT') throw err;
   // utility-tools dir not present alongside hub — silent ok for hub-only checkouts.
+}
+// Hub's own sitemap + robots
+for (const seoFile of ['sitemap.xml', 'robots.txt']) {
+  try { await stat(join(repoRoot, seoFile)); }
+  catch (err) {
+    if (err.code === 'ENOENT') softAssert('tools-hub', false, `missing ${seoFile}`);
+    else throw err;
+  }
 }
 
 if (errors.length > 0) {
@@ -119,6 +137,13 @@ function assertStaticContract(label, html) {
   must(html.includes('data-theme-lock="minimal"'), 'must lock the public UI to the minimal theme');
   must(html.includes('data-default-theme="minimal"'), 'must declare data-default-theme="minimal" on <html>');
   must(html.includes('data-default-mode="dark"'), 'must declare data-default-mode="dark" on <html> (default mode for the crusher-labs aesthetic — flipped 2026-05-14)');
+
+  must(html.includes('<!-- SEO-META-START -->') && html.includes('<!-- SEO-META-END -->'),
+       'must contain the SEO-META block (description, theme-color, canonical, OG, Twitter) — sweep-able via the START/END markers');
+  must(html.includes('<meta name="description"'), 'must declare <meta name="description"> for SEO');
+  must(html.includes('<meta name="theme-color"'), 'must declare <meta name="theme-color"> for mobile browser chrome');
+  must(html.includes('<link rel="canonical"'), 'must declare <link rel="canonical"> pointing at the production URL');
+  must(html.includes('property="og:type"'), 'must declare Open Graph tags (og:type, og:title, og:description, og:url, og:site_name) for share previews');
   must(html.includes('data-default-brand='), 'must declare a data-default-brand color on <html>');
   must(html.includes('<crusher-style-switcher'), 'must mount <crusher-style-switcher>');
   must(html.includes('hide-themes'), 'style switcher must hide dialect choices');
