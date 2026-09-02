@@ -96,12 +96,14 @@ console.log(`[bump-kit] rewrote ${rewritten} of ${pages.length} pages to crusher
 
 // ---- Keep the contract check in lock-step ------------------------------------
 
-const checkPath = join(__dirname, 'check-static.mjs');
-const checkSrc = await readFile(checkPath, 'utf8');
-const nextCheck = checkSrc.replace(/const TARGET_VERSION = '[^']+';/, `const TARGET_VERSION = '${version}';`);
-if (nextCheck !== checkSrc) {
-  await writeFile(checkPath, nextCheck);
-  console.log(`[bump-kit] check-static.mjs TARGET_VERSION -> ${version}`);
+for (const script of ['check-static.mjs', 'smoke.mjs']) {
+  const scriptPath = join(__dirname, script);
+  const src = await readFile(scriptPath, 'utf8');
+  const next = src.replace(/const TARGET_VERSION = '[^']+';/, `const TARGET_VERSION = '${version}';`);
+  if (next !== src) {
+    await writeFile(scriptPath, next);
+    console.log(`[bump-kit] ${script} TARGET_VERSION -> ${version}`);
+  }
 }
 
 console.log('[bump-kit] done. Run: npm run check:static');

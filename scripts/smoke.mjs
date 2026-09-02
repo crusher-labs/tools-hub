@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
 
 const HUB_URL = 'https://tools.muhammadhassaanjaved.com/';
-const TARGET_VERSION = '0.1.6';
+const TARGET_VERSION = '1.2.1';
 const FORBIDDEN_VERSIONS = ['0.1.1', '0.1.2', '0.1.3', '0.1.4', '0.1.5'];
 const BATCH = 6;
 
