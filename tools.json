@@ -1,7 +1,7 @@
 [
   {
     "name": "Aspect Ratio Calculator",
-    "description": "Calculate and maintain aspect ratios for images, videos, and responsive layouts.",
+    "description": "Calculate and lock aspect ratios, with the frame etched live on a camera viewfinder; presets, common sizes, CSS aspect-ratio.",
     "url": "https://crusher-labs.github.io/aspect-ratio-calculator/",
     "icon": "image",
     "category": "media"
@@ -29,7 +29,7 @@
   },
   {
     "name": "Color Converter",
-    "description": "Convert color codes between HEX, RGB, and HSL formats with a preview.",
+    "description": "HEX, RGB, HSL, HSV and CMYK on a 24-patch color checker card, with a loupe on the color you are editing and WCAG contrast.",
     "url": "https://crusher-labs.github.io/color-converter/",
     "icon": "color",
     "category": "design"
@@ -43,14 +43,14 @@
   },
   {
     "name": "CSS Box-Shadow Generator",
-    "description": "Create, preview, and copy CSS box-shadow styles in real time.",
+    "description": "Design box-shadow by moving studio lights around the subject; the shadow falls away from each light and the CSS follows.",
     "url": "https://crusher-labs.github.io/css-box-shadow-generator/",
     "icon": "gradient",
     "category": "design"
   },
   {
     "name": "CSS Gradient Generator",
-    "description": "Visually create, customize, and copy CSS linear or radial gradients.",
+    "description": "Linear, radial and conic gradients on a sky at dusk; drag the sun to set the angle, start from real twilight palettes.",
     "url": "https://crusher-labs.github.io/css-gradient-generator/",
     "icon": "gradient",
     "category": "design"
@@ -190,7 +190,7 @@
   },
   {
     "name": "SVG Placeholder Generator",
-    "description": "Generate and download simple, customizable SVG placeholder images.",
+    "description": "SVG placeholders at any size, colours and text, hung in a gallery frame that resizes as you type; copy, data URI or download.",
     "url": "https://crusher-labs.github.io/svg-placeholder-generator/",
     "icon": "image",
     "category": "media"
