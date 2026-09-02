@@ -84,6 +84,13 @@
     "category": "security"
   },
   {
+    "name": "Fancy Text Generator",
+    "description": "Turn plain text into 25+ fancy Unicode font styles (bold, cursive, bubble, gothic) to copy and paste anywhere.",
+    "url": "https://crusher-labs.github.io/fancy-text-generator/",
+    "icon": "case",
+    "category": "text"
+  },
+  {
     "name": "HTML Entity Encoder",
     "description": "Encode and decode HTML entities safely in your browser.",
     "url": "https://crusher-labs.github.io/html-entity-encoder/",
@@ -213,6 +220,13 @@
     "name": "Video to Audio Converter",
     "description": "Extract MP3 audio from video files locally in your browser.",
     "url": "https://crusher-labs.github.io/video-to-audio-converter/",
+    "icon": "video",
+    "category": "media"
+  },
+  {
+    "name": "YouTube Thumbnail Downloader",
+    "description": "Preview and download any YouTube video's thumbnail in every available size, up to HD 1280x720. Works for Shorts.",
+    "url": "https://crusher-labs.github.io/youtube-thumbnail-downloader/",
     "icon": "video",
     "category": "media"
   },
