@@ -91,6 +91,13 @@
     "category": "text"
   },
   {
+    "name": "Invisible Character",
+    "description": "Copy invisible Unicode characters for blank usernames and empty messages, with a generator and a paste-to-test checker.",
+    "url": "https://crusher-labs.github.io/invisible-character/",
+    "icon": "text",
+    "category": "text"
+  },
+  {
     "name": "HTML Entity Encoder",
     "description": "Encode and decode HTML entities safely in your browser.",
     "url": "https://crusher-labs.github.io/html-entity-encoder/",
@@ -242,6 +249,13 @@
     "description": "Count word frequency and find the most repeated words in any text.",
     "url": "https://crusher-labs.github.io/word-frequency-counter/",
     "icon": "text",
+    "category": "text"
+  },
+  {
+    "name": "Zalgo Text Generator",
+    "description": "Turn any text into cursed glitch text with stacked Unicode marks: adjustable intensity, one-click copy.",
+    "url": "https://crusher-labs.github.io/zalgo-text-generator/",
+    "icon": "case",
     "category": "text"
   }
 ]
