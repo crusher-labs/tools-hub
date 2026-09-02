@@ -106,7 +106,7 @@
   },
   {
     "name": "Image Compressor",
-    "description": "Compress images and reduce file size without uploading them to a server.",
+    "description": "Compress an image to a target size on an airport bag drop: the scale counts the KB down, an allowance turns the lamp green or red; JPEG, WebP, PNG.",
     "url": "https://crusher-labs.github.io/image-compressor/",
     "icon": "image",
     "category": "media"
@@ -162,7 +162,7 @@
   },
   {
     "name": "QR Code Generator",
-    "description": "Generate and download QR codes from text or URLs.",
+    "description": "QR codes for URLs, text, Wi-Fi, email, phone and SMS on a boarding pass; set correction, size and colours, tear the stub to download PNG or SVG.",
     "url": "https://crusher-labs.github.io/qr-code-generator/",
     "icon": "qr",
     "category": "media"
@@ -197,7 +197,7 @@
   },
   {
     "name": "Transparent PNG Generator",
-    "description": "Create transparent PNG images of any dimension or aspect ratio instantly.",
+    "description": "Blank or tinted transparent PNGs at any size, glazed into a sash window that resizes to the ratio; download, data URL or CSS.",
     "url": "https://crusher-labs.github.io/transparent-png-generator/",
     "icon": "image",
     "category": "media"
@@ -225,7 +225,7 @@
   },
   {
     "name": "Video to Audio Converter",
-    "description": "Extract MP3 audio from video files locally in your browser.",
+    "description": "Extract MP3 or WAV from a video on a reel-to-reel dubbing deck, entirely in the browser: reels turn and VU meters swing with the real dub.",
     "url": "https://crusher-labs.github.io/video-to-audio-converter/",
     "icon": "video",
     "category": "media"
