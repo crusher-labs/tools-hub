@@ -19,5 +19,16 @@ jobs:
         with:
           node-version: 22
 
-      - name: Validate static hub
+      # check-static.mjs resolves the 30 tools at ../utility-tools/<repo>. Without this
+      # step the runner has only the hub, and until 2026-09 the checker skipped the
+      # missing directory silently, so CI green meant "hub + 0 tools validated".
+      # The checker now fails hard unless every catalog entry is audited.
+      - name: Clone the utility tools
+        run: |
+          mkdir -p ../utility-tools
+          for repo in $(node -e "JSON.parse(require('fs').readFileSync('tools.json','utf8')).forEach(t => console.log(new URL(t.url).pathname.split('/')[1]))"); do
+            git clone --quiet --depth 1 "https://github.com/crusher-labs/$repo.git" "../utility-tools/$repo"
+          done
+
+      - name: Validate static contract (hub + tools)
         run: npm run check:static
