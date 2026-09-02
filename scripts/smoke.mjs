@@ -49,9 +49,14 @@ async function checkOne({ name, url, expectedTitle }) {
     return { name, url, ok: false, errors: [`fetch error: ${e.message}`] };
   }
 
+  // The catalog name is a display label; the <title> may be a longer SEO title.
+  // Accept either an exact match or a title sharing the name's first two words.
   const titleMatch = html.match(/<title>([^<]*)<\/title>/);
   const title = titleMatch ? titleMatch[1].trim() : '';
-  if (title !== expectedTitle) errors.push(`title="${title}" expected "${expectedTitle}"`);
+  const stem = expectedTitle.split(' ').slice(0, 2).join(' ');
+  if (title !== expectedTitle && !title.startsWith(stem)) {
+    errors.push(`title="${title}" expected "${expectedTitle}" (or an SEO title starting "${stem}")`);
+  }
 
   if (!html.includes('<!-- SEO-META-START -->')) errors.push('missing SEO-META-START marker');
   if (!html.includes('<!-- SEO-META-END -->')) errors.push('missing SEO-META-END marker');
