@@ -72,9 +72,20 @@ function rewrite(html) {
   return { html, changed };
 }
 
+// Every tool's index.html, plus variant landing pages one level deeper
+// (e.g. compress-image-to-kb/50kb/index.html) - those carry the same pins.
 const pages = [join(repoRoot, 'index.html')];
 for (const entry of await readdir(utilityToolsRoot, { withFileTypes: true })) {
-  if (entry.isDirectory()) pages.push(join(utilityToolsRoot, entry.name, 'index.html'));
+  if (!entry.isDirectory()) continue;
+  const toolDir = join(utilityToolsRoot, entry.name);
+  pages.push(join(toolDir, 'index.html'));
+  for (const sub of await readdir(toolDir, { withFileTypes: true })) {
+    if (!sub.isDirectory() || sub.name.startsWith('.') || sub.name === 'scripts') continue;
+    try {
+      await readFile(join(toolDir, sub.name, 'index.html'));
+      pages.push(join(toolDir, sub.name, 'index.html'));
+    } catch (e) { /* subdir without a page - not a variant */ }
+  }
 }
 
 let rewritten = 0;

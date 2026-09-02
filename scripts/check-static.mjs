@@ -76,6 +76,17 @@ try {
         throw err;
       }
     }
+    // Variant landing pages one level deeper (e.g. 50kb/index.html) carry the
+    // same contract - stale pins on a forgotten variant are the July failure.
+    for (const sub of await readdir(toolDir, { withFileTypes: true })) {
+      if (!sub.isDirectory() || sub.name.startsWith('.') || sub.name === 'scripts') continue;
+      try {
+        const html = await readFile(join(toolDir, sub.name, 'index.html'), 'utf8');
+        assertStaticContract(`utility-tools/${entry.name}/${sub.name}/index.html`, html);
+      } catch (err) {
+        if (err.code !== 'ENOENT') throw err;
+      }
+    }
     // SEO discovery files
     for (const seoFile of ['sitemap.xml', 'robots.txt']) {
       try {
