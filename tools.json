@@ -63,6 +63,13 @@
     "category": "text"
   },
   {
+    "name": "Discord Timestamp Generator",
+    "description": "Generate Discord timestamps that show in everyone's local timezone. All 7 formats, live previews, one-click copy.",
+    "url": "https://crusher-labs.github.io/discord-timestamp-generator/",
+    "icon": "clock",
+    "category": "time"
+  },
+  {
     "name": "Epoch/Human Date Converter",
     "description": "Convert epoch time to human-readable dates and back.",
     "url": "https://crusher-labs.github.io/epoch-converter/",
@@ -145,6 +152,13 @@
     "url": "https://crusher-labs.github.io/qr-code-generator/",
     "icon": "qr",
     "category": "media"
+  },
+  {
+    "name": "Text to Handwriting",
+    "description": "Convert typed text into realistic handwritten pages with handwriting styles, ink colors and ruled paper. PNG output, no watermark.",
+    "url": "https://crusher-labs.github.io/text-to-handwriting/",
+    "icon": "text",
+    "category": "text"
   },
   {
     "name": "Regex Tester",
