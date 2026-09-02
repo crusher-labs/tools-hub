@@ -148,7 +148,7 @@
   },
   {
     "name": "Markdown Previewer",
-    "description": "Write Markdown and see a real-time preview of the rendered HTML.",
+    "description": "Write Markdown on a manuscript and see it typeset live on a book page with a running head, folio and drop cap.",
     "url": "https://crusher-labs.github.io/markdown-previewer/",
     "icon": "markdown",
     "category": "text"
@@ -176,7 +176,7 @@
   },
   {
     "name": "Regex Tester",
-    "description": "Test regular expressions against sample text in real time.",
+    "description": "Test a regular expression on a radar scope: every match paints on as the sweep passes, with groups, flags and a replace preview.",
     "url": "https://crusher-labs.github.io/regex-tester/",
     "icon": "text",
     "category": "text"
@@ -211,7 +211,7 @@
   },
   {
     "name": "URL Encoder/Decoder",
-    "description": "Encode and decode URLs and query strings instantly.",
+    "description": "Encode and decode URLs and query strings on an airline bag tag; the host is the destination, the claim stub carries the result.",
     "url": "https://crusher-labs.github.io/url-encoder-decoder/",
     "icon": "text",
     "category": "text"
@@ -239,14 +239,14 @@
   },
   {
     "name": "Word & Character Counter",
-    "description": "Count words, characters, sentences, and paragraphs in a block of text.",
+    "description": "Count words, characters, sentences and paragraphs on a typewriter whose odometer wheels roll as you type, with reading time.",
     "url": "https://crusher-labs.github.io/word-character-counter/",
     "icon": "text",
     "category": "text"
   },
   {
     "name": "Word Frequency Counter",
-    "description": "Count word frequency and find the most repeated words in any text.",
+    "description": "Count how often each word appears; the ranking is a drawer of library catalog cards that riffle into order.",
     "url": "https://crusher-labs.github.io/word-frequency-counter/",
     "icon": "text",
     "category": "text"
