@@ -99,7 +99,7 @@
   },
   {
     "name": "HTML Entity Encoder",
-    "description": "Encode and decode HTML entities safely in your browser.",
+    "description": "Encode special characters to HTML entities and decode them back on a 1940s decoder ring, with a searchable code book of every named entity.",
     "url": "https://crusher-labs.github.io/html-entity-encoder/",
     "icon": "text",
     "category": "text"
@@ -127,7 +127,7 @@
   },
   {
     "name": "JSON to YAML/CSV Converter",
-    "description": "Convert data between JSON, YAML, and CSV formats in your browser.",
+    "description": "JSON, YAML and CSV in any direction on a three-part carbonless form: write on one sheet, the other two copies fill in, tear one off to copy.",
     "url": "https://crusher-labs.github.io/json-yaml-csv-converter/",
     "icon": "text",
     "category": "text"
@@ -141,7 +141,7 @@
   },
   {
     "name": "Lorem Ipsum Generator",
-    "description": "Create placeholder text for designs, mockups, and content drafts.",
+    "description": "Lorem ipsum by paragraphs, sentences or words, chiselled into a stone inscription. Plain or HTML, with the Cicero source.",
     "url": "https://crusher-labs.github.io/lorem-ipsum-generator/",
     "icon": "text",
     "category": "text"
@@ -155,7 +155,7 @@
   },
   {
     "name": "Morse Code Converter",
-    "description": "Convert text to Morse code and Morse code back to readable text.",
+    "description": "Text to Morse and back on a telegraph desk; Play taps the message out on a straight key at real Morse timing.",
     "url": "https://crusher-labs.github.io/morse-code-converter/",
     "icon": "text",
     "category": "text"
