@@ -36,7 +36,7 @@
   },
   {
     "name": "Color Palette Generator",
-    "description": "Generate color palettes for websites, apps, and design projects.",
+    "description": "Harmonies as a paint-store fan deck: named, coded chips with five shades each. Copy any hex or the whole palette as CSS variables.",
     "url": "https://crusher-labs.github.io/color-palette-generator/",
     "icon": "color",
     "category": "design"
@@ -119,8 +119,8 @@
     "category": "media"
   },
   {
-    "name": "JSON Prettifier/Minifier",
-    "description": "Format, validate, minify, and beautify JSON instantly.",
+    "name": "JSON Formatter and Minifier",
+    "description": "Format, validate and minify JSON as you type, printed on green-bar paper. Sort keys, spot errors, copy the result.",
     "url": "https://crusher-labs.github.io/json-prettifier/",
     "icon": "text",
     "category": "text"
@@ -183,7 +183,7 @@
   },
   {
     "name": "Secure Password Generator",
-    "description": "Create strong, cryptographically random passwords with custom options.",
+    "description": "Spin a safe dial to generate a strong random password from your browser’s cryptographic generator. Pick the sets, read the strength in bolts, take the key.",
     "url": "https://crusher-labs.github.io/secure-password-generator/",
     "icon": "shield",
     "category": "security"
@@ -204,7 +204,7 @@
   },
   {
     "name": "Unix Timestamp Converter",
-    "description": "Convert dates and times to and from Unix timestamps in your local time.",
+    "description": "Epoch to date and back on a split-flap departures board: local, UTC, ISO 8601 and relative, with a ticking epoch clock.",
     "url": "https://crusher-labs.github.io/unix-timestamp-converter/",
     "icon": "clock",
     "category": "time"
