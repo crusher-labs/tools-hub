@@ -28,6 +28,6 @@ Update `tools.json` + re-run `check:static`. The tools line is **frozen at 30** 
 ## What NOT to do
 
 - Don't commit to `main` directly (`dev` -> manual QA -> fast-forward `main`). No `Co-Authored-By` trailers.
-- Don't edit `crusher-ui-kit`; request changes via the workspace `private/framework-feedback.md`.
+- Don't edit `crusher-ui-kit`; request changes by appending to `x:/itxcrusher/INBOX.md` (the feedback-file pair was retired 2026-08-25).
 - Don't break the `../utility-tools/<tool>` relative path that `check-static.mjs` depends on.
 - Don't add Tailwind CDN / Font Awesome; use framework primitives.
