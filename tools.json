@@ -91,6 +91,13 @@
     "category": "media"
   },
   {
+    "name": "Compress Image to KB",
+    "description": "Compress JPG, PNG or WebP images to an exact target file size like 50KB, 100KB or 200KB, fully in your browser.",
+    "url": "https://crusher-labs.github.io/compress-image-to-kb/",
+    "icon": "image",
+    "category": "media"
+  },
+  {
     "name": "JSON Prettifier/Minifier",
     "description": "Format, validate, minify, and beautify JSON instantly.",
     "url": "https://crusher-labs.github.io/json-prettifier/",
