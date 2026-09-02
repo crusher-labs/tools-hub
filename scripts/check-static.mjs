@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
 const workspaceRoot = resolve(repoRoot, '..');
 const utilityToolsRoot = join(workspaceRoot, 'utility-tools');
-const TARGET_VERSION = '0.1.6';
+const TARGET_VERSION = '1.2.1';
 const KNOWN_CATEGORIES = new Set(['text', 'design', 'media', 'security', 'time']);
 
 function assert(condition, message) {
@@ -89,8 +89,13 @@ try {
   }
 } catch (err) {
   if (err.code !== 'ENOENT') throw err;
-  // utility-tools dir not present alongside hub — silent ok for hub-only checkouts.
+  softAssert('utility-tools', false, `directory not found at ${utilityToolsRoot} - a hub-only checkout cannot validate the tools (CI must clone them first)`);
 }
+softAssert(
+  'utility-tools',
+  toolsAudited === tools.length,
+  `audited ${toolsAudited} tool page(s) but the catalog lists ${tools.length} - the fleet was NOT fully validated`
+);
 // Hub's own sitemap + robots
 for (const seoFile of ['sitemap.xml', 'robots.txt']) {
   try { await stat(join(repoRoot, seoFile)); }
@@ -162,13 +167,20 @@ function assertStaticContract(label, html) {
     'style switcher must slot custom sun/moon icons (framework fallback is FA5; tools should use FA6 paths)'
   );
 
-  // Forbidden legacy bits — replaced by the 0.1.6 contract.
+  // Every kit reference must be the pinned version - a stray old pin means a page
+  // the bump sweep missed (and its SRI hashes are stale with it).
+  for (const match of html.matchAll(/crusher-ui-kit@(\d+\.\d+\.\d+)/g)) {
+    must(match[1] === TARGET_VERSION, `references crusher-ui-kit@${match[1]} - the pinned version is ${TARGET_VERSION} (bump via scripts/bump-kit.mjs, never by hand: the SRI hashes must be regenerated in the same pass)`);
+  }
+
+  // Each of the five pins must carry an SRI integrity hash. The hash bytes are trusted
+  // to bump-kit.mjs (verifying them here would need the network); presence is the contract.
+  for (const pinned of ['crusher-ui.min.css', 'themes/minimal.css', 'static/tool-shell.css', 'static/tool-shell.js', 'crusher-ui.standalone.esm.js']) {
+    const pinRe = new RegExp(`crusher-ui-kit@${TARGET_VERSION.replaceAll('.', '\\.')}/dist/${pinned.replaceAll('.', '\\.')}" integrity="sha384-[A-Za-z0-9+/=]+" crossorigin="anonymous"`);
+    must(pinRe.test(html), `the ${pinned} pin must carry a sha384 integrity hash + crossorigin`);
+  }
+
   const forbidden = [
-    ['crusher-ui-kit@0.1.1', 'must not reference crusher-ui-kit@0.1.1'],
-    ['crusher-ui-kit@0.1.2', 'must not reference crusher-ui-kit@0.1.2'],
-    ['crusher-ui-kit@0.1.3', 'must not reference crusher-ui-kit@0.1.3 — bump to ' + TARGET_VERSION],
-    ['crusher-ui-kit@0.1.4', 'must not reference crusher-ui-kit@0.1.4'],
-    ['crusher-ui-kit@0.1.5', 'must not reference crusher-ui-kit@0.1.5'],
     ['/src/css/themes/', 'must not deep-link framework source theme CSS'],
     ['cdn.tailwindcss.com', 'must not load the Tailwind CDN (chrome should use crusher-tool-* primitives)'],
     ['crusher-minimal-mode-lock', 'must not ship the legacy crusher-minimal-mode-lock IIFE — tool-shell.js replaces it'],
