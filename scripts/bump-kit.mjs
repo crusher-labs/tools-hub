@@ -91,6 +91,7 @@ for (const entry of await readdir(utilityToolsRoot, { withFileTypes: true })) {
 let rewritten = 0;
 for (const page of pages) {
   const html = await readFile(page, 'utf8');
+  if (/<html[^>]*\sdata-world=/.test(html)) continue; // world pages own their CSS; no kit pins
   for (const file of PINNED_FILES) {
     if (!html.includes(`/dist/${file}"`)) {
       console.error(`[bump-kit] ${page} is missing a pin for ${file} - refusing to continue`);

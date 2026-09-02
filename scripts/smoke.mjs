@@ -65,7 +65,9 @@ async function checkOne({ name, url, expectedTitle }) {
   if (!/<link rel="canonical"/.test(html)) errors.push('missing <link rel="canonical">');
   if (!/property="og:type"/.test(html)) errors.push('missing Open Graph tags');
 
-  if (!html.includes(`crusher-ui-kit@${TARGET_VERSION}/`)) {
+  // World pages (data-world on <html>) own their CSS and carry no kit pin.
+  const isWorld = /<html[^>]*\sdata-world=/.test(html);
+  if (!isWorld && !html.includes(`crusher-ui-kit@${TARGET_VERSION}/`)) {
     errors.push(`missing crusher-ui-kit@${TARGET_VERSION} reference`);
   }
   for (const v of FORBIDDEN_VERSIONS) {

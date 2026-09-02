@@ -129,6 +129,38 @@ console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} uti
 function assertStaticContract(label, html) {
   const must = (cond, msg) => softAssert(label, cond, msg);
 
+  // World pages (2026-09-02 standard): the page is a committed object from the
+  // tool's world and owns its CSS. They do not load the kit shell or the style
+  // switcher. Detected by data-world="<name>" on <html>; everything else is a
+  // legacy shell page and keeps the original contract below.
+  const world = html.match(/<html[^>]*\sdata-world="([^"]+)"/);
+  if (world) {
+    must(label.startsWith('utility-tools/'), 'only tool pages may be world pages; the hub keeps the kit shell');
+    must(!html.includes('crusher-ui-kit@'), `world page "${world[1]}" must not load crusher-ui-kit (worlds own their CSS)`);
+    must(!html.includes('<crusher-style-switcher'), 'world pages have no style switcher (a world has a mode)');
+    must(html.includes('<meta name="viewport"'), 'must declare the viewport meta');
+    must(/<link[^>]+rel="stylesheet"[^>]+fonts\.googleapis\.com/.test(html) || !/fonts\.googleapis/.test(html), 'Google Fonts must load via a <link rel="stylesheet">');
+    must(html.includes('https://tools.muhammadhassaanjaved.com/'), 'must link back to the hub');
+    must(html.includes('<!-- SEO-META-START -->') && html.includes('<!-- SEO-META-END -->'), 'must contain the SEO-META block');
+    must(html.includes('<meta name="description"'), 'must declare <meta name="description">');
+    must(html.includes('<meta name="theme-color"'), 'must declare <meta name="theme-color">');
+    must(html.includes('<link rel="canonical"'), 'must declare <link rel="canonical">');
+    must(html.includes('property="og:type"'), 'must declare Open Graph tags');
+    const titleMatch = html.match(/<title>([^<]*)<\/title>/);
+    must(titleMatch && titleMatch[1].trim().length > 0, 'must have a non-empty <title>');
+    must(html.includes('rel="icon"'), 'must declare a favicon link');
+    must(html.includes('http-equiv="Content-Security-Policy"'), 'must declare a Content-Security-Policy meta tag');
+    must(html.includes('https://api.web3forms.com'), 'must allow https://api.web3forms.com in CSP connect-src');
+    must(html.includes('id="tool-feedback-form"'), 'must ship the "Suggest an improvement" feedback form');
+    must(html.includes('class="tool-feedback-honey"'), 'feedback form must include the botcheck honeypot');
+    must(html.includes("'30e570c5-aeeb-439d-8a8a-bd2516a5dc5d'") || html.includes('"30e570c5-aeeb-439d-8a8a-bd2516a5dc5d"'), 'feedback form must carry the Web3Forms access key');
+    must(!html.includes('cdn.tailwindcss.com'), 'must not load the Tailwind CDN');
+    must(!html.includes('font-awesome') && !html.includes('fontawesome'), 'must not load Font Awesome');
+    must(/<h1[\s>]/.test(html), 'must have an <h1>');
+    must(/<h2[\s>]/.test(html) && html.includes('<details'), 'must carry the prose + FAQ section (SEO content)');
+    return;
+  }
+
   must(
     html.includes(`crusher-ui-kit@${TARGET_VERSION}/dist/crusher-ui.min.css`),
     `must load crusher-ui-kit@${TARGET_VERSION} CSS bundle`
