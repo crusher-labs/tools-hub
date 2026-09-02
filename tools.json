@@ -8,21 +8,21 @@
   },
   {
     "name": "Base64 Encoder/Decoder",
-    "description": "Encode and decode Base64 text instantly in your browser.",
+    "description": "Encode text or files to Base64 and decode it back, punched onto an 80-column card as you type. UTF-8, URL-safe, padding control.",
     "url": "https://crusher-labs.github.io/base64-encoder/",
     "icon": "text",
     "category": "text"
   },
   {
     "name": "Binary Converter",
-    "description": "Convert text, binary, decimal, hexadecimal, and ASCII values.",
+    "description": "Text to binary and back on a front panel of lamps and switches, with decimal, hex and octal readouts for any number.",
     "url": "https://crusher-labs.github.io/binary-converter/",
     "icon": "text",
     "category": "text"
   },
   {
     "name": "Case Converter",
-    "description": "Convert text between UPPERCASE, lowercase, Title Case, and more.",
+    "description": "UPPERCASE, lowercase, Title, Sentence, camelCase, snake_case, kebab-case and more, set from a printer's type case onto a composing stick.",
     "url": "https://crusher-labs.github.io/case-converter/",
     "icon": "case",
     "category": "text"
@@ -57,7 +57,7 @@
   },
   {
     "name": "Diff Checker",
-    "description": "Compare two pieces of text and highlight the differences.",
+    "description": "Compare two texts on a galley proof marked with real proofreader's marks: dele, caret and margin insertions. Copy as unified diff.",
     "url": "https://crusher-labs.github.io/diff-checker/",
     "icon": "text",
     "category": "text"
