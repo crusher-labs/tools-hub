@@ -71,14 +71,14 @@
   },
   {
     "name": "Epoch/Human Date Converter",
-    "description": "Convert epoch time to human-readable dates and back.",
+    "description": "Unix timestamps to dates in any zone and back, on a core log of computer time whose marker drops to the moment you enter.",
     "url": "https://crusher-labs.github.io/epoch-converter/",
     "icon": "clock",
     "category": "time"
   },
   {
     "name": "Hash Generator",
-    "description": "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text.",
+    "description": "MD5, SHA-1, SHA-256, SHA-384, SHA-512 and CRC-32 for text or files, rolled onto a fingerprint card, with a verify line that names the matching hash.",
     "url": "https://crusher-labs.github.io/hash-generator/",
     "icon": "shield",
     "category": "security"
@@ -134,7 +134,7 @@
   },
   {
     "name": "JWT Decoder",
-    "description": "Decode and inspect JWT tokens without sending them to a server.",
+    "description": "Decode and verify JSON Web Tokens as a passport: claims on the data page, the expiry stamped red or green, HS/RS/ES signature checks in the browser.",
     "url": "https://crusher-labs.github.io/jwt-decoder/",
     "icon": "shield",
     "category": "security"
@@ -218,7 +218,7 @@
   },
   {
     "name": "UUID/GUID Generator",
-    "description": "Generate random UUIDs for development, testing, and databases.",
+    "description": "v4, v7 and v1 UUIDs from a take-a-number dispenser: pull the tab and a ticket tears off; bulk, formats, and a reader for any UUID.",
     "url": "https://crusher-labs.github.io/uuid-generator/",
     "icon": "text",
     "category": "text"
