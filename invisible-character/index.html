@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-world="blank">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invisible Character - Copy and Paste Blank Text</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Copy an invisible character with one click: Hangul filler, zero-width space, braille blank and more. Send blank messages, make empty usernames, generate any amount of invisible text, and test what you copied. Free, no signup.">
+    <meta name="theme-color" content="#fbfbfa">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/invisible-character/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Invisible Character - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Copy an invisible character with one click: Hangul filler, zero-width space, braille blank and more. Send blank messages, make empty usernames, generate any amount of invisible text, and test what you copied. Free, no signup.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/invisible-character/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Invisible Character - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Copy an invisible character with one click: Hangul filler, zero-width space, braille blank and more. Send blank messages, make empty usernames, generate any amount of invisible text, and test what you copied. Free, no signup.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --white:#fbfbfa; --ink:#1a1a1a; --muted:#8a8a86; --hair:#e6e6e2; --uv:#6d5cff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--white); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:720px; margin:0 auto; padding:28px 24px 80px; }
+    .tag { font:500 12px 'DM Mono', ui-monospace, monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+    .stage { min-height:76vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; text-align:center; }
+    h1 { margin:0; font:500 15px 'DM Mono', ui-monospace, monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .glyph { width:84px; height:84px; border:1px dotted #9a9a96; border-radius:4px; display:flex; align-items:center; justify-content:center; font:400 10px 'DM Mono', monospace; color:#b0b0ac; letter-spacing:.06em; }
+    .big { padding:16px 28px; background:var(--ink); color:#fff; border:1px solid var(--ink); border-radius:4px; font:500 14px 'DM Mono', monospace; letter-spacing:.04em; cursor:pointer; }
+    .big:active { transform:translateY(1px); }
+    .state { min-height:1.4em; max-width:46ch; text-align:center; font:400 12.5px 'DM Mono', monospace; line-height:1.5; color:var(--uv); }
+    .state i { width:6px; height:6px; border-radius:50%; background:var(--uv); display:none; vertical-align:middle; margin:-2px 8px 0 0; }
+    .state.on i { display:inline-block; }
+    .lede { margin:0; max-width:46ch; font-size:14.5px; line-height:1.6; color:var(--muted); }
+    section { margin-top:56px; border-top:1px solid var(--hair); padding-top:22px; }
+    section h2 { margin:0 0 14px; font:500 12px 'DM Mono', monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+    .list { display:grid; gap:0; }
+    .rowc { display:grid; grid-template-columns:1fr auto auto; gap:14px; align-items:center; padding:12px 0; border-bottom:1px solid var(--hair); }
+    .rowc .n { font-size:14px; font-weight:600; }
+    .rowc .c { display:block; font:400 11.5px 'DM Mono', monospace; color:var(--muted); margin-top:2px; }
+    .demo { font:400 13px 'DM Mono', monospace; color:var(--muted); border:1px dotted #9a9a96; border-radius:3px; padding:2px 8px; }
+    .small { padding:6px 12px; border:1px solid var(--ink); background:transparent; color:var(--ink); border-radius:3px; font:500 12px 'DM Mono', monospace; cursor:pointer; }
+    .gen { display:grid; grid-template-columns:120px auto auto; gap:10px; align-items:end; }
+    .gen label { display:grid; gap:4px; font:400 11.5px 'DM Mono', monospace; color:var(--muted); }
+    .in { width:100%; padding:9px 11px; border:1px solid var(--hair); border-radius:3px; background:#fff; color:var(--ink); font:14px/1.5 'DM Mono', monospace; outline:none; }
+    .in:focus { border-color:var(--ink); }
+    textarea.in { min-height:70px; resize:vertical; margin-top:10px; }
+    .res { min-height:1.4em; margin-top:8px; font:400 12.5px 'DM Mono', monospace; color:var(--uv); }
+    .prose p { margin:0 0 10px; font-size:14.5px; line-height:1.65; color:#3a3a38; }
+    .prose details { border-top:1px solid var(--hair); } .prose summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .prose a { color:var(--ink); }
+    .foot { margin-top:30px; font:400 11.5px 'DM Mono', monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 24px; }
+    .foot a { color:var(--ink); }
+    .tool-feedback { margin-top:14px; font-size:13px; color:#3a3a38; }
+    .tool-feedback summary::before { color:var(--uv); }
+    @media (max-width: 640px) { .rowc { grid-template-columns:1fr auto; } .rowc .demo { display:none; } .gen { grid-template-columns:1fr; } .stage { min-height:60vh; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <div class="tag">crusher-labs · tools</div>
+      <div class="stage">
+        <h1>Invisible character</h1>
+        <div class="glyph" aria-hidden="true">U+3164</div>
+        <button id="iv-copy" class="big" type="button">Copy invisible character</button>
+        <div id="iv-state" class="state" aria-live="polite"><i></i><span></span></div>
+        <p class="lede">A real character with no visible glyph. Blank usernames, empty messages, invisible spacing: it copies as nothing and pastes as something.</p>
+      </div>
+      <section>
+        <h2>All eight</h2>
+        <div id="iv-list" class="list"></div>
+      </section>
+      <section>
+        <h2>Generate</h2>
+        <div class="gen"><label>How many<input id="iv-n" class="in" type="number" min="1" max="10000" value="5"></label><button id="iv-gen" class="small" type="button">Generate</button><button id="iv-gen-copy" class="small" type="button" disabled>Copy result</button></div>
+        <textarea id="iv-out" class="in" readonly placeholder="Generated invisible text appears here. It will look empty. It is not." aria-label="Generated invisible text"></textarea>
+      </section>
+      <section>
+        <h2>Test what you copied</h2>
+        <input id="iv-test" class="in" placeholder="Paste here" aria-label="Paste to test">
+        <div id="iv-res" class="res" aria-live="polite"></div>
+      </section>
+      <section class="prose">
+        <h2>What an invisible character is</h2>
+        <p>An invisible character is a real Unicode character with no visible glyph. To you it looks like nothing; to an app it is genuine text that can be sent, saved and counted. That difference is what makes blank usernames, empty messages and invisible spacing possible on platforms that reject plain spaces.</p>
+        <p>The big button copies the Hangul filler (U+3164), which works in the most places: WhatsApp blank messages, Discord and game-style empty names, Instagram line spacing, form fields that demand something. The list gives the other blank characters for platforms that filter specific ones, and the generator produces any amount of invisible text at once. The tester names the exact characters on your clipboard so you know the copy worked before you use it somewhere that matters.</p>
+        <details><summary>Why does my blank username get rejected?</summary><p>Some platforms filter specific invisible characters. Try another one from the list: the braille blank (U+2800) often passes where the Hangul filler is blocked, and zero-width characters work where any visible width is rejected.</p></details>
+        <details><summary>Zero-width versus blank?</summary><p>A blank character (Hangul filler, braille blank) takes up visible width, like a space that platforms cannot strip. A zero-width character (U+200B, U+200C, U+200D) has no width at all: useful for invisible separators or minimum-length rules without any visible gap.</p></details>
+        <details><summary>Is this safe to use?</summary><p>They are ordinary Unicode characters, the same ones used legitimately in Korean text and complex scripts. Nothing is exploited. Just avoid using them to impersonate someone else's blank-looking name.</p></details>
+      </section>
+      <div class="foot"><span>Nothing, delivered</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const CHARS = [['Hangul Filler', 'U+3164', '\u3164', 'the classic blank, works almost everywhere'], ['Braille Pattern Blank', 'U+2800', '\u2800', 'blank with width, passes many filters'], ['Zero Width Space', 'U+200B', '\u200B', 'no width at all'], ['Zero Width Non-Joiner', 'U+200C', '\u200C', 'no width, survives strict filters'], ['Zero Width Joiner', 'U+200D', '\u200D', 'no width, used inside emoji'], ['Word Joiner', 'U+2060', '\u2060', 'no width, no line break allowed'], ['Ideographic Space', 'U+3000', '\u3000', 'extra-wide blank space'], ['Em Space', 'U+2003', '\u2003', 'wide typographic space']];
+    const NAME = new Map(CHARS.map(c => [c[2], c[0] + ' (' + c[1] + ')'])); NAME.set(' ', 'ordinary space (U+0020)');
+    const state = document.getElementById('iv-state'), stateText = state.querySelector('span');
+    async function copy(ch, name, btn) { try { await navigator.clipboard.writeText(ch); state.classList.add('on'); stateText.textContent = 'copied ' + name + ' · paste it anywhere'; if (btn) { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1200); } } catch (e) { state.classList.remove('on'); stateText.textContent = 'copy failed; select the character in the list and copy it by hand'; } }
+    document.getElementById('iv-copy').addEventListener('click', () => copy('\u3164', 'Hangul Filler (U+3164)'));
+    const list = document.getElementById('iv-list');
+    for (const [name, code, ch, note] of CHARS) { const row = h('div', null, null, 'rowc'); const left = h('div'); left.appendChild(h('div', null, name, 'n')); left.appendChild(h('span', null, code + ' · ' + note, 'c')); const demo = h('span', null, '[' + ch + ']', 'demo'); demo.title = 'the character sits between the brackets'; const b = h('button', null, 'Copy', 'small'); b.type = 'button'; b.addEventListener('click', () => copy(ch, name + ' (' + code + ')', b)); row.append(left, demo, b); list.appendChild(row); }
+    const out = document.getElementById('iv-out'), genCopy = document.getElementById('iv-gen-copy');
+    document.getElementById('iv-gen').addEventListener('click', () => { const n = Math.min(10000, Math.max(1, parseInt(document.getElementById('iv-n').value, 10) || 1)); out.value = '\u3164'.repeat(n); genCopy.disabled = false; });
+    genCopy.addEventListener('click', () => copy(out.value, [...out.value].length + ' invisible characters', genCopy));
+    const test = document.getElementById('iv-test'), res = document.getElementById('iv-res');
+    test.addEventListener('input', () => { const f = new Map(); let visible = 0; for (const ch of test.value) { const n = NAME.get(ch) || (/\s/.test(ch) ? 'whitespace (U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0') + ')' : null); if (n) f.set(n, (f.get(n) || 0) + 1); else visible++; } res.textContent = !test.value ? '' : f.size ? 'found: ' + [...f].map(([n, c]) => c + ' x ' + n).join(', ') + (visible ? ' · plus ' + visible + ' visible' : '') : 'no invisible characters, ' + visible + ' visible'; });
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

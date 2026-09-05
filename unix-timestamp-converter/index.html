@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-world="departures-board">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter - Epoch to Date and Back, Live</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert Unix timestamps to human dates and back on a split-flap departures board: your timezone, UTC, ISO 8601 and relative time, with a ticking epoch clock. Milliseconds detected automatically. Free, in your browser.">
+    <meta name="theme-color" content="#111111">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/unix-timestamp-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Unix Timestamp Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert Unix timestamps to human dates and back on a split-flap departures board: your timezone, UTC, ISO 8601 and relative time, with a ticking epoch clock. Milliseconds detected automatically. Free, in your browser.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/unix-timestamp-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Unix Timestamp Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert Unix timestamps to human dates and back on a split-flap departures board: your timezone, UTC, ISO 8601 and relative time, with a ticking epoch clock. Milliseconds detected automatically. Free, in your browser.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;700&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --wall:#111111; --board:#191919; --frame:#2a2a2a; --flap:#232323; --seam:#0b0b0b; --cream:#f2e9d0; --amber:#f5b32b; --dim:#8d8676; --cell:26px; --cellh:40px; --cellfs:24px; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--wall); color:var(--cream); font-family:'Archivo Narrow', 'Arial Narrow', sans-serif; }
+    main { max-width:1260px; margin:0 auto; padding:48px 24px 60px; }
+    .frame { background:var(--board); border:8px solid var(--frame); box-shadow:0 30px 60px -30px rgba(0,0,0,1), inset 0 0 0 1px #000; }
+    .head { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 26px; background:#0c0c0c; border-bottom:2px solid var(--frame); }
+    h1 { margin:0; font-size:clamp(22px, 3.4vw, 40px); font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+    .clock { display:flex; gap:2px; }
+    .row { display:grid; grid-template-columns:190px 1fr 190px; gap:20px; align-items:center; padding:14px 26px; border-bottom:1px solid #262626; }
+    .row.now { background:#1a1606; }
+    .row .lbl { font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:#b9b09a; }
+    .row.now .lbl { color:var(--amber); }
+    .flaps { display:flex; gap:2px; flex-wrap:wrap; }
+    .c { width:var(--cell); height:var(--cellh); background:var(--flap); color:var(--cream); font-size:var(--cellfs); font-weight:700; text-transform:uppercase; display:flex; align-items:center; justify-content:center; position:relative; border-radius:2px; box-shadow:inset 0 -1px 0 rgba(255,255,255,0.06); }
+    .c::after { content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:var(--seam); }
+    .row.now .c { color:var(--amber); }
+    .c.flip { animation:flip .38s ease-in-out; }
+    @keyframes flip { 0% { transform:rotateX(0); } 50% { transform:rotateX(-88deg); } 100% { transform:rotateX(0); } }
+    .remark { text-align:right; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+    .remark button { background:transparent; border:1px solid #3a3a3a; color:var(--cream); font:700 12px 'Archivo Narrow', sans-serif; letter-spacing:.14em; text-transform:uppercase; padding:6px 10px; cursor:pointer; }
+    .row.in { background:#141414; }
+    .ingrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .ingrid input { background:var(--flap); border:1px solid #3a3a3a; color:var(--cream); font:700 22px 'Archivo Narrow', sans-serif; letter-spacing:.08em; padding:8px 12px; outline:none; width:100%; color-scheme:dark; }
+    .ingrid input:focus { border-color:var(--amber); }
+    .leaflet { margin:46px auto 0; max-width:820px; background:var(--cream); color:#1f1c14; font-family:'Public Sans', system-ui, sans-serif; padding:28px 32px; border-top:10px solid var(--amber); }
+    .leaflet h2 { margin:0 0 10px; font-family:'Archivo Narrow', sans-serif; font-size:28px; letter-spacing:.06em; text-transform:uppercase; }
+    .leaflet p { margin:0 0 10px; font-size:14.5px; line-height:1.6; color:#3c382d; }
+    .leaflet details { border-top:1px solid #d6cbaa; } .leaflet summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .leaflet a { color:#8a5a00; }
+    .foot { margin:22px auto 0; max-width:820px; font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); display:flex; flex-wrap:wrap; gap:8px 24px; }
+    .foot a { color:var(--amber); }
+    .tool-feedback { max-width:820px; margin:18px auto 0; font-family:'Public Sans', system-ui, sans-serif; font-size:13px; color:#b9b09a; }
+    .tool-feedback summary::before { color:var(--amber); }
+    @media (max-width: 760px) { :root { --cell:15px; --cellh:24px; --cellfs:14px; } main { padding:22px 12px 40px; } .frame { border-width:4px; } .head { padding:10px 12px; } .row { grid-template-columns:64px 1fr; gap:8px; padding:10px 12px; } .row .lbl { font-size:12px; } .remark { display:none; } .ingrid { grid-template-columns:1fr; } .ingrid input { font-size:15px; padding:6px 8px; } .leaflet { padding:20px 18px; margin-top:30px; } .leaflet h2 { font-size:22px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <div class="frame">
+        <div class="head"><h1>Unix Time</h1><div id="clock" class="clock" aria-label="Current time"></div></div>
+        <div class="row now"><div class="lbl">Now</div><div id="row-now" class="flaps" aria-label="Current Unix time"></div><div class="remark">Ticking</div></div>
+        <div class="row in"><label class="lbl" for="ut-in">Input</label><div class="ingrid"><input id="ut-in" type="number" placeholder="UNIX SECONDS" aria-label="Unix timestamp in seconds"><input id="ut-dt" type="datetime-local" step="1" aria-label="Date and time in your timezone"></div><div class="remark"><button id="ut-now" type="button">Use now</button></div></div>
+        <div class="row"><div class="lbl">Local</div><div id="row-local" class="flaps"></div><div class="remark"><button class="cp" type="button" data-for="row-local">Copy</button></div></div>
+        <div class="row"><div class="lbl">UTC</div><div id="row-utc" class="flaps"></div><div class="remark"><button class="cp" type="button" data-for="row-utc">Copy</button></div></div>
+        <div class="row"><div class="lbl">ISO</div><div id="row-iso" class="flaps"></div><div class="remark"><button class="cp" type="button" data-for="row-iso">Copy</button></div></div>
+        <div class="row"><div class="lbl">Relative</div><div id="row-rel" class="flaps"></div><div class="remark">Updates live</div></div>
+      </div>
+      <section class="leaflet">
+        <h2>Convert Unix time both ways</h2>
+        <p>Type a Unix timestamp, or pick a date, and the board flips to show it in your timezone, in UTC, as ISO 8601 and relative to now. The top row is the current epoch, ticking. Milliseconds are detected automatically when a 13-digit number is pasted.</p>
+        <p>Unix time counts seconds since 1 January 1970 00:00:00 UTC. It has no timezone of its own, which is why the same number reads as a different clock time on every wall in the world.</p>
+        <details><summary>What is the year 2038 problem?</summary><p>32-bit signed timestamps overflow at 2147483647 (19 January 2038). Modern systems use 64-bit counters and are unaffected.</p></details>
+        <details><summary>Why does my zone show a different day?</summary><p>Unix time is UTC. Your local rendering can fall on the previous or next calendar day depending on your offset.</p></details>
+        <details><summary>Why a departures board?</summary><p>Because a split-flap board is the one clock everyone in the hall reads the same way, and every value change is visible as it happens.</p></details>
+      </section>
+      <div class="foot"><span>Platform 1</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+
+
+    const $ = id => document.getElementById(id);
+    const rows = { now: $('row-now'), local: $('row-local'), utc: $('row-utc'), iso: $('row-iso'), rel: $('row-rel'), clock: $('clock') };
+    const cache = {};
+    const setFlaps = (el, text, key) => { const chars = [...text]; const prev = cache[key] || []; while (el.children.length > chars.length) el.removeChild(el.lastChild); chars.forEach((ch, i) => { let c = el.children[i]; if (!c) { c = h('div', null, ch, 'c'); el.appendChild(c); } if (prev[i] !== ch) { c.textContent = ch; c.classList.remove('flip'); void c.offsetWidth; c.style.animationDelay = (i * 18) + 'ms'; c.classList.add('flip'); } }); cache[key] = chars; };
+    const pad = n => String(n).padStart(2, '0');
+    const fmt = (d, tz) => new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: tz }).format(d).replace(/,/g, '');
+    const rel = u => { const d = u - Math.floor(Date.now() / 1000), a = Math.abs(d); for (const [s, n] of [[31536000, 'year'], [2592000, 'month'], [604800, 'week'], [86400, 'day'], [3600, 'hour'], [60, 'minute'], [1, 'second']]) if (a >= s || n === 'second') { const q = Math.round(a / s); return d < 0 ? q + ' ' + n + (q > 1 ? 's' : '') + ' ago' : 'in ' + q + ' ' + n + (q > 1 ? 's' : ''); } };
+    let current = Math.floor(Date.now() / 1000);
+    const inp = $('ut-in'), dt = $('ut-dt');
+    const render = (fromDt) => { const d = new Date(current * 1000); if (isNaN(d)) return; if (!fromDt) dt.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); inp.value = current; setFlaps(rows.local, fmt(d), 'local'); setFlaps(rows.utc, fmt(d, 'UTC') + ' UTC', 'utc'); setFlaps(rows.iso, d.toISOString(), 'iso'); setFlaps(rows.rel, rel(current), 'rel'); };
+    inp.addEventListener('input', () => { let v = parseInt(inp.value, 10); if (!Number.isFinite(v)) return; if (String(Math.abs(v)).length >= 13) v = Math.floor(v / 1000); current = v; render(); });
+    dt.addEventListener('input', () => { const d = new Date(dt.value); if (!isNaN(d)) { current = Math.floor(d.getTime() / 1000); render(true); } });
+    $('ut-now').addEventListener('click', () => { current = Math.floor(Date.now() / 1000); render(); });
+    document.querySelectorAll('.cp').forEach(b => copyBtn(b, () => [...$(b.dataset.for).children].map(c => c.textContent).join(''), 'Copy', 'Copied'));
+    const tick = () => { const now = new Date(); setFlaps(rows.now, String(Math.floor(now.getTime() / 1000)), 'now'); setFlaps(rows.clock, pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()), 'clock'); setFlaps(rows.rel, rel(current), 'rel'); };
+    tick(); setInterval(tick, 1000); render();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

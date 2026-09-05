@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-world="newsroom-clock-wall">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Timestamp Generator - All 7 Formats</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Generate Discord timestamps that show in everyone’s local timezone, on a newsroom wall of clocks. Pick a moment, watch every city’s clock turn, copy any of the 7 formats with live previews.">
+    <meta name="theme-color" content="#141a24">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/discord-timestamp-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Discord Timestamp Generator - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Generate Discord timestamps that show in everyone’s local timezone, on a newsroom wall of clocks. Pick a moment, watch every city’s clock turn, copy any of the 7 formats with live previews.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/discord-timestamp-generator/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Discord Timestamp Generator - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Generate Discord timestamps that show in everyone’s local timezone, on a newsroom wall of clocks. Pick a moment, watch every city’s clock turn, copy any of the 7 formats with live previews.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;700&family=JetBrains+Mono:wght@500&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --wall:#141a24; --panel:#1b2330; --brass:#c9a24b; --brass-ink:#1b1207; --text:#f1ede4; --muted:#9aa3b2; --edge:rgba(255,255,255,0.1); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--wall); background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 120px), linear-gradient(180deg, #1a2230, var(--wall) 30%); color:var(--text); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:44px 24px 70px; }
+    h1 { margin:0; text-align:center; font-family:'Archivo Narrow', 'Arial Narrow', sans-serif; font-weight:700; font-size:clamp(30px, 5vw, 48px); letter-spacing:.06em; text-transform:uppercase; }
+    .lede { margin:10px auto 30px; max-width:62ch; text-align:center; font-size:16px; line-height:1.5; color:var(--muted); }
+    .clocks { display:grid; grid-template-columns:repeat(6, minmax(0, 1fr)); gap:18px; align-items:start; }
+    .clock { display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .face { position:relative; width:100%; max-width:150px; aspect-ratio:1; border-radius:50%; background:#f6f3ea; border:6px solid #111; box-shadow:0 10px 24px -12px rgba(0,0,0,0.9), inset 0 0 0 2px #e6e2d8; }
+    .face .n { position:absolute; left:50%; top:50%; font:700 13px 'Archivo Narrow', sans-serif; color:#111; transform:translate(-50%, -50%); }
+    .face .n.n12 { top:14%; } .face .n.n3 { left:86%; } .face .n.n6 { top:86%; } .face .n.n9 { left:14%; }
+    .face .tick { position:absolute; left:50%; top:4px; width:2px; height:6px; background:#111; margin-left:-1px; transform-origin:50% calc(var(--r)); }
+    .hand { position:absolute; left:50%; bottom:50%; transform-origin:50% 100%; background:#111; border-radius:2px; transition:transform .8s cubic-bezier(.3,.9,.3,1); }
+    .hand.h { width:4px; height:28%; margin-left:-2px; } .hand.m { width:3px; height:40%; margin-left:-1.5px; } .hand.s { width:1px; height:44%; margin-left:-.5px; background:#c0392b; transition:none; }
+    .pin { position:absolute; left:50%; top:50%; width:8px; height:8px; border-radius:50%; background:#111; transform:translate(-50%, -50%); }
+    .plate { padding:6px 12px; background:#111; color:var(--text); border:1px solid #333; font:700 12px 'Archivo Narrow', sans-serif; letter-spacing:.16em; text-transform:uppercase; text-align:center; }
+    .plate.you { background:var(--brass); color:var(--brass-ink); border-color:var(--brass); }
+    .digital { font:500 11.5px 'JetBrains Mono', monospace; color:var(--muted); text-align:center; }
+    .desk { margin-top:34px; background:var(--panel); border:1px solid var(--edge); padding:22px 24px; display:grid; gap:14px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .pair { display:flex; gap:10px; align-items:center; min-width:0; }
+    #dc-unix { width:170px; }
+    .in { background:#0f141c; border:1px solid var(--edge); color:var(--text); font:15px 'Public Sans', sans-serif; padding:10px 12px; outline:none; border-radius:4px; color-scheme:dark; }
+    .in:focus { border-color:var(--brass); }
+    .in.mono { font-family:'JetBrains Mono', monospace; }
+    .chip { padding:8px 14px; border-radius:4px; border:1px solid var(--edge); background:transparent; color:var(--muted); font:600 12.5px 'Public Sans', sans-serif; cursor:pointer; }
+    .chip[aria-pressed="true"], .chip:hover { color:var(--text); border-color:var(--brass); }
+    .formats { display:grid; gap:10px; }
+    .fmt { display:grid; grid-template-columns:160px 1fr auto; gap:14px; align-items:center; padding:10px 14px; background:#0f141c; border:1px solid var(--edge); }
+    .fmt .code { font:500 12.5px 'JetBrains Mono', monospace; color:var(--brass); }
+    .fmt .kind { display:block; font-size:11px; color:var(--muted); margin-top:2px; }
+    .fmt .pv { font-size:14.5px; }
+    .fmt .pv span { background:rgba(201,162,75,0.18); border-radius:3px; padding:2px 6px; }
+    .copy { padding:7px 12px; background:var(--brass); color:var(--brass-ink); border:1px solid var(--brass); border-radius:4px; font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .notes { margin-top:40px; border:1px solid var(--edge); background:var(--panel); padding:24px 28px; }
+    .notes h2 { margin:0 0 10px; font-family:'Archivo Narrow', sans-serif; font-size:26px; letter-spacing:.04em; text-transform:uppercase; }
+    .notes h3 { margin:14px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:14.5px; line-height:1.65; color:var(--muted); }
+    .notes details { border-top:1px solid var(--edge); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; color:var(--text); }
+    .notes a { color:var(--brass); }
+    .foot { margin-top:22px; font:700 12px 'Archivo Narrow', sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 24px; }
+    .foot a { color:var(--brass); }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    .tool-feedback summary::before { color:var(--brass); }
+    @media (max-width: 900px) { .clocks { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { main { padding:28px 14px 60px; } .clocks { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; } .fmt { grid-template-columns:1fr auto; } .fmt .pv { grid-column:1 / -1; } .desk { padding:16px 14px; } .notes { padding:20px 16px; } .pair { flex:1 1 100%; } .pair .in, .pair #dc-unix { width:auto; flex:1; min-width:0; } .pair .z { display:none; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <h1>Discord Timestamp Generator</h1>
+      <p class="lede">One moment, every wall clock reads its own time. That is what a Discord timestamp does: pick the moment, copy a format, and every reader sees it in their zone.</p>
+      <div id="wall" class="clocks" aria-label="World clocks"></div>
+      <section class="desk">
+        <div class="row"><span class="pair"><label class="digital" for="dc-dt">Moment <span class="z">(your zone)</span></label><input id="dc-dt" class="in" type="datetime-local" step="60"></span><span class="pair"><label class="digital" for="dc-unix">Unix</label><input id="dc-unix" class="in mono" type="number"></span></div>
+        <div class="row" role="group" aria-label="Presets"><button class="chip dc-p" type="button" data-p="now" aria-pressed="true">Now (live)</button><button class="chip dc-p" type="button" data-p="hour" aria-pressed="false">In 1 hour</button><button class="chip dc-p" type="button" data-p="tonight" aria-pressed="false">Tonight 8 PM</button><button class="chip dc-p" type="button" data-p="tomorrow" aria-pressed="false">Tomorrow 9 AM</button><button class="chip dc-p" type="button" data-p="week" aria-pressed="false">In 1 week</button></div>
+        <div id="formats" class="formats"></div>
+      </section>
+      <section class="notes">
+        <h2>Discord timestamps, explained</h2>
+        <p>A Discord timestamp is a chip like <code>&lt;t:1720000000:F&gt;</code> that Discord renders in each reader's own timezone. Post one time for an event and everyone sees it correctly: no 8 PM EST / 1 AM UTC math, no timezone confusion in international servers. The wall of clocks above shows exactly that: the same moment on six different walls.</p>
+        <p>Pick your date and time (or paste a raw Unix timestamp), then copy whichever style fits: short or long time, short or long date, full date-and-time, or the auto-updating relative form.</p>
+        <h3>Where it works</h3>
+        <p>Timestamps work in normal messages, embeds and event descriptions on desktop and mobile. They are plain text, so no bot or permission is needed. The related <a href="https://tools.muhammadhassaanjaved.com/unix-timestamp-converter/">Unix Timestamp Converter</a> handles general epoch conversion.</p>
+        <details><summary>Why does my timestamp show the wrong time?</summary><p>The picker uses YOUR local timezone, and Discord shows each viewer THEIR local time. If it looks wrong to someone else, they are seeing it converted to their zone, which is the point.</p></details>
+        <details><summary>What do the format letters mean?</summary><p>t = short time, T = time with seconds, d = numeric date, D = full date, f = date + time (the default), F = weekday + date + time, R = relative. The letter goes after the second colon.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. This page is a static tool; the conversion is basic math done in your browser.</p></details>
+      </section>
+      <div class="foot"><span>Newsroom wall · six clocks</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const CITIES = [['You', Intl.DateTimeFormat().resolvedOptions().timeZone, true], ['New York', 'America/New_York'], ['London', 'Europe/London'], ['Dubai', 'Asia/Dubai'], ['Tokyo', 'Asia/Tokyo'], ['Sydney', 'Australia/Sydney']];
+    const wall = document.getElementById('wall'), fmts = document.getElementById('formats'), dt = document.getElementById('dc-dt'), ux = document.getElementById('dc-unix');
+    const clocks = CITIES.map(([name, tz, you]) => { const c = h('div', null, null, 'clock'); const face = h('div', null, null, 'face'); ['12', '3', '6', '9'].forEach(n => face.appendChild(h('div', null, n, 'n n' + n))); for (let i = 0; i < 60; i++) { if (i % 5 === 0) continue; const t = h('div', 'transform:rotate(' + i * 6 + 'deg)', null, 'tick'); t.style.setProperty('--r', 'calc(50% + 0px)'); face.appendChild(t); } const hh = h('div', null, null, 'hand h'), mm = h('div', null, null, 'hand m'), ss = h('div', null, null, 'hand s'); face.append(hh, mm, ss, h('div', null, null, 'pin')); const plate = h('div', null, name, 'plate' + (you ? ' you' : '')); const dig = h('div', null, '', 'digital'); c.append(face, plate, dig); wall.appendChild(c); return { tz, hh, mm, ss, dig, you }; });
+    document.querySelectorAll('.face .tick').forEach(t => { t.style.transformOrigin = '50% ' + (t.parentElement.clientWidth / 2 - 4) + 'px'; });
+    const F = [['t', 'Short time', { hour: 'numeric', minute: '2-digit' }], ['T', 'Long time', { hour: 'numeric', minute: '2-digit', second: '2-digit' }], ['d', 'Short date', { month: '2-digit', day: '2-digit', year: 'numeric' }], ['D', 'Long date', { month: 'long', day: 'numeric', year: 'numeric' }], ['f', 'Date and time (default)', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }], ['F', 'Full date and time', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }], ['R', 'Relative', null]];
+    const rows = F.map(([l, n, o]) => { const r = h('div', null, null, 'fmt'); const left = h('div'); const code = h('div', null, '', 'code'); left.appendChild(code); left.appendChild(h('span', null, n, 'kind')); const pv = h('div', null, null, 'pv'); const pvs = h('span'); pv.appendChild(document.createTextNode('Raid starts ')); pv.appendChild(pvs); const b = h('button', null, 'Copy', 'copy'); b.type = 'button'; copyBtn(b, () => code.textContent, 'Copy', 'Copied'); r.append(left, pv, b); fmts.appendChild(r); return { l, o, code, pvs }; });
+    let unix = Math.floor(Date.now() / 1000), live = true;
+    const pad = n => String(n).padStart(2, '0');
+    const rel = u => { const d = u - Math.floor(Date.now() / 1000), a = Math.abs(d), rtf = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' }); for (const [s, n] of [[31536000, 'year'], [2592000, 'month'], [604800, 'week'], [86400, 'day'], [3600, 'hour'], [60, 'minute'], [1, 'second']]) if (a >= s || n === 'second') return rtf.format(Math.round(d / s), n); };
+    const parts = (d, tz) => { const p = {}; for (const x of new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false, weekday: 'short', day: '2-digit', month: 'short' }).formatToParts(d)) p[x.type] = x.value; return p; };
+    const setClocks = () => { const d = new Date(unix * 1000); clocks.forEach(c => { const p = parts(d, c.tz); const hr = parseInt(p.hour, 10) % 12, mi = parseInt(p.minute, 10), se = parseInt(p.second, 10); c.hh.style.transform = 'rotate(' + (hr * 30 + mi * 0.5) + 'deg)'; c.mm.style.transform = 'rotate(' + (mi * 6 + se * 0.1) + 'deg)'; c.ss.style.transform = 'rotate(' + (se * 6) + 'deg)'; c.ss.style.display = live ? '' : 'none'; c.dig.textContent = p.weekday + ' ' + p.day + ' ' + p.month + ' · ' + p.hour + ':' + p.minute; }); };
+    const render = () => { const d = new Date(unix * 1000); ux.value = unix; dt.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); rows.forEach(r => { r.code.textContent = '<t:' + unix + ':' + r.l + '>'; r.pvs.textContent = r.l === 'R' ? rel(unix) : new Intl.DateTimeFormat(undefined, r.o).format(d); }); setClocks(); };
+    const stopLive = () => { live = false; document.querySelectorAll('.dc-p').forEach(x => x.setAttribute('aria-pressed', 'false')); };
+    dt.addEventListener('input', () => { const d = new Date(dt.value); if (!isNaN(d)) { stopLive(); unix = Math.floor(d.getTime() / 1000); render(); } });
+    ux.addEventListener('input', () => { const v = parseInt(ux.value, 10); if (Number.isFinite(v)) { stopLive(); unix = v; render(); } });
+    document.querySelectorAll('.dc-p').forEach(c => c.addEventListener('click', () => { const now = new Date(); let d = new Date(now); live = c.dataset.p === 'now'; switch (c.dataset.p) { case 'hour': d.setHours(d.getHours() + 1); break; case 'tonight': d.setHours(20, 0, 0, 0); if (d < now) d.setDate(d.getDate() + 1); break; case 'tomorrow': d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); break; case 'week': d.setDate(d.getDate() + 7); break; } unix = Math.floor(d.getTime() / 1000); document.querySelectorAll('.dc-p').forEach(x => x.setAttribute('aria-pressed', String(x === c))); render(); }));
+    setInterval(() => { if (live) { unix = Math.floor(Date.now() / 1000); setClocks(); rows[6].pvs.textContent = rel(unix); rows.forEach(r => { r.code.textContent = '<t:' + unix + ':' + r.l + '>'; }); ux.value = unix; } else { rows[6].pvs.textContent = rel(unix); } }, 1000);
+    render();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-world="viewfinder">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspect Ratio Calculator - Resize Images and Video Without Distortion (16:9, 4:3, 1:1)</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Calculate an aspect ratio from any width and height, lock it and resize without distortion, and see the frame etched live on a camera viewfinder. Presets from 16:9 to anamorphic, common resolutions per ratio, CSS aspect-ratio and padding-top values. Nothing uploaded.">
+    <meta name="theme-color" content="#0e0f11">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/aspect-ratio-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Aspect Ratio Calculator - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Calculate an aspect ratio from any width and height, lock it and resize without distortion, and see the frame etched live on a camera viewfinder. Presets from 16:9 to anamorphic, common resolutions per ratio, CSS aspect-ratio and padding-top values. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/aspect-ratio-calculator/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Aspect Ratio Calculator - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Calculate an aspect ratio from any width and height, lock it and resize without distortion, and see the frame etched live on a camera viewfinder. Presets from 16:9 to anamorphic, common resolutions per ratio, CSS aspect-ratio and padding-top values. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+    <style>
+
+    :root { --body:#0e0f11; --housing:#1a1c20; --glass:#2a2e33; --etch:rgba(255,255,255,.78); --dim:rgba(255,255,255,.22); --led:#7dff9a; --amber:#ffb454; --text:#e8e9ec; --muted:#8b9099; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--body); color:var(--text); font-family:'Space Grotesk', system-ui, sans-serif; }
+    main { max-width:1100px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:500 11px 'JetBrains Mono', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(28px, 4.2vw, 42px)/1.05 'Space Grotesk', sans-serif; letter-spacing:-.01em; }
+    .lede { margin:12px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .rig { display:grid; grid-template-columns: 1.25fr 1fr; gap:26px; align-items:start; }
+    .finder { background:linear-gradient(180deg, #202329, #121417); border-radius:18px; padding:18px; box-shadow:0 30px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08); }
+    .screen { position:relative; aspect-ratio:3 / 2; background: radial-gradient(ellipse at 50% 45%, #3a3f46, var(--glass) 60%, #1d2024 100%); border-radius:10px; overflow:hidden; box-shadow: inset 0 0 0 2px #0a0b0d, inset 0 0 40px rgba(0,0,0,.6); }
+    .screen::after { content:''; position:absolute; inset:0; background: repeating-linear-gradient(45deg, rgba(255,255,255,.015) 0 2px, transparent 2px 5px); pointer-events:none; }
+    .mask { position:absolute; background:rgba(6,7,8,.62); transition: all .35s cubic-bezier(.2,.8,.2,1); }
+    .gate { position:absolute; border:1.5px solid var(--etch); box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 0 14px rgba(255,255,255,.12); transition: all .35s cubic-bezier(.2,.8,.2,1); }
+    .gate i { position:absolute; width:16px; height:16px; border-color:var(--etch); border-style:solid; border-width:0; }
+    .gate i:nth-child(1) { left:-2px; top:-2px; border-left-width:3px; border-top-width:3px; } .gate i:nth-child(2) { right:-2px; top:-2px; border-right-width:3px; border-top-width:3px; }
+    .gate i:nth-child(3) { left:-2px; bottom:-2px; border-left-width:3px; border-bottom-width:3px; } .gate i:nth-child(4) { right:-2px; bottom:-2px; border-right-width:3px; border-bottom-width:3px; }
+    .grid { position:absolute; inset:0; background-image: linear-gradient(to right, var(--dim) 1px, transparent 1px), linear-gradient(to bottom, var(--dim) 1px, transparent 1px); background-size: 33.333% 100%, 100% 33.333%; background-position: -1px 0, 0 -1px; opacity:.6; }
+    .circle { position:absolute; left:50%; top:50%; width:84px; height:84px; margin:-42px 0 0 -42px; border:1.5px solid var(--dim); border-radius:50%; }
+    .circle::before { content:''; position:absolute; left:8px; right:8px; top:50%; height:1px; background:var(--dim); }
+    .tag { position:absolute; left:12px; top:10px; font:500 11px 'JetBrains Mono', monospace; letter-spacing:.14em; color:var(--etch); text-shadow:0 0 6px rgba(0,0,0,.8); }
+    .readout { margin-top:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; padding:10px 14px; background:#0a0b0d; border-radius:8px; font:600 14px 'JetBrains Mono', monospace; color:var(--led); letter-spacing:.06em; text-shadow:0 0 8px rgba(125,255,154,.5); }
+    .readout .amber { color:var(--amber); text-shadow:0 0 8px rgba(255,180,84,.5); }
+    .panel { display:grid; gap:14px; }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .field label { display:block; font:500 11px 'JetBrains Mono', monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .field input { width:100%; padding:12px 14px; border:1px solid #33373d; border-radius:8px; background:var(--housing); color:var(--text); font:600 20px 'JetBrains Mono', monospace; outline:none; }
+    .field input:focus { border-color:var(--led); }
+    .keys { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .key { padding:9px 14px; border:1px solid #33373d; border-radius:8px; background:var(--housing); color:var(--text); font:500 13px 'Space Grotesk', sans-serif; cursor:pointer; }
+    .key[aria-pressed="true"] { border-color:var(--led); color:var(--led); }
+    .presets { display:grid; grid-template-columns:repeat(auto-fill, minmax(118px, 1fr)); gap:8px; }
+    .preset { text-align:left; padding:9px 11px; border:1px solid #33373d; border-radius:8px; background:var(--housing); color:var(--text); cursor:pointer; font-family:'Space Grotesk', sans-serif; }
+    .preset b { display:block; font:700 15px 'JetBrains Mono', monospace; }
+    .preset small { display:block; font-size:10.5px; color:var(--muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .preset[aria-pressed="true"] { border-color:var(--led); box-shadow:0 0 0 1px var(--led) inset; }
+    .out { background:var(--housing); border:1px solid #33373d; border-radius:10px; padding:12px 14px; display:grid; gap:8px; }
+    .out .line { display:flex; justify-content:space-between; gap:12px; align-items:center; font:400 13px 'JetBrains Mono', monospace; }
+    .out .line span:first-child { color:var(--muted); }
+    .out .line b { font-weight:600; color:var(--text); }
+    .out .line button { padding:4px 10px; font-size:11px; }
+    .sizes { margin-top:0; }
+    .sizes table { width:100%; border-collapse:collapse; font:400 13px 'JetBrains Mono', monospace; }
+    .sizes td { padding:6px 4px; border-top:1px solid #2a2e33; }
+    .sizes td:last-child { text-align:right; color:var(--muted); font-family:'Space Grotesk', sans-serif; }
+    .sizes tr.cur td { color:var(--led); }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:700 24px 'Space Grotesk', sans-serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:700; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; color:#c9cdd3; }
+    .notes details { border-top:1px solid #2a2e33; } .notes summary { cursor:pointer; padding:10px 0; font-weight:700; font-size:14px; }
+    .notes code { font:13px 'JetBrains Mono', monospace; background:#1f2226; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:500 11px 'JetBrains Mono', monospace; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--text); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 880px) { main { padding:26px 12px 56px; } .rig { grid-template-columns:1fr; } .finder { padding:12px; } .field input { font-size:18px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Viewfinder · ground glass · etched gate</p>
+      <h1>Aspect Ratio Calculator</h1>
+      <p class="lede">Type a width and a height and the gate is etched onto the screen at that ratio. Lock the ratio to resize without distortion, pick a preset, and read the common sizes and the CSS off the panel.</p>
+      <div class="rig">
+        <div>
+          <div class="finder">
+            <div class="screen" id="screen">
+              <div class="grid" aria-hidden="true"></div>
+              <div class="mask" id="m1"></div><div class="mask" id="m2"></div>
+              <div class="gate" id="gate"><i></i><i></i><i></i><i></i></div>
+              <div class="circle" aria-hidden="true"></div>
+              <span class="tag" id="tag">16:9</span>
+            </div>
+            <div class="readout"><span id="ro-size">1920 × 1080</span><span id="ro-ratio">16:9</span><span class="amber" id="ro-dec">1.778</span><span id="ro-orient">LANDSCAPE</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="row">
+            <div class="field"><label for="w">Width</label><input id="w" type="number" min="1" step="1" value="1920" inputmode="numeric"></div>
+            <div class="field"><label for="h">Height</label><input id="h" type="number" min="1" step="1" value="1080" inputmode="numeric"></div>
+          </div>
+          <div class="keys"><button type="button" class="key" id="lock" aria-pressed="true">Ratio locked</button><button type="button" class="key" id="swap">Swap</button><span style="color:var(--muted);font-size:13px">Locked: change one side, the other follows.</span></div>
+          <div class="presets" id="presets">
+          <button type="button" class="preset" data-w="16" data-h="9" aria-pressed="true" title="widescreen · HD, 4K"><b>16:9</b><small>widescreen · HD, 4K</small></button>
+          <button type="button" class="preset" data-w="4" data-h="3" aria-pressed="false" title="standard · early TV, iPad"><b>4:3</b><small>standard · early TV, iPad</small></button>
+          <button type="button" class="preset" data-w="1" data-h="1" aria-pressed="false" title="square · Instagram"><b>1:1</b><small>square · Instagram</small></button>
+          <button type="button" class="preset" data-w="3" data-h="2" aria-pressed="false" title="photo · 35 mm, APS-C"><b>3:2</b><small>photo · 35 mm, APS-C</small></button>
+          <button type="button" class="preset" data-w="9" data-h="16" aria-pressed="false" title="vertical · Stories, Reels"><b>9:16</b><small>vertical · Stories, Reels</small></button>
+          <button type="button" class="preset" data-w="21" data-h="9" aria-pressed="false" title="ultrawide"><b>21:9</b><small>ultrawide</small></button>
+          <button type="button" class="preset" data-w="2.39" data-h="1" aria-pressed="false" title="anamorphic scope"><b>2.39:1</b><small>anamorphic scope</small></button>
+          <button type="button" class="preset" data-w="5" data-h="4" aria-pressed="false" title="large format"><b>5:4</b><small>large format</small></button>
+          <button type="button" class="preset" data-w="2" data-h="3" aria-pressed="false" title="portrait photo"><b>2:3</b><small>portrait photo</small></button>
+          <button type="button" class="preset" data-w="4" data-h="5" aria-pressed="false" title="Instagram portrait"><b>4:5</b><small>Instagram portrait</small></button>
+          </div>
+          <div class="out">
+            <div class="line"><span>Ratio</span><b id="o-ratio">16:9</b></div>
+            <div class="line"><span>Decimal</span><b id="o-dec">1.7778 : 1</b></div>
+            <div class="line"><span>CSS</span><b id="o-css">aspect-ratio: 16 / 9;</b><button type="button" class="key cp" data-for="o-css">Copy</button></div>
+            <div class="line"><span>Padding hack</span><b id="o-pad">padding-top: 56.25%;</b><button type="button" class="key cp" data-for="o-pad">Copy</button></div>
+            <div class="line"><span>Fit width</span><span><input id="fit" type="number" min="1" value="1280" style="width:96px;padding:6px 8px;border:1px solid #33373d;border-radius:6px;background:#0a0b0d;color:var(--text);font:600 14px 'JetBrains Mono', monospace" aria-label="Fit to width"> → <b id="o-fit">1280 × 720</b></span></div>
+          </div>
+          <div class="sizes out"><div class="line"><span>Common sizes at this ratio</span></div><table id="sizes"></table></div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>Aspect ratio, without the distortion</h2>
+        <p>An aspect ratio is the shape of a frame: width to height, reduced to its smallest whole numbers. 1920 by 1080 is 16:9, and so is 1280 by 720, which is why a video made at one plays at the other without stretching. Resizing keeps the ratio when both sides are scaled by the same factor; this page does that arithmetic and shows the resulting frame etched on the viewfinder screen so you can see the shape, not just the numbers.</p>
+        <h3>The panel</h3>
+        <p>With the ratio locked, changing one dimension recalculates the other. Presets etch the common gates: 16:9 for screens, 4:3 for older video and tablets, 3:2 for photographs, 9:16 for vertical video, 21:9 and 2.39:1 for widescreen film. The CSS line is the modern <code>aspect-ratio</code> property; the padding-top line is the older trick for browsers that lack it, a percentage of the width that yields the right height.</p>
+        <h3>Why a viewfinder</h3>
+        <p>A camera's focusing screen is a ground-glass plate with lines etched into it: a grid for the horizon, and bracket marks showing the limits of a film format. Cameras that shot several formats had masks that changed those marks. The screen above works the same way: the etched gate is the ratio, the shaded area outside it is what the format would crop away.</p>
+        <details><summary>How do I calculate a ratio by hand?</summary><p>Divide both numbers by their greatest common divisor. 1920 and 1080 share 120, giving 16 and 9. For odd sizes the reduced form can be unwieldy (1366 by 768 reduces to 683:384), so the decimal, 1.78, is often the more useful figure.</p></details>
+        <details><summary>What is 2.39:1?</summary><p>The anamorphic widescreen ratio used by most feature films, sometimes written 2.35:1 or 2.40:1. On a 16:9 screen it shows as letterboxed bars top and bottom.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. It is arithmetic in your browser; no image is involved.</p></details>
+      </section>
+      <div class="foot"><span>Viewfinder · etched gate · 3:2 screen</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const W = $('w'), H = $('h'), lock = $('lock');
+    let locked = true, ratio = 16 / 9, lastEdited = 'w';
+    const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+    const fmt = (n) => Number.isInteger(n) ? String(n) : String(Math.round(n * 100) / 100);
+    const SIZES = { '16:9': [[640, 360], [854, 480], [1280, 720], [1920, 1080], [2560, 1440], [3840, 2160]], '4:3': [[640, 480], [800, 600], [1024, 768], [1600, 1200], [2048, 1536]], '1:1': [[256, 256], [512, 512], [1080, 1080], [2048, 2048]], '3:2': [[1080, 720], [1620, 1080], [3000, 2000], [6000, 4000]], '9:16': [[720, 1280], [1080, 1920], [1440, 2560], [2160, 3840]], '21:9': [[2560, 1080], [3440, 1440], [5120, 2160]], '5:4': [[1280, 1024], [2560, 2048]], '2:3': [[720, 1080], [1080, 1620], [2000, 3000]], '4:5': [[1080, 1350], [1600, 2000]] };
+    function reduced(w, h) { if (Number.isInteger(w) && Number.isInteger(h)) { const g = gcd(w, h); return [w / g, h / g]; } return [Math.round(w / h * 100) / 100, 1]; }
+    function draw() {
+      let w = parseFloat(W.value), h = parseFloat(H.value);
+      if (!(w > 0) || !(h > 0)) return;
+      const r = w / h, [rw, rh] = reduced(w, h);
+      const label = rw + ':' + rh;
+      const preset = [...document.querySelectorAll('.preset')].find((p) => Math.abs(parseFloat(p.dataset.w) / parseFloat(p.dataset.h) - r) < 0.002);
+      document.querySelectorAll('.preset').forEach((p) => p.setAttribute('aria-pressed', String(p === preset)));
+      const shown = preset ? preset.querySelector('b').textContent : (rw <= 100 && rh <= 100 ? label : (Math.round(r * 100) / 100) + ':1');
+      // etch the gate inside the 3:2 screen
+      const sw = 3 / 2;
+      let gw, gh;
+      if (r >= sw) { gw = 100; gh = (sw / r) * 100; } else { gh = 100; gw = (r / sw) * 100; }
+      const gx = (100 - gw) / 2, gy = (100 - gh) / 2;
+      const gate = $('gate'); gate.style.left = gx + '%'; gate.style.top = gy + '%'; gate.style.width = gw + '%'; gate.style.height = gh + '%';
+      const m1 = $('m1'), m2 = $('m2');
+      if (r >= sw) { m1.style.cssText = 'left:0;right:0;top:0;height:' + gy + '%'; m2.style.cssText = 'left:0;right:0;bottom:0;height:' + gy + '%'; }
+      else { m1.style.cssText = 'top:0;bottom:0;left:0;width:' + gx + '%'; m2.style.cssText = 'top:0;bottom:0;right:0;width:' + gx + '%'; }
+      $('tag').textContent = shown;
+      $('ro-size').textContent = fmt(w) + ' \u00d7 ' + fmt(h); $('ro-ratio').textContent = shown; $('ro-dec').textContent = (Math.round(r * 1000) / 1000).toFixed(3); $('ro-orient').textContent = r > 1.02 ? 'LANDSCAPE' : r < 0.98 ? 'PORTRAIT' : 'SQUARE';
+      $('o-ratio').textContent = label; $('o-dec').textContent = (Math.round(r * 10000) / 10000) + ' : 1';
+      $('o-css').textContent = 'aspect-ratio: ' + rw + ' / ' + rh + ';'; $('o-pad').textContent = 'padding-top: ' + (Math.round(h / w * 10000) / 100) + '%;';
+      const fit = parseFloat($('fit').value) || 0; $('o-fit').textContent = fit > 0 ? fmt(fit) + ' \u00d7 ' + fmt(Math.round(fit / r)) : '-';
+      const table = $('sizes'); clear(table);
+      const list = SIZES[label] || SIZES[shown] || [];
+      const rows = list.length ? list : [[Math.round(w), Math.round(h)]];
+      rows.forEach(([a, b]) => { const tr = document.createElement('tr'); if (a === Math.round(w) && b === Math.round(h)) tr.className = 'cur'; const td1 = document.createElement('td'); td1.textContent = a + ' \u00d7 ' + b; const td2 = document.createElement('td'); td2.textContent = a * b >= 8000000 ? (Math.round(a * b / 100000) / 10) + ' MP' : a >= 3840 ? '4K' : a >= 2560 || b >= 2560 ? 'QHD' : a >= 1920 || b >= 1920 ? 'Full HD' : a >= 1280 || b >= 1280 ? 'HD' : 'SD'; tr.appendChild(td1); tr.appendChild(td2); table.appendChild(tr); });
+      if (!list.length) { const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 2; td.textContent = 'No standard sizes for this ratio; scale by any factor.'; tr.appendChild(td); table.appendChild(tr); }
+    }
+    W.addEventListener('input', () => { lastEdited = 'w'; const w = parseFloat(W.value); if (locked && w > 0) H.value = fmt(Math.round(w / ratio)); else if (w > 0 && parseFloat(H.value) > 0) ratio = w / parseFloat(H.value); draw(); });
+    H.addEventListener('input', () => { lastEdited = 'h'; const h = parseFloat(H.value); if (locked && h > 0) W.value = fmt(Math.round(h * ratio)); else if (h > 0 && parseFloat(W.value) > 0) ratio = parseFloat(W.value) / h; draw(); });
+    $('fit').addEventListener('input', draw);
+    lock.addEventListener('click', () => { locked = !locked; lock.setAttribute('aria-pressed', String(locked)); lock.textContent = locked ? 'Ratio locked' : 'Ratio free'; if (locked) ratio = parseFloat(W.value) / parseFloat(H.value); });
+    $('swap').addEventListener('click', () => { const w = W.value; W.value = H.value; H.value = w; ratio = parseFloat(W.value) / parseFloat(H.value); draw(); });
+    document.querySelectorAll('.preset').forEach((p) => p.addEventListener('click', () => { const pw = parseFloat(p.dataset.w), ph = parseFloat(p.dataset.h); ratio = pw / ph; const exact = Number.isInteger(pw) && Number.isInteger(ph); if (lastEdited === 'h') { let hv = parseFloat(H.value) || 1080; if (exact) hv = Math.max(ph, Math.round(hv / ph) * ph); H.value = fmt(hv); W.value = fmt(exact ? hv * pw / ph : Math.round(hv * ratio)); } else { let wv = parseFloat(W.value) || 1920; if (exact) wv = Math.max(pw, Math.round(wv / pw) * pw); W.value = fmt(wv); H.value = fmt(exact ? wv * ph / pw : Math.round(wv / ratio)); } draw(); }));
+    document.querySelectorAll('.cp').forEach((b) => copyBtn(b, () => $(b.dataset.for).textContent, 'Copy'));
+    draw();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

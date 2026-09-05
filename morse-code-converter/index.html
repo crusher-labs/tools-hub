@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-world="telegraph-desk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Converter - Text to Morse and Morse to Text, Played Aloud</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert text to Morse code and Morse back to text on a telegraph desk: type the telegram, read the tape, and press Play to hear the key tap it out at real Morse timing with adjustable speed and tone. Full alphabet, digits and punctuation. Nothing uploaded.">
+    <meta name="theme-color" content="#1c1611">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/morse-code-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Morse Code Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert text to Morse code and Morse back to text on a telegraph desk: type the telegram, read the tape, and press Play to hear the key tap it out at real Morse timing with adjustable speed and tone. Full alphabet, digits and punctuation. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/morse-code-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Morse Code Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert text to Morse code and Morse back to text on a telegraph desk: type the telegram, read the tape, and press Play to hear the key tap it out at real Morse timing with adjustable speed and tone. Full alphabet, digits and punctuation. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --desk:#1c1611; --wood:#2b2018; --paper:#e9dcb8; --paper2:#d9c99a; --ink:#2b2420; --stamp:#8a2b1e; --brass:#c9a24d; --brass2:#7a5a1e; --muted:#a8977a; --text:#efe6d2; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); font-family:'Public Sans', system-ui, sans-serif; background-color:var(--desk); background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 2px, transparent 2px 9px), radial-gradient(ellipse at 50% 0%, #3a2c1f, var(--desk) 70%); }
+    main { max-width:1080px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:400 11px 'Special Elite', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:400 clamp(28px, 4.4vw, 44px)/1.1 'Special Elite', monospace; color:#f5ead0; }
+    .lede { margin:12px 0 24px; max-width:62ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .blank { background:linear-gradient(180deg, var(--paper), var(--paper2)); color:var(--ink); padding:18px 22px 16px; box-shadow:0 18px 36px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.1); position:relative; border-radius:2px; }
+    .blank::after { content:''; position:absolute; inset:8px; border:1px solid rgba(0,0,0,.18); pointer-events:none; }
+    .head { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:10px; border-bottom:2px solid var(--ink); padding-bottom:8px; }
+    .head h2 { margin:0; font:400 clamp(26px, 5vw, 44px)/1 'Special Elite', monospace; letter-spacing:.2em; text-transform:uppercase; }
+    .head small { display:block; font:400 9.5px 'Special Elite', monospace; letter-spacing:.14em; text-transform:uppercase; color:#5a4e44; margin-top:4px; }
+    .cls { border:1px solid var(--ink); padding:6px 10px; font:400 9.5px 'Special Elite', monospace; letter-spacing:.12em; text-transform:uppercase; line-height:1.5; }
+    .cls b { display:block; font-weight:400; border-bottom:1px solid var(--ink); margin-bottom:3px; }
+    .boxes { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); margin-top:10px; border:1px solid var(--ink); }
+    .boxes div { padding:5px 8px; border-right:1px solid var(--ink); font:400 9px 'Special Elite', monospace; letter-spacing:.12em; text-transform:uppercase; color:#5a4e44; }
+    .boxes div:last-child { border-right:0; }
+    .boxes i { display:block; font-style:normal; font-size:14px; color:var(--ink); letter-spacing:.04em; margin-top:2px; }
+    .lab { margin:14px 0 4px; font:400 10px 'Special Elite', monospace; letter-spacing:.2em; text-transform:uppercase; color:#5a4e44; }
+    textarea { width:100%; resize:vertical; border:0; background:transparent; color:var(--ink); outline:none; padding:6px 0; }
+    #text { min-height:96px; font:20px/30px 'Special Elite', monospace; text-transform:uppercase; background:repeating-linear-gradient(180deg, transparent 0 29px, rgba(0,0,0,.28) 29px 30px); background-attachment:local; }
+    #morse { min-height:64px; font:16px/26px 'Special Elite', monospace; letter-spacing:.06em; background:repeating-linear-gradient(180deg, transparent 0 25px, rgba(0,0,0,.2) 25px 26px); background-attachment:local; }
+    .meta { margin:6px 0 0; font:400 11px 'Special Elite', monospace; color:#5a4e44; min-height:1.2em; }
+    .stamp { position:absolute; right:40px; top:196px; transform:rotate(-9deg); border:2px solid var(--stamp); color:var(--stamp); padding:4px 10px; font:400 11px 'Special Elite', monospace; letter-spacing:.2em; text-transform:uppercase; opacity:.8; border-radius:3px; }
+    .tape { margin-top:16px; background:#f1e7c8; border-top:1px solid rgba(0,0,0,.25); border-bottom:1px solid rgba(0,0,0,.25); padding:12px 14px; min-height:44px; display:flex; flex-wrap:wrap; align-items:center; gap:0 14px; row-gap:8px; box-shadow:inset 0 6px 10px rgba(0,0,0,.08); }
+    .tape .lt { display:inline-flex; gap:4px; align-items:center; padding:4px 3px; border-radius:3px; }
+    .tape .lt.cur { background:var(--brass); }
+    .tape .dot { width:8px; height:8px; border-radius:50%; background:var(--ink); }
+    .tape .dash { width:22px; height:8px; border-radius:4px; background:var(--ink); }
+    .tape .gap { width:14px; }
+    .tape .unk { font:400 12px 'Special Elite', monospace; color:var(--stamp); }
+    .tape .empty { font:400 12px 'Special Elite', monospace; color:#7a6a58; }
+    .desk { margin-top:22px; display:grid; grid-template-columns: 300px 1fr; gap:22px; align-items:center; }
+    .instrument { background:linear-gradient(180deg, #3a2a1c, #241a12); border:1px solid #4a3828; border-radius:6px; padding:12px; box-shadow:0 12px 24px rgba(0,0,0,.45); }
+    .instrument svg { display:block; width:100%; height:auto; }
+    .lever { transform-origin:118px 62px; transition: transform .04s linear; }
+    .lever.down { transform:rotate(4deg); }
+    .lamp { fill:#4a1a12; transition: fill .05s; }
+    .lamp.on { fill:#ff4d3a; filter:drop-shadow(0 0 6px rgba(255,77,58,.9)); }
+    .controls { display:grid; gap:12px; }
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .key { padding:9px 16px; border:1px solid var(--brass2); border-radius:3px; background:transparent; color:var(--text); font:600 13px 'Public Sans', sans-serif; cursor:pointer; }
+    .key:hover { background:rgba(201,162,77,.15); }
+    .key.go { background:var(--brass); border-color:var(--brass); color:#241a12; }
+    .key[disabled] { opacity:.5; cursor:default; }
+    .knob { display:flex; flex-direction:column; gap:4px; font:400 11px 'Special Elite', monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+    .knob input[type="range"] { width:180px; accent-color:var(--brass); }
+    .knob output { color:var(--text); font:600 13px 'Public Sans', sans-serif; letter-spacing:0; text-transform:none; }
+    .alpha { margin-top:40px; }
+    .alpha summary { cursor:pointer; font:400 13px 'Special Elite', monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); }
+    .grid { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:6px; }
+    .cell { display:flex; justify-content:space-between; gap:8px; padding:7px 10px; background:rgba(255,255,255,.04); border:1px solid #4a3828; border-radius:3px; font:16px 'Special Elite', monospace; }
+    .cell span:last-child { letter-spacing:.1em; color:var(--brass); }
+    .notes { margin-top:40px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:400 24px 'Special Elite', monospace; color:#f5ead0; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; color:#d8ccb2; }
+    .notes details { border-top:1px solid #4a3828; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; color:var(--text); }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:400 11px 'Special Elite', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:#f5ead0; white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 760px) { main { padding:26px 12px 56px; } .blank { padding:14px 12px 12px; } .boxes { grid-template-columns:1fr 1fr; } .boxes div:nth-child(2) { border-right:0; } .boxes div:nth-child(-n+2) { border-bottom:1px solid var(--ink); } .desk { grid-template-columns:1fr; } .instrument { max-width:320px; } .stamp { top:auto; bottom:12px; right:12px; font-size:9px; } #text { font-size:17px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Telegraph office · straight key · sounder</p>
+      <h1>Morse Code Converter</h1>
+      <p class="lede">Type the telegram and the tape fills with dots and dashes; paste Morse on the tape and the telegram is written out. Press Play and the key taps it out at real Morse timing.</p>
+      <div class="blank">
+        <div class="head"><div><h2>Telegram</h2><small>Send the following message, subject to the terms on back, which are hereby agreed to</small></div><div class="cls"><b>Class of service</b>Straight key · sounder</div></div>
+        <div class="boxes"><div>No. of words<i id="words">0</i></div><div>Check<i id="check">0 chars</i></div><div>Time filed<i id="filed"></i></div><div>Received at<i>your browser</i></div></div>
+        <span class="stamp" id="stamp">Sent</span>
+        <p class="lab"><label for="text">Message</label></p>
+        <textarea id="text" spellcheck="false" placeholder="TYPE THE MESSAGE HERE" aria-label="Message text">What hath God wrought</textarea>
+        <p class="lab"><label for="morse">Morse (edit here to decode)</label></p>
+        <textarea id="morse" spellcheck="false" placeholder="... --- ..." aria-label="Morse code"></textarea>
+        <p class="meta" id="meta"></p>
+      </div>
+      <div class="tape" id="tape" aria-hidden="true"></div>
+      <div class="desk">
+        <div class="instrument" aria-hidden="true">
+          <svg viewBox="0 0 300 130">
+            <rect x="8" y="96" width="284" height="26" rx="4" fill="#5b3f27" stroke="#3a281a"/>
+            <rect x="20" y="88" width="180" height="12" rx="3" fill="#8a6a24"/>
+            <rect x="34" y="66" width="10" height="24" fill="#b08a34"/>
+            <rect x="26" y="60" width="26" height="8" rx="2" fill="#c9a24d"/>
+            <g id="lever" class="lever"><rect x="40" y="58" width="150" height="8" rx="3" fill="#d1ab55" stroke="#7a5a1e"/><circle cx="190" cy="62" r="14" fill="#161210" stroke="#3a3330" stroke-width="2"/><rect x="110" y="66" width="16" height="22" fill="#c9a24d"/></g>
+            <rect x="106" y="86" width="24" height="6" fill="#7a5a1e"/>
+            <rect x="222" y="40" width="58" height="50" rx="4" fill="#24201c" stroke="#3a3330"/>
+            <rect x="230" y="30" width="42" height="16" rx="3" fill="#8a6a24"/>
+            <circle id="lamp" class="lamp" cx="251" cy="66" r="12"/>
+            <text x="251" y="112" text-anchor="middle" font-family="Special Elite, monospace" font-size="8" fill="#c9a24d" letter-spacing="1">SOUNDER</text>
+            <text x="112" y="112" text-anchor="middle" font-family="Special Elite, monospace" font-size="8" fill="#c9a24d" letter-spacing="1">STRAIGHT KEY</text>
+          </svg>
+        </div>
+        <div class="controls">
+          <div class="row"><button type="button" class="key go" id="play">Play the message</button><button type="button" class="key" id="stop" disabled>Stop</button><button type="button" class="key" id="copy-morse">Copy Morse</button><button type="button" class="key" id="copy-text">Copy text</button><button type="button" class="key" id="clear">Clear</button></div>
+          <div class="row"><label class="knob">Speed <input id="wpm" type="range" min="5" max="35" value="15"><output id="wpm-out">15 wpm</output></label><label class="knob">Tone <input id="hz" type="range" min="400" max="1000" step="10" value="700"><output id="hz-out">700 Hz</output></label></div>
+        </div>
+      </div>
+      <details class="alpha"><summary>The Morse alphabet</summary><div id="table" class="grid"></div></details>
+      <section class="notes">
+        <h2>Text to Morse, Morse to text</h2>
+        <p>International Morse code writes every letter, digit and common punctuation mark as a pattern of short and long signals: dots and dashes on paper, dits and dahs by ear. This page converts both ways as you type. Letters are separated by a space and words by a slash, the usual written form, and the tape below the form draws the same message the way a Morse register inked it.</p>
+        <h3>Timing</h3>
+        <p>Everything is measured in dots. A dash is three dots long, the gap inside a letter is one dot, the gap between letters three and between words seven. Speed is set in words per minute using the standard word PARIS, so at 15 wpm a dot lasts 80 milliseconds. Play uses those exact ratios; the key presses and the sounder lamp flashes with each element.</p>
+        <h3>Why a telegraph desk</h3>
+        <p>Morse was made for the wire. An operator wrote the message on a telegram blank, sent it with a straight key, and the office at the other end heard it on a sounder and wrote it down. The first public message, "What hath God wrought", went from Washington to Baltimore in 1844.</p>
+        <details><summary>How do I decode Morse I have received?</summary><p>Type or paste it into the Morse line on the form: dots and dashes (underscores and bullets work too), one space between letters, a slash or three spaces between words. The message line fills in; unknown groups show as #.</p></details>
+        <details><summary>What characters are supported?</summary><p>A to Z, 0 to 9 and . , ? ' ! / ( ) &amp; : ; = + - _ " $ @. Accented letters are converted to their plain form; anything else is skipped and counted under the form.</p></details>
+        <details><summary>Why does Play need a click?</summary><p>Browsers only allow sound after you interact with the page. Press Play once and it will keep working.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The whole desk runs in your browser, sound included.</p></details>
+      </section>
+      <div class="foot"><span>Telegraph desk · PARIS timing</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const M = { A: '.-', B: '-...', C: '-.-.', D: '-..', E: '.', F: '..-.', G: '--.', H: '....', I: '..', J: '.---', K: '-.-', L: '.-..', M: '--', N: '-.', O: '---', P: '.--.', Q: '--.-', R: '.-.', S: '...', T: '-', U: '..-', V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-', '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.', '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.' };
+    const R = {}; Object.keys(M).forEach((k) => { R[M[k]] = k; });
+    const text = $('text'), morse = $('morse'), tape = $('tape'), meta = $('meta'), lever = $('lever'), lamp = $('lamp');
+    let source = 'text', skipped = 0;
+    const plain = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    function encode(s) {
+      skipped = 0;
+      return plain(s).toUpperCase().split(/\s+/).filter(Boolean).map((w) => Array.from(w).map((c) => { if (M[c]) return M[c]; skipped++; return null; }).filter(Boolean).join(' ')).filter(Boolean).join(' / ');
+    }
+    const norm = (s) => s.replace(/[\u2022\u00b7]/g, '.').replace(/[_\u2013\u2014\u2212]/g, '-');
+    function decode(s) {
+      return norm(s).trim().split(/\s*\/\s*|\s{3,}|\n+/).filter((w) => w.trim()).map((w) => w.trim().split(/\s+/).map((g) => R[g] || '#').join('')).join(' ');
+    }
+    function drawTape(ms) {
+      clear(tape);
+      const words = norm(ms).trim().split(/\s*\/\s*|\s{3,}|\n+/).filter((w) => w.trim());
+      if (!words.length) { tape.appendChild(h('span', null, 'The tape is blank.', 'empty')); return; }
+      words.forEach((w, wi) => {
+        w.trim().split(/\s+/).forEach((g) => {
+          const lt = h('span', null, null, 'lt');
+          if (!/^[.-]+$/.test(g)) lt.appendChild(h('span', null, g, 'unk'));
+          else for (const c of g) lt.appendChild(h('i', null, null, c === '.' ? 'dot' : 'dash'));
+          tape.appendChild(lt);
+        });
+        if (wi < words.length - 1) tape.appendChild(h('span', null, null, 'gap'));
+      });
+    }
+    function stats() {
+      const t = text.value.trim();
+      const words = t ? t.split(/\s+/).length : 0;
+      $('words').textContent = String(words);
+      $('check').textContent = t.length + ' chars';
+      meta.textContent = (source === 'text' && skipped ? skipped + (skipped === 1 ? ' character has' : ' characters have') + ' no Morse and was skipped. ' : '') + (morse.value.trim() ? morse.value.trim().split(/\s*\/\s*|\s{3,}|\n+/).filter((w) => w.trim()).length + ' words on the tape' : '');
+    }
+    text.addEventListener('input', () => { source = 'text'; morse.value = encode(text.value); drawTape(morse.value); stats(); });
+    morse.addEventListener('input', () => { source = 'morse'; skipped = 0; text.value = decode(morse.value); drawTape(morse.value); stats(); });
+    const now = new Date(); $('filed').textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    // sound
+    let ctx = null, timers = [], gainNode = null, osc = null;
+    const wpm = $('wpm'), hz = $('hz');
+    wpm.addEventListener('input', () => { $('wpm-out').textContent = wpm.value + ' wpm'; });
+    hz.addEventListener('input', () => { $('hz-out').textContent = hz.value + ' Hz'; if (osc) osc.frequency.value = Number(hz.value); });
+    function schedule(ms) {
+      const unit = 1200 / Number(wpm.value); const els = []; let t = 0, li = 0;
+      const words = norm(ms).trim().split(/\s*\/\s*|\s{3,}|\n+/).filter((w) => w.trim());
+      words.forEach((w, wi) => {
+        const letters = w.trim().split(/\s+/);
+        letters.forEach((g, gi) => {
+          if (/^[.-]+$/.test(g)) { Array.from(g).forEach((c, ci) => { const d = c === '.' ? unit : unit * 3; els.push({ t, d, li }); t += d + (ci < g.length - 1 ? unit : 0); }); }
+          li++;
+          if (gi < letters.length - 1) t += unit * 3;
+        });
+        if (wi < words.length - 1) t += unit * 7;
+      });
+      return { els, total: t };
+    }
+    function stop() {
+      timers.forEach(clearTimeout); timers = [];
+      if (gainNode) { try { gainNode.gain.cancelScheduledValues(0); gainNode.gain.value = 0; } catch (e) {} }
+      if (osc) { try { osc.stop(); } catch (e) {} osc = null; }
+      lever.classList.remove('down'); lamp.classList.remove('on');
+      tape.querySelectorAll('.lt.cur').forEach((x) => x.classList.remove('cur'));
+      $('play').disabled = false; $('stop').disabled = true;
+    }
+    async function play() {
+      stop();
+      const { els, total } = schedule(morse.value);
+      if (!els.length) return;
+      try {
+        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === 'suspended') await ctx.resume();
+        osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = Number(hz.value);
+        gainNode = ctx.createGain(); gainNode.gain.value = 0; osc.connect(gainNode); gainNode.connect(ctx.destination); osc.start();
+        const t0 = ctx.currentTime + 0.08;
+        els.forEach((e) => { const a = t0 + e.t / 1000, b = t0 + (e.t + e.d) / 1000; gainNode.gain.setValueAtTime(0, a); gainNode.gain.linearRampToValueAtTime(0.35, a + 0.004); gainNode.gain.setValueAtTime(0.35, b - 0.004); gainNode.gain.linearRampToValueAtTime(0, b); });
+      } catch (e) { meta.textContent = 'Sound is not available here; the key still moves.'; }
+      const lts = tape.querySelectorAll('.lt');
+      els.forEach((e) => {
+        timers.push(setTimeout(() => { lever.classList.add('down'); lamp.classList.add('on'); lts.forEach((x, i) => x.classList.toggle('cur', i === e.li)); }, 80 + e.t));
+        timers.push(setTimeout(() => { lever.classList.remove('down'); lamp.classList.remove('on'); }, 80 + e.t + e.d));
+      });
+      timers.push(setTimeout(stop, 80 + total + 150));
+      $('play').disabled = true; $('stop').disabled = false;
+    }
+    $('play').addEventListener('click', play);
+    $('stop').addEventListener('click', stop);
+    copyBtn($('copy-morse'), () => morse.value, 'Copy Morse');
+    copyBtn($('copy-text'), () => text.value, 'Copy text');
+    $('clear').addEventListener('click', () => { stop(); text.value = ''; morse.value = ''; drawTape(''); stats(); text.focus(); });
+    const table = $('table');
+    Object.keys(M).forEach((k) => { const c = h('div', null, null, 'cell'); c.appendChild(h('span', null, k)); c.appendChild(h('span', null, M[k])); table.appendChild(c); });
+    morse.value = encode(text.value); drawTape(morse.value); stats();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

@@ -5,8 +5,9 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
-const workspaceRoot = resolve(repoRoot, '..');
-const utilityToolsRoot = join(workspaceRoot, 'utility-tools');
+// Tools are subdirectories of this repo (one Pages site, one host). Anything
+// that is not a tool directory is listed here.
+const NON_TOOL_DIRS = new Set(['scripts', 'node_modules', '.git', '.github']);
 const TARGET_VERSION = '1.2.1';
 const KNOWN_CATEGORIES = new Set(['text', 'design', 'media', 'security', 'time']);
 
@@ -33,7 +34,10 @@ assert(tools.length > 0, 'tools.json must contain at least one tool');
 assert(cname.trim() === 'tools.muhammadhassaanjaved.com', 'CNAME must match the public tools domain');
 
 assertStaticContract('tools-hub/index.html', hubHtml);
-assert(hubHtml.includes("fetch('./tools.json'"), 'index.html must load tools.json');
+// The catalog must be STATIC in the HTML. It used to be built client-side from
+// tools.json, which left no crawlable link to any tool: Google never indexed one
+// of them in four months. Never let that regress.
+assert(!hubHtml.includes("fetch('./tools.json'"), 'index.html must NOT build its catalog at runtime; run scripts/render-catalog.mjs');
 
 const names = new Set();
 const urls = new Set();
@@ -48,30 +52,39 @@ for (const [index, tool] of tools.entries()) {
 
   const url = new URL(tool.url);
   assert(url.protocol === 'https:', `${tool.name} URL must use https`);
-  assert(url.hostname === 'crusher-labs.github.io', `${tool.name} URL must stay under crusher-labs.github.io for simple public tools`);
-  assert(url.pathname !== '/', `${tool.name} URL must include a repo path`);
+  assert(url.hostname === 'tools.muhammadhassaanjaved.com', `${tool.name} URL must sit on the tools host, not a third-party domain`);
+  assert(url.pathname !== '/', `${tool.name} URL must include a tool path`);
   assert(!names.has(tool.name), `duplicate tool name: ${tool.name}`);
   assert(!urls.has(tool.url), `duplicate tool URL: ${tool.url}`);
   names.add(tool.name);
   urls.add(tool.url);
 }
 
+// Every catalog entry needs a real, crawlable <a href> in the hub HTML, and the
+// hub needs a link out to each tool for discovery to work at all.
+for (const tool of tools) {
+  const path = new URL(tool.url).pathname;
+  assert(hubHtml.includes(`href="${path}"`), `index.html has no static link to ${path} (run scripts/render-catalog.mjs)`);
+}
+const staticLinks = (hubHtml.match(/class="crusher-tool-card hub-card"/g) || []).length;
+assert(staticLinks === tools.length, `index.html has ${staticLinks} tool cards but tools.json lists ${tools.length}`);
+
 // ---- Workspace-wide utility-tools audit ------------------------------------
 
 let toolsAudited = 0;
 try {
-  const entries = await readdir(utilityToolsRoot, { withFileTypes: true });
+  const entries = await readdir(repoRoot, { withFileTypes: true });
   for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const toolDir = join(utilityToolsRoot, entry.name);
+    if (!entry.isDirectory() || NON_TOOL_DIRS.has(entry.name) || entry.name.startsWith('.')) continue;
+    const toolDir = join(repoRoot, entry.name);
     const indexPath = join(toolDir, 'index.html');
     try {
       const html = await readFile(indexPath, 'utf8');
-      assertStaticContract(`utility-tools/${entry.name}/index.html`, html);
+      assertStaticContract(`${entry.name}/index.html`, html);
       toolsAudited += 1;
     } catch (err) {
       if (err.code === 'ENOENT') {
-        softAssert(`utility-tools/${entry.name}`, false, 'missing index.html');
+        softAssert(entry.name, false, 'missing index.html');
       } else {
         throw err;
       }
@@ -82,28 +95,17 @@ try {
       if (!sub.isDirectory() || sub.name.startsWith('.') || sub.name === 'scripts') continue;
       try {
         const html = await readFile(join(toolDir, sub.name, 'index.html'), 'utf8');
-        assertStaticContract(`utility-tools/${entry.name}/${sub.name}/index.html`, html);
+        assertStaticContract(`${entry.name}/${sub.name}/index.html`, html);
       } catch (err) {
         if (err.code !== 'ENOENT') throw err;
       }
     }
-    // SEO discovery files
-    for (const seoFile of ['sitemap.xml', 'robots.txt']) {
-      try {
-        await stat(join(toolDir, seoFile));
-      } catch (err) {
-        if (err.code === 'ENOENT') {
-          softAssert(`utility-tools/${entry.name}`, false, `missing ${seoFile}`);
-        } else throw err;
-      }
-    }
   }
 } catch (err) {
-  if (err.code !== 'ENOENT') throw err;
-  softAssert('utility-tools', false, `directory not found at ${utilityToolsRoot} - a hub-only checkout cannot validate the tools (CI must clone them first)`);
+  throw err;
 }
 softAssert(
-  'utility-tools',
+  'tools',
   toolsAudited === tools.length,
   `audited ${toolsAudited} tool page(s) but the catalog lists ${tools.length} - the fleet was NOT fully validated`
 );
@@ -118,11 +120,11 @@ for (const seoFile of ['sitemap.xml', 'robots.txt']) {
 
 if (errors.length > 0) {
   for (const e of errors) console.error(e);
-  throw new Error(`[tools-hub] ${errors.length} static-contract violation(s) across hub + utility-tools`);
+  throw new Error(`[tools-hub] ${errors.length} static-contract violation(s) across hub + tools`);
 }
 
 console.log(`[tools-hub] ${tools.length} catalog entries validated`);
-console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} utility-tool(s)`);
+console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} tool page(s)`);
 
 // ---- Helpers ---------------------------------------------------------------
 
@@ -135,7 +137,7 @@ function assertStaticContract(label, html) {
   // legacy shell page and keeps the original contract below.
   const world = html.match(/<html[^>]*\sdata-world="([^"]+)"/);
   if (world) {
-    must(label.startsWith('utility-tools/'), 'only tool pages may be world pages; the hub keeps the kit shell');
+    must(label !== 'tools-hub/index.html', 'only tool pages may be world pages; the hub keeps the kit shell');
     must(!html.includes('crusher-ui-kit@'), `world page "${world[1]}" must not load crusher-ui-kit (worlds own their CSS)`);
     must(!html.includes('<crusher-style-switcher'), 'world pages have no style switcher (a world has a mode)');
     must(html.includes('<meta name="viewport"'), 'must declare the viewport meta');

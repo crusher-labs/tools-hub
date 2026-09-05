@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-world="passport-control">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Decoder - Decode, Inspect and Verify JSON Web Tokens in Your Browser</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Paste a JSON Web Token and read it like a passport: header, every claim with its date, the expiry stamped in red or green, the machine-readable strip, and optional signature verification with an HS secret or an RS/ES public key. Nothing leaves your browser.">
+    <meta name="theme-color" content="#e6e3dc">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/jwt-decoder/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="JWT Decoder - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Paste a JSON Web Token and read it like a passport: header, every claim with its date, the expiry stamped in red or green, the machine-readable strip, and optional signature verification with an HS secret or an RS/ES public key. Nothing leaves your browser.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/jwt-decoder/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JWT Decoder - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Paste a JSON Web Token and read it like a passport: header, every claim with its date, the expiry stamped in red or green, the machine-readable strip, and optional signature verification with an HS secret or an RS/ES public key. Nothing leaves your browser.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --desk:#e6e3dc; --cover:#1f2f5c; --page:#f4efe2; --ink:#1e1c1a; --muted:#6c675f; --red:#b3261e; --green:#1d7a3d; --grey:#6c675f; --line:#cfc8b8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--desk); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(28px, 4.2vw, 42px)/1.05 'Libre Baskerville', Georgia, serif; }
+    .lede { margin:12px 0 22px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .booklet { display:grid; grid-template-columns:1fr 1fr; background:var(--cover); padding:12px; border-radius:8px; gap:6px; box-shadow:0 24px 50px rgba(0,0,0,.28); }
+    .pg { background:var(--page); background-image: repeating-radial-gradient(circle at 30% 20%, rgba(31,47,92,.05) 0 2px, transparent 2px 7px), repeating-radial-gradient(circle at 80% 90%, rgba(179,38,30,.04) 0 2px, transparent 2px 9px); padding:18px 20px 16px; position:relative; min-height:360px; border-radius:2px; }
+    .pg.left { border-radius:6px 2px 2px 6px; box-shadow: inset -12px 0 20px rgba(0,0,0,.08); }
+    .pg.right { border-radius:2px 6px 6px 2px; box-shadow: inset 12px 0 20px rgba(0,0,0,.08); }
+    .ph { display:flex; justify-content:space-between; align-items:baseline; font:700 10px 'Share Tech Mono', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--cover); border-bottom:1px solid var(--line); padding-bottom:6px; margin-bottom:12px; }
+    .data { display:grid; grid-template-columns: 96px 1fr 1fr; gap:10px 14px; }
+    .photo { width:96px; height:120px; background:linear-gradient(180deg, #d9d2c2, #c5bca8); border:1px solid #a9a191; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; grid-row: span 3; }
+    .photo svg { width:80px; height:96px; }
+    .f b { display:block; font:400 8.5px 'Share Tech Mono', monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+    .f span { display:block; font:700 13px 'Libre Baskerville', Georgia, serif; overflow-wrap:break-word; hyphens:auto; }
+    .f span.mono { font:400 12px 'Share Tech Mono', monospace; }
+    .f.wide { grid-column: 2 / -1; }
+    .mrz { margin-top:14px; padding:8px 6px; background:#fbf8f0; border-top:1px dashed var(--line); font:400 12.5px/1.6 'Share Tech Mono', monospace; letter-spacing:.06em; white-space:pre; overflow:hidden; color:#2a2622; }
+    .stamps { min-height:130px; position:relative; }
+    .stamp { display:inline-block; border:3px solid var(--grey); color:var(--grey); padding:8px 12px; font:700 12px 'Share Tech Mono', monospace; letter-spacing:.2em; text-transform:uppercase; border-radius:4px; background:rgba(255,255,255,.35); transform:rotate(-6deg); margin:10px 8px 6px 4px; }
+    .stamp b { display:block; font-size:16px; letter-spacing:.14em; }
+    .stamp small { display:block; font-size:10px; letter-spacing:.1em; margin-top:4px; text-transform:none; }
+    .stamp.red { border-color:var(--red); color:var(--red); } .stamp.green { border-color:var(--green); color:var(--green); } .stamp.blue { border-color:var(--cover); color:var(--cover); transform:rotate(4deg); }
+    .stamp.thump { animation: thump .45s cubic-bezier(.2,.9,.3,1.3) both; }
+    @keyframes thump { 0% { transform:rotate(-6deg) scale(2.4); opacity:0; } 60% { transform:rotate(-6deg) scale(.96); opacity:1; } 100% { transform:rotate(-6deg) scale(1); opacity:1; } }
+    .claims { margin-top:10px; display:grid; gap:4px; font:12px 'Share Tech Mono', monospace; }
+    .claims div { display:grid; grid-template-columns: 56px 1fr; gap:8px; border-bottom:1px dotted var(--line); padding:3px 0; }
+    .claims div span:first-child { color:var(--muted); }
+    .desk { margin-top:18px; display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+    .panel { background:#fbfaf6; border:1px solid var(--line); border-radius:6px; padding:14px 16px; display:grid; gap:10px; }
+    .panel h2 { margin:0; font:700 11px 'Share Tech Mono', monospace; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    textarea, .in, select.in { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:12.5px/1.5 'Share Tech Mono', monospace; outline:none; }
+    textarea { min-height:110px; resize:vertical; word-break:break-all; }
+    textarea:focus, .in:focus { border-color:var(--cover); }
+    pre { margin:0; padding:10px 12px; background:#fff; border:1px solid var(--line); border-radius:4px; font:12px/1.5 'Share Tech Mono', monospace; white-space:pre-wrap; word-break:break-all; max-height:220px; overflow:auto; }
+    .key { padding:8px 14px; border:1px solid var(--ink); border-radius:4px; background:transparent; color:var(--ink); font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .key.solid { background:var(--cover); border-color:var(--cover); color:#fff; }
+    .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .err { font:12px 'Share Tech Mono', monospace; color:var(--red); min-height:1.2em; margin:0; }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:700 24px 'Libre Baskerville', Georgia, serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--line); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'Share Tech Mono', monospace; background:#d9d3c5; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 860px) { main { padding:26px 12px 56px; } .booklet { grid-template-columns:1fr; } .pg { min-height:0; } .data { grid-template-columns: 80px 1fr; } .photo { width:80px; height:100px; } .f, .f.wide { grid-column:2; } .mrz { font-size:9.5px; letter-spacing:.02em; } .desk { grid-template-columns:1fr; } }
+
+    [hidden] { display:none !important; }
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Passport control · data page · stamps</p>
+      <h1>JWT Decoder</h1>
+      <p class="lede">A token is a passport: who issued it, who it is for, when it was issued and when it expires, signed so it cannot be altered. Paste one and it is read at the desk, the expiry stamped, the claims listed. Add the secret or public key and the signature is checked too.</p>
+      <div class="booklet">
+        <div class="pg left">
+          <div class="ph"><span>Passport · JSON Web Token</span><span id="p-typ">JWT</span></div>
+          <div class="data">
+            <div class="photo"><svg viewBox="0 0 80 96" aria-hidden="true"><circle cx="40" cy="34" r="20" fill="#8f8677"/><path d="M6 96 C 6 66, 74 66, 74 96 Z" fill="#8f8677"/></svg></div>
+            <div class="f"><b>Type · alg</b><span class="mono" id="p-alg">-</span></div>
+            <div class="f"><b>Passport no. · jti</b><span class="mono" id="p-jti">-</span></div>
+            <div class="f wide"><b>Holder · sub / name</b><span id="p-sub">-</span></div>
+            <div class="f"><b>Issuing authority · iss</b><span id="p-iss">-</span></div>
+            <div class="f"><b>Destination · aud</b><span id="p-aud">-</span></div>
+            <div class="f"><b>Date of issue · iat</b><span class="mono" id="p-iat">-</span></div>
+            <div class="f"><b>Valid from · nbf</b><span class="mono" id="p-nbf">-</span></div>
+            <div class="f"><b>Date of expiry · exp</b><span class="mono" id="p-exp">-</span></div>
+            <div class="f"><b>Key id · kid</b><span class="mono" id="p-kid">-</span></div>
+          </div>
+          <div class="mrz" id="mrz"></div>
+        </div>
+        <div class="pg right">
+          <div class="ph"><span>Entries · stamps</span><span id="p-now"></span></div>
+          <div class="stamps" id="stamps"></div>
+          <div class="claims" id="claims"></div>
+        </div>
+      </div>
+      <div class="desk">
+        <div class="panel"><h2>Present the token</h2><textarea id="token" spellcheck="false" aria-label="JWT to decode" placeholder="eyJhbGciOi..."></textarea><p class="err" id="err"></p><div class="row"><button type="button" class="key" id="sample">Sample token</button><button type="button" class="key" id="clear">Clear</button></div></div>
+        <div class="panel"><h2>Verify the signature</h2>
+          <div class="row"><select id="how" class="in" style="width:auto" aria-label="Key type"><option value="secret">HS · shared secret</option><option value="pem">RS / PS / ES · public key (PEM or JWK)</option></select></div>
+          <input id="secret" class="in" spellcheck="false" placeholder="shared secret" aria-label="Shared secret" value="top-secret">
+          <textarea id="pem" spellcheck="false" hidden placeholder="-----BEGIN PUBLIC KEY----- ... or a JWK" aria-label="Public key"></textarea>
+          <div class="row"><button type="button" class="key solid" id="verify">Verify</button><span id="vres" style="font:12px 'Share Tech Mono', monospace"></span></div>
+        </div>
+        <div class="panel"><h2>Header</h2><pre id="hdr"></pre></div>
+        <div class="panel"><h2>Payload</h2><pre id="pl"></pre><div class="row"><button type="button" class="key" id="copy-pl">Copy payload JSON</button></div></div>
+      </div>
+      <section class="notes">
+        <h2>Reading a token at the desk</h2>
+        <p>A JSON Web Token is three Base64 parts joined by dots: a header naming the algorithm, a payload of claims, and a signature over the first two. Anyone can read the first two, which is the point: a client, a proxy, a debugger can all see who the token is for and when it lapses. Only the signature needs the key, and only the issuer's key can produce it, so a token that verifies is a passport nobody has tampered with.</p>
+        <h3>The claims</h3>
+        <p><code>iss</code> is the issuing authority, <code>sub</code> the holder, <code>aud</code> where it is valid, <code>iat</code> when it was issued, <code>nbf</code> the first moment it may be used and <code>exp</code> the last. Dates are Unix seconds; the desk prints them in your local time and stamps the expiry red or green against the clock. Everything else in the payload is listed under the stamps.</p>
+        <h3>Verification</h3>
+        <p>HS256, HS384 and HS512 are HMACs: paste the shared secret. RS, PS and ES algorithms are public-key signatures: paste the issuer's public key as PEM or JWK. The check runs in the browser's Web Crypto and nothing is transmitted. A token that decodes but fails verification was altered, signed with another key, or pasted incompletely.</p>
+        <details><summary>Why does the sample token verify?</summary><p>It is minted in your browser when the page loads, signed with the secret already in the box. Change one character of the payload and Verify will refuse it.</p></details>
+        <details><summary>Is it safe to paste a real token here?</summary><p>The page runs entirely in your browser and makes no network requests with your data, but a token is a credential: treat it like a password and prefer expired or test tokens when you can.</p></details>
+        <details><summary>What is the strip at the bottom of the page?</summary><p>A machine-readable zone in the style of a passport, two lines of 44 characters padded with chevrons, built from the token's claims. It is decoration that happens to be readable.</p></details>
+      </section>
+      <div class="foot"><span>Passport control · stamped on entry</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const enc = new TextEncoder(), dec = new TextDecoder();
+    const b64uToBytes = (s) => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); const b = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); return b; };
+    const bytesToB64u = (b) => btoa(String.fromCharCode.apply(null, b)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const fmt = (t) => { if (typeof t !== 'number') return '-'; const d = new Date(t * 1000); return d.toLocaleString() + ' (' + rel(t) + ')'; };
+    const rel = (t) => { const s = Math.round(t - Date.now() / 1000); const a = Math.abs(s); const u = a < 60 ? a + ' s' : a < 3600 ? Math.round(a / 60) + ' min' : a < 86400 ? (a / 3600).toFixed(1) + ' h' : Math.round(a / 86400) + ' d'; return s >= 0 ? 'in ' + u : u + ' ago'; };
+    const mrzPad = (s, n) => (String(s || '').toUpperCase().replace(/[^A-Z0-9]+/g, '<') + '<'.repeat(n)).slice(0, n);
+    let parts = null;
+    function stamp(cls, big, small, delay) { const s = h('div', 'animation-delay:' + delay + 'ms', null, 'stamp thump ' + cls); s.appendChild(h('b', null, big)); if (small) s.appendChild(h('small', null, small)); $('stamps').appendChild(s); }
+    function decode() {
+      const raw = $('token').value.trim(); const err = $('err'); err.textContent = ''; parts = null; $('vres').textContent = '';
+      clear($('stamps')); clear($('claims')); $('p-now').textContent = 'Desk clock ' + new Date().toLocaleTimeString();
+      const ids = ['p-alg', 'p-jti', 'p-sub', 'p-iss', 'p-aud', 'p-iat', 'p-nbf', 'p-exp', 'p-kid']; ids.forEach((id) => { $(id).textContent = '-'; }); $('p-typ').textContent = 'JWT'; $('hdr').textContent = ''; $('pl').textContent = ''; $('mrz').textContent = '';
+      if (!raw) { $('mrz').textContent = 'P<JWT' + '<'.repeat(39) + String.fromCharCode(10) + '<'.repeat(44); return; }
+      const seg = raw.split('.');
+      if (seg.length !== 3 && seg.length !== 2) { err.textContent = 'A JWT has three dot-separated parts; this has ' + seg.length + '.'; stamp('red', 'Refused', 'not a token', 0); return; }
+      let header, payload;
+      try { header = JSON.parse(dec.decode(b64uToBytes(seg[0]))); } catch (e) { err.textContent = 'The header is not valid Base64url JSON.'; stamp('red', 'Refused', 'unreadable header', 0); return; }
+      try { payload = JSON.parse(dec.decode(b64uToBytes(seg[1]))); } catch (e) { err.textContent = 'The payload is not valid Base64url JSON.'; stamp('red', 'Refused', 'unreadable payload', 0); return; }
+      parts = { header, payload, sig: seg[2] || '', signed: seg[0] + '.' + seg[1] };
+      $('hdr').textContent = JSON.stringify(header, null, 2); $('pl').textContent = JSON.stringify(payload, null, 2);
+      $('p-typ').textContent = header.typ || 'JWT'; $('p-alg').textContent = header.alg || 'none'; $('p-kid').textContent = header.kid || '-';
+      $('p-jti').textContent = payload.jti || (seg[2] ? seg[2].slice(0, 12) : '-'); $('p-sub').textContent = [payload.name, payload.sub].filter(Boolean).join(' · ') || (payload.email || '-');
+      $('p-iss').textContent = payload.iss || '-'; $('p-aud').textContent = Array.isArray(payload.aud) ? payload.aud.join(', ') : (payload.aud || '-');
+      $('p-iat').textContent = fmt(payload.iat); $('p-nbf').textContent = fmt(payload.nbf); $('p-exp').textContent = typeof payload.exp === 'number' ? fmt(payload.exp) : 'none';
+      const now = Date.now() / 1000; let d = 0;
+      if (typeof payload.exp === 'number') { if (now > payload.exp) stamp('red', 'Expired', rel(payload.exp), d); else stamp('green', 'Valid', 'until ' + new Date(payload.exp * 1000).toLocaleString() + ' · ' + rel(payload.exp), d); d += 180; }
+      else { stamp('blue', 'No expiry', 'no exp claim', d); d += 180; }
+      if (typeof payload.nbf === 'number' && now < payload.nbf) { stamp('red', 'Not yet valid', 'from ' + new Date(payload.nbf * 1000).toLocaleString(), d); d += 180; }
+      if (!header.alg || header.alg === 'none') { stamp('red', 'Unsigned', 'alg none', d); d += 180; }
+      const std = ['iss', 'sub', 'aud', 'exp', 'nbf', 'iat', 'jti', 'name', 'email'];
+      Object.keys(payload).filter((k) => !std.includes(k)).forEach((k) => { const row = h('div'); row.appendChild(h('span', null, k)); row.appendChild(h('span', null, typeof payload[k] === 'object' ? JSON.stringify(payload[k]) : String(payload[k]))); $('claims').appendChild(row); });
+      const ymd = (t) => typeof t === 'number' ? new Date(t * 1000).toISOString().slice(2, 10).replace(/-/g, '') : '<<<<<<';
+      $('mrz').textContent = ('P<' + mrzPad(payload.iss, 3) + mrzPad(payload.name || payload.sub, 39)).slice(0, 44) + String.fromCharCode(10) + (mrzPad(payload.jti || payload.sub, 9) + '<' + mrzPad(header.alg, 5) + ymd(payload.iat) + '<' + ymd(payload.exp) + mrzPad(payload.aud, 12) + '<<<<<<<<<<<<').slice(0, 44);
+    }
+    function pemToDer(pem) { const b = pem.replace(/-----[^-]+-----/g, '').replace(/\s+/g, ''); return b64uToBytes(b.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')); }
+    async function verify() {
+      const out = $('vres'); if (!parts) { out.textContent = 'Present a token first.'; return; }
+      const alg = String(parts.header.alg || ''); const m = alg.match(/^(HS|RS|PS|ES)(256|384|512)$/); if (!m) { out.textContent = 'Cannot verify alg "' + alg + '" here.'; return; }
+      const hash = 'SHA-' + m[2]; const data = enc.encode(parts.signed); let sig = b64uToBytes(parts.sig); let key, params;
+      try {
+        if (m[1] === 'HS') { if ($('how').value !== 'secret') { out.textContent = 'HS' + m[2] + ' needs the shared secret.'; return; } key = await crypto.subtle.importKey('raw', enc.encode($('secret').value), { name: 'HMAC', hash }, false, ['verify']); params = { name: 'HMAC' }; }
+        else {
+          if ($('how').value !== 'pem') { out.textContent = alg + ' needs a public key.'; return; }
+          const txt = $('pem').value.trim(); const curve = { 256: 'P-256', 384: 'P-384', 512: 'P-521' }[m[2]];
+          const algo = m[1] === 'RS' ? { name: 'RSASSA-PKCS1-v1_5', hash } : m[1] === 'PS' ? { name: 'RSA-PSS', hash } : { name: 'ECDSA', namedCurve: curve };
+          key = txt.startsWith('{') ? await crypto.subtle.importKey('jwk', JSON.parse(txt), algo, false, ['verify']) : await crypto.subtle.importKey('spki', pemToDer(txt), algo, false, ['verify']);
+          params = m[1] === 'RS' ? { name: 'RSASSA-PKCS1-v1_5' } : m[1] === 'PS' ? { name: 'RSA-PSS', saltLength: Number(m[2]) / 8 } : { name: 'ECDSA', hash };
+        }
+        const ok = await crypto.subtle.verify(params, key, sig, data);
+        out.textContent = ok ? 'Signature verified (' + alg + ').' : 'Signature does NOT verify with this key.';
+        document.querySelectorAll('.stamp.sig').forEach((s) => s.remove());
+        const s = h('div', null, null, 'stamp thump sig ' + (ok ? 'green' : 'red')); s.appendChild(h('b', null, ok ? 'Signature verified' : 'Signature invalid')); s.appendChild(h('small', null, alg)); $('stamps').appendChild(s);
+      } catch (e) { out.textContent = 'Could not verify: ' + (e.message || 'bad key'); }
+    }
+    async function sample() {
+      const now = Math.floor(Date.now() / 1000);
+      const header = { alg: 'HS256', typ: 'JWT', kid: 'desk-7' };
+      const payload = { iss: 'passport-control.example', sub: '1234567890', name: 'Ada Lovelace', aud: 'gate-7', iat: now - 3600, nbf: now - 3600, exp: now + 7200, jti: Array.from(crypto.getRandomValues(new Uint8Array(6)), (b) => b.toString(16).padStart(2, '0')).join(''), roles: ['analyst', 'visitor'], seat: '12A' };
+      const signed = bytesToB64u(enc.encode(JSON.stringify(header))) + '.' + bytesToB64u(enc.encode(JSON.stringify(payload)));
+      const key = await crypto.subtle.importKey('raw', enc.encode('top-secret'), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+      const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, enc.encode(signed)));
+      $('token').value = signed + '.' + bytesToB64u(sig); $('how').value = 'secret'; $('secret').value = 'top-secret'; $('secret').hidden = false; $('pem').hidden = true; decode();
+    }
+    $('token').addEventListener('input', decode);
+    $('how').addEventListener('change', () => { const pem = $('how').value === 'pem'; $('secret').hidden = pem; $('pem').hidden = !pem; });
+    $('verify').addEventListener('click', verify);
+    $('sample').addEventListener('click', sample);
+    $('clear').addEventListener('click', () => { $('token').value = ''; decode(); $('token').focus(); });
+    copyBtn($('copy-pl'), () => $('pl').textContent, 'Copy payload JSON');
+    sample();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

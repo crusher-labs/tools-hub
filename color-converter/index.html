@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-world="color-checker-card">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Converter - HEX, RGB, HSL, HSV, CMYK and Nearest Named Color</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert any color between HEX, RGB, HSL, HSV and CMYK on a 24-patch color checker card, with a loupe on the patch you are editing, the nearest CSS named color and WCAG contrast against black and white. Nothing uploaded.">
+    <meta name="theme-color" content="#e9e6df">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/color-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Color Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert any color between HEX, RGB, HSL, HSV and CMYK on a 24-patch color checker card, with a loupe on the patch you are editing, the nearest CSS named color and WCAG contrast against black and white. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/color-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Color Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert any color between HEX, RGB, HSL, HSV and CMYK on a 24-patch color checker card, with a loupe on the patch you are editing, the nearest CSS named color and WCAG contrast against black and white. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --bench:#e9e6df; --ink:#1d1b18; --muted:#6a665e; --frame:#1c1b19; --cream:#efe9da; --sheet:#fbfaf6; --line:#d7d2c6; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bench); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:500 11px 'Jost', sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:600 clamp(28px, 4.2vw, 42px)/1.05 'Jost', sans-serif; letter-spacing:.01em; }
+    .lede { margin:12px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .bench { display:grid; grid-template-columns: 1.15fr 1fr; gap:26px; align-items:start; }
+    .card { background:var(--frame); border-radius:6px; padding:16px 16px 12px; margin-bottom:112px; box-shadow:0 24px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08); position:relative; }
+    .patches { display:grid; grid-template-columns:repeat(6, 1fr); gap:9px; }
+    .patch { position:relative; aspect-ratio:1; border:0; border-radius:2px; cursor:pointer; padding:0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.25); }
+    .patch span { position:absolute; left:5px; bottom:3px; font:500 9px 'JetBrains Mono', monospace; color:rgba(255,255,255,.55); mix-blend-mode:difference; }
+    .patch.cur { outline:3px solid #fff; outline-offset:2px; }
+    .label { margin-top:12px; display:flex; justify-content:space-between; align-items:center; font:500 10px 'Jost', sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#d9d2c2; }
+    .label b { font-weight:600; color:#f4efe2; }
+    .loupe { position:absolute; right:-14px; bottom:-104px; width:150px; height:150px; border-radius:50%; background:var(--cur, #d67e2c); box-shadow: 0 0 0 7px #d9d9d9, 0 0 0 9px #6b6b6b, 0 20px 40px rgba(0,0,0,.45), inset 0 -18px 30px rgba(0,0,0,.18), inset 0 14px 24px rgba(255,255,255,.22); transition: background .2s; }
+    .loupe::before { content:''; position:absolute; left:18px; top:14px; width:46px; height:26px; border-radius:50%; background:rgba(255,255,255,.35); filter:blur(4px); }
+    .loupe::after { content:''; position:absolute; left:50%; bottom:-58px; width:26px; height:70px; margin-left:-13px; border-radius:6px; background:linear-gradient(90deg, #2a2a2a, #6d6d6d 40%, #2a2a2a); transform:rotate(-38deg); transform-origin:top center; z-index:-1; }
+    .loupe::before { z-index:1; }
+    .loupe b { position:absolute; left:0; right:0; bottom:16px; text-align:center; font:600 12px 'JetBrains Mono', monospace; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.6); mix-blend-mode:luminosity; }
+    .sheet { background:var(--sheet); border:1px solid var(--line); border-radius:6px; padding:18px 20px; box-shadow:0 8px 20px rgba(0,0,0,.06); display:grid; gap:12px; }
+    .sheet h2 { margin:0; font:600 13px 'Jost', sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .fmt { display:grid; grid-template-columns: 62px 1fr auto; gap:10px; align-items:center; }
+    .fmt label { font:600 12px 'JetBrains Mono', monospace; color:var(--muted); letter-spacing:.08em; }
+    .fmt input { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:4px; background:#fff; color:var(--ink); font:600 14px 'JetBrains Mono', monospace; outline:none; }
+    .fmt input:focus { border-color:var(--ink); }
+    .fmt .tri { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; }
+    .fmt .quad { display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; }
+    .key { padding:7px 12px; border:1px solid var(--ink); border-radius:4px; background:transparent; color:var(--ink); font:600 12px 'Public Sans', sans-serif; cursor:pointer; white-space:nowrap; }
+    .picker { display:flex; gap:10px; align-items:center; font-size:13px; color:var(--muted); }
+    .picker input[type="color"] { width:44px; height:32px; border:1px solid var(--line); border-radius:4px; background:#fff; padding:2px; cursor:pointer; }
+    .facts { display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; font-size:13px; }
+    .facts div { display:flex; justify-content:space-between; gap:8px; border-bottom:1px solid var(--line); padding:6px 0; }
+    .facts span:first-child { color:var(--muted); }
+    .facts b { font:600 13px 'JetBrains Mono', monospace; }
+    .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:6px; border:1px solid rgba(0,0,0,.2); }
+    .err { color:#b3261e; font-size:12px; min-height:1.2em; margin:0; }
+    .notes { margin-top:54px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:600 24px 'Jost', sans-serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--line); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'JetBrains Mono', monospace; background:#dcd8cd; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:500 11px 'Jost', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 880px) { main { padding:26px 12px 56px; } .bench { grid-template-columns:1fr; } .loupe { width:112px; height:112px; right:-2px; bottom:-90px; } .loupe::after { display:none; } .card { margin-bottom:98px; } .facts { grid-template-columns:1fr; } .fmt { grid-template-columns: 52px 1fr auto; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Color rendition chart · 24 patches · loupe</p>
+      <h1>Color Converter</h1>
+      <p class="lede">Type a color in any format and every other format is written out on the lab sheet. The loupe holds the color you are editing; click any of the 24 reference patches to load it.</p>
+      <div class="bench">
+        <div>
+          <div class="card">
+            <div class="patches" id="patches"><button type="button" class="patch" style="background:#735244" data-hex="#735244" data-name="dark skin" aria-label="dark skin #735244"><span>1</span></button><button type="button" class="patch" style="background:#c29682" data-hex="#c29682" data-name="light skin" aria-label="light skin #c29682"><span>2</span></button><button type="button" class="patch" style="background:#627a9d" data-hex="#627a9d" data-name="blue sky" aria-label="blue sky #627a9d"><span>3</span></button><button type="button" class="patch" style="background:#576c43" data-hex="#576c43" data-name="foliage" aria-label="foliage #576c43"><span>4</span></button><button type="button" class="patch" style="background:#8580b1" data-hex="#8580b1" data-name="blue flower" aria-label="blue flower #8580b1"><span>5</span></button><button type="button" class="patch" style="background:#67bdaa" data-hex="#67bdaa" data-name="bluish green" aria-label="bluish green #67bdaa"><span>6</span></button><button type="button" class="patch" style="background:#d67e2c" data-hex="#d67e2c" data-name="orange" aria-label="orange #d67e2c"><span>7</span></button><button type="button" class="patch" style="background:#505ba6" data-hex="#505ba6" data-name="purplish blue" aria-label="purplish blue #505ba6"><span>8</span></button><button type="button" class="patch" style="background:#c15a63" data-hex="#c15a63" data-name="moderate red" aria-label="moderate red #c15a63"><span>9</span></button><button type="button" class="patch" style="background:#5e3c6c" data-hex="#5e3c6c" data-name="purple" aria-label="purple #5e3c6c"><span>10</span></button><button type="button" class="patch" style="background:#9dbc40" data-hex="#9dbc40" data-name="yellow green" aria-label="yellow green #9dbc40"><span>11</span></button><button type="button" class="patch" style="background:#e0a32e" data-hex="#e0a32e" data-name="orange yellow" aria-label="orange yellow #e0a32e"><span>12</span></button><button type="button" class="patch" style="background:#383d96" data-hex="#383d96" data-name="blue" aria-label="blue #383d96"><span>13</span></button><button type="button" class="patch" style="background:#469449" data-hex="#469449" data-name="green" aria-label="green #469449"><span>14</span></button><button type="button" class="patch" style="background:#af363c" data-hex="#af363c" data-name="red" aria-label="red #af363c"><span>15</span></button><button type="button" class="patch" style="background:#e7c71f" data-hex="#e7c71f" data-name="yellow" aria-label="yellow #e7c71f"><span>16</span></button><button type="button" class="patch" style="background:#bb5695" data-hex="#bb5695" data-name="magenta" aria-label="magenta #bb5695"><span>17</span></button><button type="button" class="patch" style="background:#0885a1" data-hex="#0885a1" data-name="cyan" aria-label="cyan #0885a1"><span>18</span></button><button type="button" class="patch" style="background:#f3f3f3" data-hex="#f3f3f3" data-name="white" aria-label="white #f3f3f3"><span>19</span></button><button type="button" class="patch" style="background:#c8c8c8" data-hex="#c8c8c8" data-name="neutral 8" aria-label="neutral 8 #c8c8c8"><span>20</span></button><button type="button" class="patch" style="background:#a0a0a0" data-hex="#a0a0a0" data-name="neutral 6.5" aria-label="neutral 6.5 #a0a0a0"><span>21</span></button><button type="button" class="patch" style="background:#7a7a7a" data-hex="#7a7a7a" data-name="neutral 5" aria-label="neutral 5 #7a7a7a"><span>22</span></button><button type="button" class="patch" style="background:#555555" data-hex="#555555" data-name="neutral 3.5" aria-label="neutral 3.5 #555555"><span>23</span></button><button type="button" class="patch" style="background:#343434" data-hex="#343434" data-name="black" aria-label="black #343434"><span>24</span></button></div>
+            <div class="label"><span>Color rendition chart · 4 × 6</span><b>Macbeth · 1976</b></div>
+            <div class="loupe" id="loupe" aria-hidden="true"><b id="loupe-hex">#d67e2c</b></div>
+          </div>
+        </div>
+        <div class="sheet">
+          <h2>Lab sheet</h2>
+          <div class="fmt"><label for="hex">HEX</label><input id="hex" value="#d67e2c" spellcheck="false" autocomplete="off"><button type="button" class="key cp" data-for="hex">Copy</button></div>
+          <div class="fmt"><label>RGB</label><div class="tri"><input id="r" type="number" min="0" max="255" aria-label="Red"><input id="g" type="number" min="0" max="255" aria-label="Green"><input id="b" type="number" min="0" max="255" aria-label="Blue"></div><button type="button" class="key cpv" data-fmt="rgb">Copy</button></div>
+          <div class="fmt"><label>HSL</label><div class="tri"><input id="hh" type="number" min="0" max="360" aria-label="Hue"><input id="hs" type="number" min="0" max="100" aria-label="Saturation"><input id="hl" type="number" min="0" max="100" aria-label="Lightness"></div><button type="button" class="key cpv" data-fmt="hsl">Copy</button></div>
+          <div class="fmt"><label>HSV</label><div class="tri"><input id="vh" type="number" min="0" max="360" aria-label="Hue"><input id="vs" type="number" min="0" max="100" aria-label="Saturation"><input id="vv" type="number" min="0" max="100" aria-label="Value"></div><button type="button" class="key cpv" data-fmt="hsv">Copy</button></div>
+          <div class="fmt"><label>CMYK</label><div class="quad"><input id="cc" type="number" min="0" max="100" aria-label="Cyan"><input id="cm" type="number" min="0" max="100" aria-label="Magenta"><input id="cy" type="number" min="0" max="100" aria-label="Yellow"><input id="ck" type="number" min="0" max="100" aria-label="Key black"></div><button type="button" class="key cpv" data-fmt="cmyk">Copy</button></div>
+          <p class="err" id="err"></p>
+          <div class="picker"><input type="color" id="pick" value="#d67e2c" aria-label="Pick a color"><span>or pick one</span></div>
+          <div class="facts">
+            <div><span>Nearest named</span><b id="named"></b></div>
+            <div><span>Patch</span><b id="patchname"></b></div>
+            <div><span>Contrast on white</span><b id="cw"></b></div>
+            <div><span>Contrast on black</span><b id="cb"></b></div>
+            <div><span>Luminance</span><b id="lum"></b></div>
+            <div><span>Text on it</span><b id="onit"></b></div>
+          </div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>One color, five notations</h2>
+        <p>HEX and RGB are the same thing written twice: three channels of red, green and blue from 0 to 255, in hexadecimal or decimal. HSL and HSV describe the color the way people think about it, a hue around the wheel, a saturation and a lightness or value, which makes them the right notation for tints and shades. CMYK is the printer's subtractive model, given here as the simple conversion designers use for a first proof; a press profile will differ.</p>
+        <h3>Contrast</h3>
+        <p>The contrast ratios follow WCAG: 4.5:1 is the minimum for normal text, 3:1 for large text and interface parts, 7:1 for the stricter AAA level. "Text on it" says whether black or white text reads better on the color.</p>
+        <h3>Why a color checker card</h3>
+        <p>The 24-patch chart introduced by Macbeth in 1976 is how photographers and film crews calibrate color: skin tones, sky, foliage and a grey scale, in known values, photographed once so every shot can be corrected to them. The patches on the card above carry the published sRGB values of the classic chart, so they double as a reference palette; the loupe is the magnifier a retoucher holds over the patch being matched.</p>
+        <details><summary>Which hex formats are accepted?</summary><p>#rgb, #rrggbb and #rrggbbaa, with or without the hash. Alpha is read and ignored in the conversions.</p></details>
+        <details><summary>Why does CMYK not match my print shop?</summary><p>Real CMYK depends on the paper, the inks and the press profile. The values here are the plain formula (black as the smallest channel), which is what design tools show by default.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. Every conversion happens in your browser.</p></details>
+      </section>
+      <div class="foot"><span>Color checker · 24 patches · loupe</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const NAMES = { black: '000000', navy: '000080', darkblue: '00008b', mediumblue: '0000cd', blue: '0000ff', darkgreen: '006400', green: '008000', teal: '008080', darkcyan: '008b8b', deepskyblue: '00bfff', darkturquoise: '00ced1', mediumspringgreen: '00fa9a', lime: '00ff00', springgreen: '00ff7f', aqua: '00ffff', midnightblue: '191970', dodgerblue: '1e90ff', lightseagreen: '20b2aa', forestgreen: '228b22', seagreen: '2e8b57', darkslategray: '2f4f4f', limegreen: '32cd32', mediumseagreen: '3cb371', turquoise: '40e0d0', royalblue: '4169e1', steelblue: '4682b4', darkslateblue: '483d8b', mediumturquoise: '48d1cc', indigo: '4b0082', darkolivegreen: '556b2f', cadetblue: '5f9ea0', cornflowerblue: '6495ed', rebeccapurple: '663399', mediumaquamarine: '66cdaa', dimgray: '696969', slateblue: '6a5acd', olivedrab: '6b8e23', slategray: '708090', lightslategray: '778899', mediumslateblue: '7b68ee', lawngreen: '7cfc00', chartreuse: '7fff00', aquamarine: '7fffd4', maroon: '800000', purple: '800080', olive: '808000', gray: '808080', skyblue: '87ceeb', lightskyblue: '87cefa', blueviolet: '8a2be2', darkred: '8b0000', darkmagenta: '8b008b', saddlebrown: '8b4513', darkseagreen: '8fbc8f', lightgreen: '90ee90', mediumpurple: '9370db', darkviolet: '9400d3', palegreen: '98fb98', darkorchid: '9932cc', yellowgreen: '9acd32', sienna: 'a0522d', brown: 'a52a2a', darkgray: 'a9a9a9', lightblue: 'add8e6', greenyellow: 'adff2f', paleturquoise: 'afeeee', lightsteelblue: 'b0c4de', powderblue: 'b0e0e6', firebrick: 'b22222', darkgoldenrod: 'b8860b', mediumorchid: 'ba55d3', rosybrown: 'bc8f8f', darkkhaki: 'bdb76b', silver: 'c0c0c0', mediumvioletred: 'c71585', indianred: 'cd5c5c', peru: 'cd853f', chocolate: 'd2691e', tan: 'd2b48c', lightgray: 'd3d3d3', thistle: 'd8bfd8', orchid: 'da70d6', goldenrod: 'daa520', palevioletred: 'db7093', crimson: 'dc143c', gainsboro: 'dcdcdc', plum: 'dda0dd', burlywood: 'deb887', lightcyan: 'e0ffff', lavender: 'e6e6fa', darksalmon: 'e9967a', violet: 'ee82ee', palegoldenrod: 'eee8aa', lightcoral: 'f08080', khaki: 'f0e68c', aliceblue: 'f0f8ff', honeydew: 'f0fff0', azure: 'f0ffff', sandybrown: 'f4a460', wheat: 'f5deb3', beige: 'f5f5dc', whitesmoke: 'f5f5f5', mintcream: 'f5fffa', ghostwhite: 'f8f8ff', salmon: 'fa8072', antiquewhite: 'faebd7', linen: 'faf0e6', lightgoldenrodyellow: 'fafad2', oldlace: 'fdf5e6', red: 'ff0000', magenta: 'ff00ff', deeppink: 'ff1493', orangered: 'ff4500', tomato: 'ff6347', hotpink: 'ff69b4', coral: 'ff7f50', darkorange: 'ff8c00', lightsalmon: 'ffa07a', orange: 'ffa500', lightpink: 'ffb6c1', pink: 'ffc0cb', gold: 'ffd700', peachpuff: 'ffdab9', navajowhite: 'ffdead', moccasin: 'ffe4b5', bisque: 'ffe4c4', mistyrose: 'ffe4e1', blanchedalmond: 'ffebcd', papayawhip: 'ffefd5', lavenderblush: 'fff0f5', seashell: 'fff5ee', cornsilk: 'fff8dc', lemonchiffon: 'fffacd', floralwhite: 'fffaf0', snow: 'fffafa', yellow: 'ffff00', lightyellow: 'ffffe0', ivory: 'fffff0', white: 'ffffff' };
+    const PATCH = {}; document.querySelectorAll('.patch').forEach((p) => { PATCH[p.dataset.hex.toLowerCase()] = p.dataset.name; });
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const hex2 = (n) => Math.round(clamp(n, 0, 255)).toString(16).padStart(2, '0');
+    const toHex = (r, g, b) => '#' + hex2(r) + hex2(g) + hex2(b);
+    function parseHex(s) { const m = s.trim().replace(/^#/, '').match(/^([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i); if (!m) return null; let x = m[1]; if (x.length === 3) x = x.split('').map((c) => c + c).join(''); return [parseInt(x.slice(0, 2), 16), parseInt(x.slice(2, 4), 16), parseInt(x.slice(4, 6), 16)]; }
+    function rgb2hsl(r, g, b) { r /= 255; g /= 255; b /= 255; const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2; let h = 0, s = 0; if (max !== min) { const d = max - min; s = l > 0.5 ? d / (2 - max - min) : d / (max + min); h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; } return [h, s * 100, l * 100]; }
+    function hsl2rgb(h, s, l) { h = ((h % 360) + 360) % 360; s /= 100; l /= 100; const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = l - c / 2; const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x]; return [(r + m) * 255, (g + m) * 255, (b + m) * 255]; }
+    function rgb2hsv(r, g, b) { r /= 255; g /= 255; b /= 255; const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min; let h = 0; if (d) { h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; } return [h, max ? d / max * 100 : 0, max * 100]; }
+    function hsv2rgb(h, s, v) { h = ((h % 360) + 360) % 360; s /= 100; v /= 100; const c = v * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = v - c; const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x]; return [(r + m) * 255, (g + m) * 255, (b + m) * 255]; }
+    function rgb2cmyk(r, g, b) { r /= 255; g /= 255; b /= 255; const k = 1 - Math.max(r, g, b); if (k === 1) return [0, 0, 0, 100]; return [(1 - r - k) / (1 - k) * 100, (1 - g - k) / (1 - k) * 100, (1 - b - k) / (1 - k) * 100, k * 100]; }
+    function cmyk2rgb(c, m, y, k) { c /= 100; m /= 100; y /= 100; k /= 100; return [255 * (1 - c) * (1 - k), 255 * (1 - m) * (1 - k), 255 * (1 - y) * (1 - k)]; }
+    const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const luminance = (r, g, b) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    const contrast = (l1, l2) => (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    const R = (n) => Math.round(n);
+    let cur = [214, 126, 44], busy = false;
+    function nearest(r, g, b) { let best = null, bd = Infinity; for (const n of Object.keys(NAMES)) { const x = NAMES[n]; const d = Math.pow(parseInt(x.slice(0, 2), 16) - r, 2) + Math.pow(parseInt(x.slice(2, 4), 16) - g, 2) + Math.pow(parseInt(x.slice(4, 6), 16) - b, 2); if (d < bd) { bd = d; best = n; } } return { name: best, exact: bd === 0, hex: '#' + NAMES[best] }; }
+    function show(from) {
+      busy = true;
+      const [r, g, b] = cur, hex = toHex(r, g, b);
+      if (from !== 'hex') $('hex').value = hex;
+      if (from !== 'rgb') { $('r').value = R(r); $('g').value = R(g); $('b').value = R(b); }
+      const hsl = rgb2hsl(r, g, b), hsv = rgb2hsv(r, g, b), cmyk = rgb2cmyk(r, g, b);
+      if (from !== 'hsl') { $('hh').value = R(hsl[0]); $('hs').value = R(hsl[1]); $('hl').value = R(hsl[2]); }
+      if (from !== 'hsv') { $('vh').value = R(hsv[0]); $('vs').value = R(hsv[1]); $('vv').value = R(hsv[2]); }
+      if (from !== 'cmyk') { $('cc').value = R(cmyk[0]); $('cm').value = R(cmyk[1]); $('cy').value = R(cmyk[2]); $('ck').value = R(cmyk[3]); }
+      $('pick').value = hex;
+      $('loupe').style.setProperty('--cur', hex); $('loupe-hex').textContent = hex;
+      document.querySelectorAll('.patch').forEach((p) => p.classList.toggle('cur', p.dataset.hex.toLowerCase() === hex));
+      const near = nearest(R(r), R(g), R(b)); const named = $('named'); named.textContent = ''; const sw = h('i', 'background:' + near.hex, null, 'swatch'); named.appendChild(sw); named.appendChild(document.createTextNode(near.name + (near.exact ? '' : ' (close)')));
+      $('patchname').textContent = PATCH[hex] || 'not on the chart';
+      const L = luminance(r, g, b), cw = contrast(L, 1), cb = contrast(L, 0);
+      const grade = (c) => c >= 7 ? ' AAA' : c >= 4.5 ? ' AA' : c >= 3 ? ' AA large' : ' fail';
+      $('cw').textContent = cw.toFixed(2) + ':1' + grade(cw); $('cb').textContent = cb.toFixed(2) + ':1' + grade(cb);
+      $('lum').textContent = L.toFixed(3); $('onit').textContent = cb >= cw ? 'black' : 'white';
+      $('err').textContent = '';
+      busy = false;
+    }
+    const num = (id) => parseFloat($(id).value) || 0;
+    $('hex').addEventListener('input', () => { if (busy) return; const v = parseHex($('hex').value); if (!v) { $('err').textContent = 'Not a hex color: use #rgb, #rrggbb or #rrggbbaa.'; return; } cur = v; show('hex'); });
+    ['r', 'g', 'b'].forEach((id) => $(id).addEventListener('input', () => { if (busy) return; cur = [clamp(num('r'), 0, 255), clamp(num('g'), 0, 255), clamp(num('b'), 0, 255)]; show('rgb'); }));
+    ['hh', 'hs', 'hl'].forEach((id) => $(id).addEventListener('input', () => { if (busy) return; cur = hsl2rgb(num('hh'), clamp(num('hs'), 0, 100), clamp(num('hl'), 0, 100)); show('hsl'); }));
+    ['vh', 'vs', 'vv'].forEach((id) => $(id).addEventListener('input', () => { if (busy) return; cur = hsv2rgb(num('vh'), clamp(num('vs'), 0, 100), clamp(num('vv'), 0, 100)); show('hsv'); }));
+    ['cc', 'cm', 'cy', 'ck'].forEach((id) => $(id).addEventListener('input', () => { if (busy) return; cur = cmyk2rgb(clamp(num('cc'), 0, 100), clamp(num('cm'), 0, 100), clamp(num('cy'), 0, 100), clamp(num('ck'), 0, 100)); show('cmyk'); }));
+    $('pick').addEventListener('input', () => { cur = parseHex($('pick').value); show('pick'); });
+    document.querySelectorAll('.patch').forEach((p) => p.addEventListener('click', () => { cur = parseHex(p.dataset.hex); show('patch'); }));
+    document.querySelectorAll('.cp').forEach((b) => copyBtn(b, () => $(b.dataset.for).value, 'Copy'));
+    const texts = { rgb: () => 'rgb(' + $('r').value + ', ' + $('g').value + ', ' + $('b').value + ')', hsl: () => 'hsl(' + $('hh').value + ', ' + $('hs').value + '%, ' + $('hl').value + '%)', hsv: () => 'hsv(' + $('vh').value + ', ' + $('vs').value + '%, ' + $('vv').value + '%)', cmyk: () => 'cmyk(' + $('cc').value + '%, ' + $('cm').value + '%, ' + $('cy').value + '%, ' + $('ck').value + '%)' };
+    document.querySelectorAll('.cpv').forEach((b) => copyBtn(b, () => texts[b.dataset.fmt](), 'Copy'));
+    show('init');
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

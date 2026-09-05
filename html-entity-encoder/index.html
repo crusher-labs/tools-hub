@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-world="decoder-ring">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entity Encoder/Decoder - Encode and Decode HTML Entities Online</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Encode special characters to HTML entities and decode entities back to text on a 1940s decoder ring: the dial turns to show each character and its entity. Named, decimal or hex entities, the five unsafe characters or every symbol, plus a searchable entity list. Nothing uploaded.">
+    <meta name="theme-color" content="#f3ead8">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/html-entity-encoder/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="HTML Entity Encoder/Decoder - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Encode special characters to HTML entities and decode entities back to text on a 1940s decoder ring: the dial turns to show each character and its entity. Named, decimal or hex entities, the five unsafe characters or every symbol, plus a searchable entity list. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/html-entity-encoder/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="HTML Entity Encoder/Decoder - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Encode special characters to HTML entities and decode entities back to text on a 1940s decoder ring: the dial turns to show each character and its entity. Named, decimal or hex entities, the five unsafe characters or every symbol, plus a searchable entity list. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rye&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --paper:#f3ead8; --ink:#2a2118; --muted:#6f6353; --hair:#d6c9ad; --brass:#c9a24d; --brass2:#7a5a1e; --enamel:#b3261e; --enamel2:#7d1710; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1080px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:600 11px 'Public Sans', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:400 clamp(26px, 4vw, 42px)/1.1 'Rye', 'Times New Roman', serif; color:var(--enamel2); }
+    .lede { margin:12px 0 26px; max-width:62ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .deck { display:grid; grid-template-columns: 380px 1fr; gap:28px; align-items:start; }
+    .badge { position:relative; width:100%; max-width:380px; margin:0 auto; }
+    .badge svg { display:block; width:100%; height:auto; overflow:visible; }
+    .dial { transition: transform .55s cubic-bezier(.2,.8,.2,1); transform-origin:200px 200px; }
+    .slot { cursor:pointer; }
+    .slot text { font:600 15px 'Public Sans', sans-serif; fill:#3b2a0c; }
+    .slot .ent { font:500 8.5px 'Public Sans', sans-serif; fill:#4b3a1a; }
+    .slot.cur text { fill:var(--enamel2); }
+    .read-ch { font:400 56px 'Rye', serif; fill:#fff3d6; }
+    .read-ent { font:600 15px 'Public Sans', sans-serif; fill:#fff3d6; }
+    .read-num { font:500 10px 'Public Sans', sans-serif; fill:#f2c9c1; letter-spacing:.08em; }
+    .badge-title { font:400 11px 'Rye', serif; fill:#3b2a0c; letter-spacing:.16em; }
+    .readout { margin-top:10px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+    .panel { display:grid; gap:14px; }
+    .keys { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .key { padding:9px 14px; border:1px solid var(--brass2); border-radius:20px; background:#fbf5e6; color:var(--ink); font:600 12px 'Public Sans', sans-serif; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; }
+    .key[aria-pressed="true"] { background:var(--enamel); border-color:var(--enamel); color:#fff; }
+    .key.small { text-transform:none; letter-spacing:0; padding:7px 12px; font-weight:500; }
+    .lab { font:600 11px 'Public Sans', sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 6px; }
+    textarea { width:100%; min-height:130px; resize:vertical; padding:12px 14px; border:1px solid var(--hair); border-radius:6px; background:#fbf7ee; color:var(--ink); font:14px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; outline:none; }
+    textarea:focus { border-color:var(--brass2); }
+    textarea[readonly] { background:#f6efdd; }
+    .meta { margin:6px 0 0; font-size:12px; color:var(--muted); min-height:1.2em; }
+    .opts { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; font-size:13px; color:var(--muted); }
+    .opts b { font-weight:600; color:var(--ink); margin-right:4px; }
+    .list { margin-top:44px; border-top:1px solid var(--hair); padding-top:22px; }
+    .list h2 { margin:0 0 6px; font:400 24px 'Rye', serif; color:var(--enamel2); }
+    .list p { margin:0 0 12px; color:var(--muted); font-size:14px; }
+    .list input { width:100%; max-width:360px; padding:9px 12px; border:1px solid var(--hair); border-radius:6px; background:#fbf7ee; font:14px 'Public Sans', sans-serif; outline:none; }
+    .grid { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:8px; }
+    .cell { display:grid; grid-template-columns:34px 1fr; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--hair); border-radius:6px; background:#fbf7ee; cursor:pointer; text-align:left; font:inherit; color:inherit; }
+    .cell:hover { border-color:var(--brass2); }
+    .cell .g { font-size:22px; text-align:center; }
+    .cell .n { font:600 12px ui-monospace, Menlo, Consolas, monospace; }
+    .cell .c { font-size:11px; color:var(--muted); }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:400 24px 'Rye', serif; color:var(--enamel2); }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--hair); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px ui-monospace, Menlo, Consolas, monospace; background:#ebe1c9; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Public Sans', sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--enamel2); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 860px) { main { padding:26px 14px 56px; } .deck { grid-template-columns:1fr; } .badge { max-width:340px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Code badge · turn the dial · read the message</p>
+      <h1>HTML Entity Encoder/Decoder</h1>
+      <p class="lede">Type a message and every special character is written in code: &amp;amp;, &amp;lt;, &amp;copy; and the rest. The dial turns to the last character you typed and shows its entity. Paste code to read it back.</p>
+      <div class="deck">
+        <div>
+          <div class="badge" id="badge"></div>
+          <div class="readout"><button type="button" class="key small" id="copy-ent">Copy entity</button><button type="button" class="key small" id="copy-num">Copy &amp;#number;</button></div>
+        </div>
+        <div class="panel">
+          <div class="keys"><button type="button" class="key mode" data-mode="encode" aria-pressed="true">Write in code</button><button type="button" class="key mode" data-mode="decode" aria-pressed="false">Read the message</button></div>
+          <div>
+            <p class="lab" id="in-lab">Message</p>
+            <textarea id="in" spellcheck="false" placeholder="Type or paste text...">Tom &amp; Jerry © 1940 <b>"Secret"</b> — 5 × 3 ≥ €10</textarea>
+            <p id="in-meta" class="meta"></p>
+          </div>
+          <div class="opts" id="enc-opts">
+            <span><b>Style</b></span>
+            <button type="button" class="key small st" data-st="named" aria-pressed="true">Named (&amp;copy;)</button>
+            <button type="button" class="key small st" data-st="dec" aria-pressed="false">Decimal (&amp;#169;)</button>
+            <button type="button" class="key small st" data-st="hex" aria-pressed="false">Hex (&amp;#xA9;)</button>
+            </div>
+          <div class="opts">
+            <span><b>Scope</b></span>
+            <button type="button" class="key small sc" data-sc="all" aria-pressed="true">Every special character</button>
+            <button type="button" class="key small sc" data-sc="five" aria-pressed="false">Only &amp; &lt; &gt; " '</button>
+          </div>
+          <div>
+            <p class="lab" id="out-lab">In code</p>
+            <textarea id="out" readonly placeholder="The coded message appears here"></textarea>
+            <p id="out-meta" class="meta"></p>
+          </div>
+          <div class="keys"><button type="button" class="key" id="copy">Copy</button><button type="button" class="key" id="swap">Swap</button><button type="button" class="key" id="clear">Clear</button></div>
+        </div>
+      </div>
+      <section class="list">
+        <h2>The code book</h2>
+        <p>Every named entity this page knows. Click one to turn the dial to it; the buttons under the badge copy it.</p>
+        <input id="find" type="search" placeholder="Search: copyright, arrow, euro, 169..." aria-label="Search entities">
+        <div id="grid" class="grid"></div>
+      </section>
+      <section class="notes">
+        <h2>What an HTML entity is</h2>
+        <p>Some characters mean something to a browser. An ampersand starts an entity, an angle bracket starts a tag, quotes end an attribute. To show them as plain text you write them in code: <code>&amp;amp;</code> for &amp;, <code>&amp;lt;</code> for &lt;, <code>&amp;gt;</code> for &gt;, <code>&amp;quot;</code> for a double quote and <code>&amp;#39;</code> for a single one. Those five are the ones that matter for safety; encoding them is what stops pasted text from being read as markup or script.</p>
+        <p>Every other character has a code too. Named entities like <code>&amp;copy;</code> and <code>&amp;euro;</code> are easy to read; numeric ones, <code>&amp;#169;</code> or <code>&amp;#xA9;</code>, work for any character at all, including ones without a name. Modern pages are UTF-8 and can hold the characters directly, so beyond the unsafe five, entities are mostly for older systems, email templates and places where the encoding is out of your hands.</p>
+        <h3>Why a decoder ring</h3>
+        <p>Radio shows of the 1940s sent listeners badges with a rotating dial: turn the ring, match a letter to a number, read the secret message. That is exactly what an entity is, a character written as a different sequence of characters, and turning it back is decoding. The dial above carries the two dozen characters people look up most.</p>
+        <details><summary>Should I encode everything or only the unsafe five?</summary><p>Only the five (&amp;, &lt;, &gt;, " and ') when you are escaping text for HTML. Everything, when you need a file that is pure ASCII or you are not sure the page declares UTF-8.</p></details>
+        <details><summary>What is the difference between &amp;#169; and &amp;#xA9;?</summary><p>Nothing in effect. The first is the character's number in decimal, the second in hexadecimal. Both are numeric character references and every browser reads both.</p></details>
+        <details><summary>Does decoding handle every named entity?</summary><p>Yes. Reading the message uses the browser's own HTML parser, which knows all 2,000-odd names, so &amp;hearts;, &amp;rarr; and the rarely seen ones all come back as characters. Tags in the text are kept as text.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. Everything runs in your browser; nothing you type leaves the page.</p></details>
+      </section>
+      <div class="foot"><span>Decoder ring · 24 characters on the dial</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const NS = 'http://www.w3.org/2000/svg';
+    const el = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+    const L1 = 'nbsp iexcl cent pound curren yen brvbar sect uml copy ordf laquo not shy reg macr deg plusmn sup2 sup3 acute micro para middot cedil sup1 ordm raquo frac14 frac12 frac34 iquest Agrave Aacute Acirc Atilde Auml Aring AElig Ccedil Egrave Eacute Ecirc Euml Igrave Iacute Icirc Iuml ETH Ntilde Ograve Oacute Ocirc Otilde Ouml times Oslash Ugrave Uacute Ucirc Uuml Yacute THORN szlig agrave aacute acirc atilde auml aring aelig ccedil egrave eacute ecirc euml igrave iacute icirc iuml eth ntilde ograve oacute ocirc otilde ouml divide oslash ugrave uacute ucirc uuml yacute thorn yuml'.split(' ');
+    const NAMES = { 38: 'amp', 60: 'lt', 62: 'gt', 34: 'quot', 39: 'apos', 338: 'OElig', 339: 'oelig', 352: 'Scaron', 353: 'scaron', 376: 'Yuml', 402: 'fnof', 710: 'circ', 732: 'tilde', 8194: 'ensp', 8195: 'emsp', 8201: 'thinsp', 8204: 'zwnj', 8205: 'zwj', 8211: 'ndash', 8212: 'mdash', 8216: 'lsquo', 8217: 'rsquo', 8218: 'sbquo', 8220: 'ldquo', 8221: 'rdquo', 8222: 'bdquo', 8224: 'dagger', 8225: 'Dagger', 8226: 'bull', 8230: 'hellip', 8240: 'permil', 8242: 'prime', 8243: 'Prime', 8249: 'lsaquo', 8250: 'rsaquo', 8254: 'oline', 8364: 'euro', 8482: 'trade', 8592: 'larr', 8593: 'uarr', 8594: 'rarr', 8595: 'darr', 8596: 'harr', 8722: 'minus', 8734: 'infin', 8800: 'ne', 8804: 'le', 8805: 'ge', 9674: 'loz', 9824: 'spades', 9827: 'clubs', 9829: 'hearts', 9830: 'diams', 913: 'Alpha', 914: 'Beta', 915: 'Gamma', 916: 'Delta', 937: 'Omega', 945: 'alpha', 946: 'beta', 947: 'gamma', 948: 'delta', 955: 'lambda', 956: 'mu', 960: 'pi', 963: 'sigma', 969: 'omega' };
+    L1.forEach((n, i) => { NAMES[160 + i] = n; });
+    const DESC = { amp: 'ampersand', lt: 'less than', gt: 'greater than', quot: 'double quote', apos: 'apostrophe', nbsp: 'non-breaking space', copy: 'copyright', reg: 'registered', trade: 'trademark', euro: 'euro', pound: 'pound', yen: 'yen', cent: 'cent', deg: 'degree', plusmn: 'plus minus', times: 'multiply', divide: 'divide', sect: 'section', para: 'paragraph pilcrow', bull: 'bullet', hellip: 'ellipsis', ndash: 'en dash', mdash: 'em dash', laquo: 'left guillemet', raquo: 'right guillemet', larr: 'left arrow', rarr: 'right arrow', uarr: 'up arrow', darr: 'down arrow', harr: 'left right arrow', hearts: 'heart', spades: 'spade', clubs: 'club', diams: 'diamond', infin: 'infinity', ne: 'not equal', le: 'less or equal', ge: 'greater or equal', micro: 'micro', middot: 'middle dot', frac12: 'one half', frac14: 'one quarter', frac34: 'three quarters', sup2: 'squared', sup3: 'cubed', iexcl: 'inverted exclamation', iquest: 'inverted question', lsquo: 'left single quote', rsquo: 'right single quote', ldquo: 'left double quote', rdquo: 'right double quote', szlig: 'sharp s', dagger: 'dagger', permil: 'per mille', prime: 'prime minutes', Prime: 'double prime seconds', minus: 'minus', loz: 'lozenge', pi: 'pi', mu: 'mu', Omega: 'omega', lambda: 'lambda', Delta: 'delta' };
+    const RING = [38, 60, 62, 34, 39, 169, 174, 8482, 8364, 163, 165, 162, 167, 176, 177, 215, 247, 182, 8226, 8230, 8211, 8212, 171, 187];
+    const badge = $('badge'), inp = $('in'), out = $('out'), inMeta = $('in-meta'), outMeta = $('out-meta'), inLab = $('in-lab'), outLab = $('out-lab'), encOpts = $('enc-opts');
+    let mode = 'encode', style = 'named', scope = 'all', cur = 38;
+    const named = (cp) => NAMES[cp] ? '&' + NAMES[cp] + ';' : null;
+    const numeric = (cp, hex) => hex ? '&#x' + cp.toString(16).toUpperCase() + ';' : '&#' + cp + ';';
+    const entityFor = (cp) => (style === 'named' && named(cp)) || numeric(cp, style === 'hex');
+    function encode(s) {
+      let n = 0;
+      const outS = Array.from(s, (ch) => { const cp = ch.codePointAt(0); const five = cp === 38 || cp === 60 || cp === 62 || cp === 34 || cp === 39; if (five || (scope === 'all' && cp > 126)) { n++; return entityFor(cp); } return ch; }).join('');
+      return { text: outS, n };
+    }
+    function decode(s) {
+      const guard = String.fromCharCode(1);
+      const doc = new DOMParser().parseFromString('<!doctype html><body>' + s.split('<').join(guard + 'LT' + guard), 'text/html');
+      const text = doc.body.textContent.split(guard + 'LT' + guard).join('<');
+      const n = (s.match(/&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);/gi) || []).length;
+      return { text, n };
+    }
+    // the badge
+    const svg = el('svg', { viewBox: '0 0 400 400', role: 'img', 'aria-label': 'Decoder ring showing the current character and its entity' });
+    const defs = el('defs', {});
+    const grad = el('radialGradient', { id: 'brass', cx: '35%', cy: '30%', r: '80%' });
+    grad.appendChild(el('stop', { offset: '0', 'stop-color': '#f1d98a' })); grad.appendChild(el('stop', { offset: '.6', 'stop-color': '#c9a24d' })); grad.appendChild(el('stop', { offset: '1', 'stop-color': '#8a6a24' }));
+    const en = el('radialGradient', { id: 'enamel', cx: '40%', cy: '35%', r: '75%' });
+    en.appendChild(el('stop', { offset: '0', 'stop-color': '#d9463a' })); en.appendChild(el('stop', { offset: '1', 'stop-color': '#7d1710' }));
+    defs.appendChild(grad); defs.appendChild(en); svg.appendChild(defs);
+    for (let i = 0; i < 16; i++) svg.appendChild(el('path', { d: 'M200 200 L' + (200 + 196 * Math.cos((i / 16) * 2 * Math.PI)) + ' ' + (200 + 196 * Math.sin((i / 16) * 2 * Math.PI)) + ' L' + (200 + 196 * Math.cos(((i + .5) / 16) * 2 * Math.PI)) + ' ' + (200 + 196 * Math.sin(((i + .5) / 16) * 2 * Math.PI)) + ' Z', fill: '#c9a24d', opacity: '.55' }));
+    svg.appendChild(el('circle', { cx: '200', cy: '200', r: '178', fill: 'url(#brass)', stroke: '#6b4f18', 'stroke-width': '3' }));
+    svg.appendChild(el('circle', { cx: '200', cy: '200', r: '150', fill: 'none', stroke: '#6b4f18', 'stroke-width': '1.5' }));
+    const dial = el('g', { class: 'dial' });
+    const slots = [];
+    RING.forEach((cp, i) => {
+      const a = (i / RING.length) * 2 * Math.PI - Math.PI / 2;
+      const g = el('g', { class: 'slot', transform: 'rotate(' + (i * 360 / RING.length) + ' 200 200)' });
+      g.appendChild(el('line', { x1: '200', y1: '22', x2: '200', y2: '30', stroke: '#6b4f18', 'stroke-width': '1' }));
+      g.appendChild(el('text', { x: '200', y: '52', 'text-anchor': 'middle' }, String.fromCodePoint(cp)));
+      g.appendChild(el('text', { x: '200', y: '68', 'text-anchor': 'middle', class: 'ent' }, named(cp)));
+      g.addEventListener('click', () => turn(cp));
+      dial.appendChild(g); slots.push({ cp, g });
+    });
+    svg.appendChild(dial);
+    svg.appendChild(el('path', { d: 'M186 6 L214 6 L200 24 Z', fill: '#b3261e', stroke: '#fff3d6', 'stroke-width': '1.5' }));
+    svg.appendChild(el('circle', { cx: '200', cy: '200', r: '112', fill: 'url(#enamel)', stroke: '#fff3d6', 'stroke-width': '4' }));
+    svg.appendChild(el('circle', { cx: '200', cy: '200', r: '104', fill: 'none', stroke: '#e5a89f', 'stroke-width': '1', opacity: '.6' }));
+    svg.appendChild(el('text', { x: '200', y: '128', 'text-anchor': 'middle', class: 'badge-title' }, 'ENTITY DECODER'));
+    const readCh = el('text', { x: '200', y: '208', 'text-anchor': 'middle', class: 'read-ch' }, '&');
+    const readEnt = el('text', { x: '200', y: '244', 'text-anchor': 'middle', class: 'read-ent' }, '&amp;');
+    const readNum = el('text', { x: '200', y: '266', 'text-anchor': 'middle', class: 'read-num' }, '&#38; · &#x26;');
+    svg.appendChild(readCh); svg.appendChild(readEnt); svg.appendChild(readNum);
+    svg.appendChild(el('text', { x: '200', y: '292', 'text-anchor': 'middle', class: 'badge-title' }, 'MEMBER'));
+    badge.appendChild(svg);
+    function turn(cp) {
+      cur = cp;
+      const i = RING.indexOf(cp);
+      if (i >= 0) dial.style.transform = 'rotate(' + (-i * 360 / RING.length) + 'deg)';
+      slots.forEach((s) => s.g.classList.toggle('cur', s.cp === cp));
+      readCh.textContent = cp === 160 ? '\u2423' : String.fromCodePoint(cp);
+      readEnt.textContent = named(cp) || numeric(cp, false);
+      readNum.textContent = '&#' + cp + '; · &#x' + cp.toString(16).toUpperCase() + ';';
+    }
+    function lastSpecial(s) {
+      if (mode === 'encode') { for (const ch of Array.from(s).reverse()) { const cp = ch.codePointAt(0); if ([38, 60, 62, 34, 39].includes(cp) || cp > 126) return cp; } return null; }
+      const m = s.match(/&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);(?![\s\S]*&(#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);)/i);
+      if (!m) return null;
+      const d = decode(m[0]).text; return d && d !== m[0] ? d.codePointAt(0) : null;
+    }
+    function update() {
+      const s = inp.value;
+      const r = mode === 'encode' ? encode(s) : decode(s);
+      out.value = r.text;
+      inMeta.textContent = s.length ? s.length + ' characters' : '';
+      outMeta.textContent = s.length ? (mode === 'encode' ? r.n + (r.n === 1 ? ' character written as an entity' : ' characters written as entities') : r.n + (r.n === 1 ? ' entity read' : ' entities read')) : '';
+      const cp = lastSpecial(s); if (cp != null) turn(cp);
+    }
+    function setMode(m) {
+      mode = m; document.querySelectorAll('.mode').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+      inLab.textContent = m === 'encode' ? 'Message' : 'Coded message'; outLab.textContent = m === 'encode' ? 'In code' : 'Decoded';
+      document.querySelectorAll('.panel .opts').forEach((o) => { o.style.display = m === 'encode' ? '' : 'none'; });
+      update();
+    }
+    document.querySelectorAll('.mode').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+    pressGroup('.st', (b) => { style = b.dataset.st; update(); });
+    pressGroup('.sc', (b) => { scope = b.dataset.sc; update(); });
+    inp.addEventListener('input', update);
+    copyBtn($('copy'), () => out.value, 'Copy');
+    copyBtn($('copy-ent'), () => readEnt.textContent, 'Copy entity');
+    copyBtn($('copy-num'), () => '&#' + cur + ';', 'Copy &#number;');
+    $('swap').addEventListener('click', () => { const o = out.value; if (!o) return; inp.value = o; setMode(mode === 'encode' ? 'decode' : 'encode'); });
+    $('clear').addEventListener('click', () => { inp.value = ''; update(); inp.focus(); });
+    // the code book
+    const grid = $('grid'), find = $('find');
+    const BOOK = Object.keys(NAMES).map(Number).filter((cp) => cp !== 8204 && cp !== 8205 && cp !== 173).sort((a, b) => a - b);
+    function book(q) {
+      clear(grid); const needle = (q || '').trim().toLowerCase(); let shown = 0;
+      for (const cp of BOOK) {
+        const n = NAMES[cp], d = DESC[n] || '';
+        if (needle && !(n.toLowerCase().includes(needle) || d.includes(needle) || String(cp) === needle || String.fromCodePoint(cp) === needle)) continue;
+        const b = h('button', null, null, 'cell'); b.type = 'button';
+        b.appendChild(h('span', null, cp === 160 ? '\u2423' : String.fromCodePoint(cp), 'g'));
+        const info = h('span'); info.appendChild(h('span', null, '&' + n + ';', 'n')); info.appendChild(h('br')); info.appendChild(h('span', null, (d ? d + ' · ' : '') + '&#' + cp + ';', 'c'));
+        b.appendChild(info); b.addEventListener('click', () => { turn(cp); badge.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+        grid.appendChild(b); shown++; if (shown >= 160) break;
+      }
+      if (!shown) grid.appendChild(h('p', 'color:#6f6353;font-size:13px', 'Nothing in the book matches that.'));
+    }
+    find.addEventListener('input', () => book(find.value));
+    book(''); update();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

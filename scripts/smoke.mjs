@@ -19,15 +19,19 @@ const FORBIDDEN_VERSIONS = ['0.1.1', '0.1.2', '0.1.3', '0.1.4', '0.1.5'];
 const BATCH = 6;
 
 const tools = JSON.parse(await readFile(resolve(repoRoot, 'tools.json'), 'utf8'));
+const titleByUrl = new Map(tools.map(t => [t.url, t.name]));
 
-const endpoints = [
-  { name: 'tools-hub', url: HUB_URL, expectedTitle: 'Web Utility Tools by CRUSHER' },
-  ...tools.map(t => ({
-    name: new URL(t.url).pathname.replace(/^\/|\/$/g, ''),
-    url: t.url,
-    expectedTitle: t.name,
-  })),
-];
+// Drive from the sitemap, not tools.json: the sitemap is what Google is given, so
+// a URL in it that 404s is the failure that matters. It also covers the variant
+// landing pages, which the catalog does not list.
+const sitemap = await readFile(resolve(repoRoot, 'sitemap.xml'), 'utf8');
+const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+
+const endpoints = sitemapUrls.map(url => ({
+  name: new URL(url).pathname.replace(/^\/|\/$/g, '') || 'tools-hub',
+  url,
+  expectedTitle: url === HUB_URL ? 'Web Utility Tools by CRUSHER' : titleByUrl.get(url) || null,
+}));
 
 async function statusOf(url) {
   try {
@@ -53,9 +57,15 @@ async function checkOne({ name, url, expectedTitle }) {
   // Accept either an exact match or a title sharing the name's first two words.
   const titleMatch = html.match(/<title>([^<]*)<\/title>/);
   const title = titleMatch ? titleMatch[1].trim() : '';
-  const stem = expectedTitle.split(' ').slice(0, 2).join(' ');
-  if (title !== expectedTitle && !title.startsWith(stem)) {
-    errors.push(`title="${title}" expected "${expectedTitle}" (or an SEO title starting "${stem}")`);
+  // Variant landing pages are in the sitemap but not the catalog, so they have no
+  // expected title; a non-empty <title> is all we can assert for them.
+  if (!expectedTitle) {
+    if (!title) errors.push('empty <title>');
+  } else {
+    const stem = expectedTitle.split(' ').slice(0, 2).join(' ');
+    if (title !== expectedTitle && !title.startsWith(stem)) {
+      errors.push(`title="${title}" expected "${expectedTitle}" (or an SEO title starting "${stem}")`);
+    }
   }
 
   if (!html.includes('<!-- SEO-META-START -->')) errors.push('missing SEO-META-START marker');
@@ -76,14 +86,30 @@ async function checkOne({ name, url, expectedTitle }) {
     }
   }
 
+  // Discovery files are per-HOST, not per-page: one site now, so they are checked
+  // once below rather than 42 times.
+  return { name, url, ok: errors.length === 0, errors };
+}
+
+async function checkDiscoveryFiles() {
+  const errors = [];
   const [sm, rb] = await Promise.all([
-    statusOf(url + 'sitemap.xml'),
-    statusOf(url + 'robots.txt'),
+    statusOf(HUB_URL + 'sitemap.xml'),
+    statusOf(HUB_URL + 'robots.txt'),
   ]);
   if (sm !== 200) errors.push(`sitemap.xml: ${sm}`);
   if (rb !== 200) errors.push(`robots.txt: ${rb}`);
-
-  return { name, url, ok: errors.length === 0, errors };
+  // The sitemap Google fetches must list what we think it lists.
+  try {
+    const live = await (await fetch(HUB_URL + 'sitemap.xml')).text();
+    const liveCount = (live.match(/<loc>/g) || []).length;
+    if (liveCount !== sitemapUrls.length) {
+      errors.push(`live sitemap lists ${liveCount} URLs, local lists ${sitemapUrls.length}`);
+    }
+  } catch (e) {
+    errors.push(`sitemap fetch failed: ${e.message}`);
+  }
+  return { name: 'discovery files', url: HUB_URL + 'sitemap.xml', ok: errors.length === 0, errors };
 }
 
 const stamp = new Date().toISOString().replace('T', ' ').slice(0, 16) + 'Z';
@@ -99,6 +125,11 @@ for (let i = 0; i < endpoints.length; i += BATCH) {
   }
   results.push(...batchResults);
 }
+
+const discovery = await checkDiscoveryFiles();
+console.log(`  ${discovery.ok ? '✓' : '✗'} ${discovery.name.padEnd(34)} ${discovery.url}`);
+if (!discovery.ok) for (const e of discovery.errors) console.log(`      └ ${e}`);
+results.push(discovery);
 
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;

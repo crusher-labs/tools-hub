@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-world="boarding-pass">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Free QR Codes for URLs, Text, Wi-Fi and More, PNG or SVG</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Make a QR code for a URL, text, Wi-Fi network, email, phone number or SMS on a boarding pass: pick the error-correction level, size and colours, and tear off the stub to download as PNG or SVG. Generated in your browser, nothing uploaded.">
+    <meta name="theme-color" content="#e9ecf0">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/qr-code-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="QR Code Generator - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Make a QR code for a URL, text, Wi-Fi network, email, phone number or SMS on a boarding pass: pick the error-correction level, size and colours, and tear off the stub to download as PNG or SVG. Generated in your browser, nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/qr-code-generator/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="QR Code Generator - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Make a QR code for a URL, text, Wi-Fi network, email, phone number or SMS on a boarding pass: pick the error-correction level, size and colours, and tear off the stub to download as PNG or SVG. Generated in your browser, nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --hall:#e9ecf0; --ink:#12161c; --muted:#5f6772; --pass:#fdfdfc; --stripe:#1d4f9c; --stub:#f3f1ea; --line:#cfd4da; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--hall); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:600 11px 'Jost', sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(28px, 4.4vw, 44px)/1.05 'Jost', sans-serif; letter-spacing:.01em; }
+    .lede { margin:12px 0 22px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .pass { display:grid; grid-template-columns: 1fr 300px; background:var(--pass); border-radius:14px; box-shadow:0 24px 50px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.06); overflow:hidden; position:relative; }
+    .main { padding:0 0 22px; }
+    .band { background:var(--stripe); color:#fff; padding:12px 22px; display:flex; justify-content:space-between; align-items:center; font:700 13px 'Jost', sans-serif; letter-spacing:.22em; text-transform:uppercase; }
+    .band small { font:400 11px 'Share Tech Mono', monospace; letter-spacing:.1em; opacity:.85; }
+    .body { display:grid; grid-template-columns: 1fr auto; gap:18px; padding:18px 22px 0; align-items:start; }
+    .fields { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px 16px; }
+    .f b { display:block; font:600 9.5px 'Jost', sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+    .f span { display:block; font:600 18px 'Jost', sans-serif; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .f.wide { grid-column:1 / -1; }
+    .f .mono { font:600 15px 'Share Tech Mono', monospace; }
+    .qr { width:230px; height:230px; background:#fff; border:1px solid var(--line); border-radius:6px; padding:8px; }
+    .qr svg { display:block; width:100%; height:100%; }
+    .stub { border-left:2px dashed #9aa3ae; background:var(--stub); padding:0 0 18px; position:relative; transform-origin:left center; }
+    .stub.torn { animation: tear .75s ease-in both; }
+    @keyframes tear { 40% { transform:rotate(3deg) translateX(10px); opacity:1; } 100% { transform:rotate(8deg) translateX(70px) translateY(40px); opacity:0; } }
+    .stub .band { background:#2b3441; }
+    .stub .inner { padding:14px 18px 0; display:grid; gap:10px; }
+    .stub .qr { width:150px; height:150px; margin:0 auto; }
+    .stub .f span { font-size:15px; }
+    .keys { display:flex; flex-wrap:wrap; gap:8px; }
+    .key { padding:9px 14px; border:1px solid var(--ink); border-radius:4px; background:transparent; color:var(--ink); font:600 12px 'Jost', sans-serif; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; text-decoration:none; display:inline-block; }
+    .key.solid { background:var(--ink); color:#fff; }
+    .key[aria-pressed="true"] { background:var(--stripe); border-color:var(--stripe); color:#fff; }
+    .desk { margin-top:18px; display:grid; grid-template-columns: 1.15fr 1fr; gap:18px; }
+    .panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; display:grid; gap:12px; }
+    .panel h2 { margin:0; font:700 12px 'Jost', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .types { display:flex; flex-wrap:wrap; gap:8px; }
+    textarea, .in { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); font:14px/1.5 'Share Tech Mono', monospace; outline:none; }
+    textarea { min-height:90px; resize:vertical; }
+    textarea:focus, .in:focus { border-color:var(--stripe); }
+    .sub { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .sub label { font:600 11px 'Jost', sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px; }
+    .sub .full { grid-column:1 / -1; }
+    .ctl { display:grid; grid-template-columns: 96px 1fr 64px; gap:10px; align-items:center; font-size:13px; }
+    .ctl label { color:var(--muted); font:600 11px 'Jost', sans-serif; letter-spacing:.14em; text-transform:uppercase; }
+    .ctl input[type="range"] { width:100%; accent-color:var(--stripe); }
+    .ctl output { font:600 13px 'Share Tech Mono', monospace; text-align:right; }
+    .ctl input[type="color"] { width:44px; height:30px; border:1px solid var(--line); border-radius:4px; background:#fff; padding:1px; }
+    .meta { font:400 12px 'Share Tech Mono', monospace; color:var(--muted); min-height:1.2em; }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:700 24px 'Jost', sans-serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--line); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'Share Tech Mono', monospace; background:#dfe3e8; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Jost', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 880px) { main { padding:26px 12px 56px; } .pass { grid-template-columns:1fr; } .body { grid-template-columns:1fr; } .qr { margin:0 auto; } .fields { grid-template-columns:repeat(2, minmax(0, 1fr)); } .stub { border-left:0; border-top:2px dashed #9aa3ae; transform-origin:top center; } .desk { grid-template-columns:1fr; } .ctl { grid-template-columns: 80px 1fr 56px; } }
+
+    [hidden] { display:none !important; }
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+    <script src="qrcode.js"></script>
+
+    <main>
+      <p class="kicker">Boarding pass · gate, seat, flight · tear the stub</p>
+      <h1>QR Code Generator</h1>
+      <p class="lede">Type a link, some text, a Wi-Fi network or a contact and the code prints on the pass. Set the error correction, size and colours, then tear off the stub to download it as PNG or SVG.</p>
+      <div class="pass" id="pass">
+        <div class="main">
+          <div class="band"><span>Boarding pass</span><small id="b-ver">QR · VERSION 1 · 21 × 21</small></div>
+          <div class="body">
+            <div class="fields">
+              <div class="f wide"><b>Passenger · content</b><span id="p-content">https://tools.muhammadhassaanjaved.com/</span></div>
+              <div class="f"><b>From</b><span id="p-from">URL</span></div>
+              <div class="f"><b>To</b><span>Any camera</span></div>
+              <div class="f"><b>Flight</b><span class="mono" id="p-flight">QR 001</span></div>
+              <div class="f"><b>Gate · error correction</b><span class="mono" id="p-ec">M · 15%</span></div>
+              <div class="f"><b>Seat · modules</b><span class="mono" id="p-seat">21 × 21</span></div>
+              <div class="f"><b>Boarding · characters</b><span class="mono" id="p-len">0</span></div>
+            </div>
+            <div class="qr" id="qr"></div>
+          </div>
+        </div>
+        <div class="stub" id="stub">
+          <div class="band"><span>Stub</span><small id="s-ver">QR</small></div>
+          <div class="inner">
+            <div class="qr" id="qr2"></div>
+            <div class="f"><b>Passenger</b><span id="s-content">-</span></div>
+            <div class="keys"><a class="key solid" id="dl-png" href="#" download="qr-code.png">PNG</a><a class="key" id="dl-svg" href="#" download="qr-code.svg">SVG</a><button type="button" class="key" id="copy-svg">Copy SVG</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="desk">
+        <div class="panel">
+          <h2>Check-in</h2>
+          <div class="types"><button type="button" class="key t" data-t="url" aria-pressed="true">URL</button><button type="button" class="key t" data-t="text" aria-pressed="false">Text</button><button type="button" class="key t" data-t="wifi" aria-pressed="false">Wi-Fi</button><button type="button" class="key t" data-t="email" aria-pressed="false">Email</button><button type="button" class="key t" data-t="tel" aria-pressed="false">Phone</button><button type="button" class="key t" data-t="sms" aria-pressed="false">SMS</button></div>
+          <div id="f-plain"><textarea id="text" spellcheck="false" aria-label="Content">https://tools.muhammadhassaanjaved.com/</textarea></div>
+          <div id="f-wifi" class="sub" hidden><div><label for="w-ssid">Network name</label><input id="w-ssid" class="in" placeholder="MyNetwork"></div><div><label for="w-pass">Password</label><input id="w-pass" class="in" placeholder="secret"></div><div><label for="w-sec">Security</label><select id="w-sec" class="in"><option value="WPA">WPA / WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select></div><div><label for="w-hid">Hidden network</label><select id="w-hid" class="in"><option value="false">No</option><option value="true">Yes</option></select></div></div>
+          <div id="f-email" class="sub" hidden><div class="full"><label for="e-to">To</label><input id="e-to" class="in" placeholder="name@example.com"></div><div class="full"><label for="e-sub">Subject</label><input id="e-sub" class="in" placeholder="Hello"></div></div>
+          <div id="f-tel" class="sub" hidden><div class="full"><label for="t-num">Phone number</label><input id="t-num" class="in" placeholder="+44 20 7946 0000"></div></div>
+          <div id="f-sms" class="sub" hidden><div><label for="s-num">Phone number</label><input id="s-num" class="in" placeholder="+44 7700 900000"></div><div><label for="s-msg">Message</label><input id="s-msg" class="in" placeholder="Hi"></div></div>
+          <p class="meta" id="meta"></p>
+        </div>
+        <div class="panel">
+          <h2>Print settings</h2>
+          <div class="ctl"><label>Correction</label><div class="keys"><button type="button" class="key ec" data-ec="L" aria-pressed="false">L 7%</button><button type="button" class="key ec" data-ec="M" aria-pressed="true">M 15%</button><button type="button" class="key ec" data-ec="Q" aria-pressed="false">Q 25%</button><button type="button" class="key ec" data-ec="H" aria-pressed="false">H 30%</button></div><span></span></div>
+          <div class="ctl"><label for="size">Size</label><input id="size" type="range" min="128" max="1024" step="32" value="512"><output id="size-o">512 px</output></div>
+          <div class="ctl"><label for="margin">Quiet zone</label><input id="margin" type="range" min="0" max="8" value="4"><output id="margin-o">4</output></div>
+          <div class="ctl"><label for="dark">Ink</label><input id="dark" type="color" value="#12161c"><span></span></div>
+          <div class="ctl"><label for="light">Paper</label><input id="light" type="color" value="#ffffff"><span></span></div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>A QR code is a boarding pass for data</h2>
+        <p>A QR code packs text into a grid of black and white modules that any phone camera can read: a web address, a Wi-Fi login, a phone number, a plain message. Three big squares tell the camera where the corners are, the rest is the data plus error-correction codewords, which is why a code still scans with a corner torn off or a logo in the middle. The more you put in, the more modules it needs: the version number on the pass counts up from 1 (21 by 21 modules) as the content grows.</p>
+        <h3>The settings</h3>
+        <p>Error correction is how much of the code can be lost and still read: L survives 7 percent damage, H 30 percent, at the cost of a denser code. M is right for screens and clean prints; use H when the code will be small, printed on packaging or partly covered. The quiet zone is the blank border scanners need, four modules by the standard. Keep the ink dark and the paper light: cameras read contrast, and an inverted code fails on many phones.</p>
+        <h3>Why a boarding pass</h3>
+        <p>Boarding passes have carried their data in a barcode since 2005, the IATA bar-coded boarding pass, with the same information printed beside it for humans: name, flight, gate, seat. This page does the same: the code on the left, the facts about it on the right, and a stub you tear off to keep.</p>
+        <details><summary>PNG or SVG?</summary><p>SVG for print and design work, it scales to any size without blurring. PNG for websites, documents and anywhere an image file is expected; the size setting is its pixel width.</p></details>
+        <details><summary>Will the Wi-Fi code work on iPhone and Android?</summary><p>Yes. Both read the standard WIFI:T:WPA;S:name;P:password;; format and offer to join the network.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The code is computed in your browser by an open-source encoder; your text never leaves the page.</p></details>
+      </section>
+      <div class="foot"><span>Boarding pass · tear the stub</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const NS = 'http://www.w3.org/2000/svg';
+    let type = 'url', ec = 'M', pngUrl = null, svgUrl = null;
+    const TYPES = ['url', 'text', 'wifi', 'email', 'tel', 'sms'];
+    const esc = (s) => s.replace(/([\\;,:"])/g, '\\$1');
+    function payload() {
+      if (type === 'wifi') { const ssid = $('w-ssid').value.trim(); if (!ssid) return ''; const sec = $('w-sec').value; return 'WIFI:T:' + sec + ';S:' + esc(ssid) + ';' + (sec !== 'nopass' ? 'P:' + esc($('w-pass').value) + ';' : '') + ($('w-hid').value === 'true' ? 'H:true;' : '') + ';'; }
+      if (type === 'email') { const to = $('e-to').value.trim(); if (!to) return ''; return 'mailto:' + to + ($('e-sub').value ? '?subject=' + encodeURIComponent($('e-sub').value) : ''); }
+      if (type === 'tel') { const n = $('t-num').value.replace(/[^+\d]/g, ''); return n ? 'tel:' + n : ''; }
+      if (type === 'sms') { const n = $('s-num').value.replace(/[^+\d]/g, ''); return n ? 'SMSTO:' + n + ':' + $('s-msg').value : ''; }
+      return $('text').value;
+    }
+    const LABEL = { url: 'URL', text: 'Text', wifi: 'Wi-Fi network', email: 'Email', tel: 'Phone', sms: 'SMS' };
+    function modules(text) {
+      qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
+      const qr = qrcode(0, ec); qr.addData(text, 'Byte'); qr.make();
+      const n = qr.getModuleCount(); const rows = [];
+      for (let r = 0; r < n; r++) { const row = []; for (let c = 0; c < n; c++) row.push(qr.isDark(r, c)); rows.push(row); }
+      return rows;
+    }
+    function svgOf(rows, margin, dark, light, size) {
+      const n = rows.length, total = n + margin * 2;
+      let d = '';
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (rows[r][c]) d += 'M' + (c + margin) + ' ' + (r + margin) + 'h1v1h-1z';
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + total + ' ' + total + '" width="' + size + '" height="' + size + '" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="' + light + '"/><path d="' + d + '" fill="' + dark + '"/></svg>';
+    }
+    function mount(el, svgText) { while (el.firstChild) el.removeChild(el.firstChild); const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml'); const node = document.importNode(doc.documentElement, true); node.removeAttribute('width'); node.removeAttribute('height'); el.appendChild(node); }
+    function render() {
+      const text = payload(); const size = Number($('size').value), margin = Number($('margin').value), dark = $('dark').value, light = $('light').value;
+      $('p-content').textContent = text || '(empty)'; $('s-content').textContent = text ? text.slice(0, 40) + (text.length > 40 ? '\u2026' : '') : '-'; $('p-from').textContent = LABEL[type]; $('p-len').textContent = String(new TextEncoder().encode(text).length);
+      $('p-ec').textContent = ec + ' · ' + ({ L: '7%', M: '15%', Q: '25%', H: '30%' })[ec];
+      if (!text) { $('qr').textContent = ''; $('qr2').textContent = ''; $('meta').textContent = 'Nothing to encode yet.'; return; }
+      let rows;
+      try { rows = modules(text); } catch (e) { $('meta').textContent = 'Too much data for one QR code at this correction level (about 2,950 bytes at L). Shorten it or lower the correction.'; return; }
+      const n = rows.length, version = (n - 17) / 4;
+      $('b-ver').textContent = 'QR · VERSION ' + version + ' · ' + n + ' × ' + n; $('s-ver').textContent = 'QR ' + String(version).padStart(3, '0'); $('p-flight').textContent = 'QR ' + String(version).padStart(3, '0'); $('p-seat').textContent = n + ' × ' + n;
+      const svg = svgOf(rows, margin, dark, light, size);
+      mount($('qr'), svg); mount($('qr2'), svg);
+      if (svgUrl) URL.revokeObjectURL(svgUrl); svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); $('dl-svg').href = svgUrl;
+      const c = document.createElement('canvas'); c.width = size; c.height = size; const ctx = c.getContext('2d'); const total = n + margin * 2, cell = size / total;
+      ctx.fillStyle = light; ctx.fillRect(0, 0, size, size); ctx.fillStyle = dark;
+      for (let r = 0; r < n; r++) for (let col = 0; col < n; col++) if (rows[r][col]) ctx.fillRect(Math.floor((col + margin) * cell), Math.floor((r + margin) * cell), Math.ceil(cell), Math.ceil(cell));
+      c.toBlob((b) => { if (pngUrl) URL.revokeObjectURL(pngUrl); pngUrl = URL.createObjectURL(b); $('dl-png').href = pngUrl; }, 'image/png');
+      $('meta').textContent = 'Version ' + version + ', ' + n + ' × ' + n + ' modules, ' + size + ' px, correction ' + ec + '.';
+      window.__svg = svg;
+    }
+    document.querySelectorAll('.t').forEach((b) => b.addEventListener('click', () => { type = b.dataset.t; document.querySelectorAll('.t').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); $('f-plain').hidden = !(type === 'url' || type === 'text'); TYPES.filter((t) => t !== 'url' && t !== 'text').forEach((t) => { $('f-' + t).hidden = type !== t; }); if (type === 'url' && !/^[a-z]+:/i.test($('text').value)) $('text').value = 'https://'; if (type === 'text' && $('text').value === 'https://') $('text').value = ''; render(); }));
+    document.querySelectorAll('.ec').forEach((b) => b.addEventListener('click', () => { ec = b.dataset.ec; document.querySelectorAll('.ec').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); render(); }));
+    ['text', 'w-ssid', 'w-pass', 'w-sec', 'w-hid', 'e-to', 'e-sub', 't-num', 's-num', 's-msg', 'dark', 'light'].forEach((id) => $(id).addEventListener('input', render));
+    $('size').addEventListener('input', () => { $('size-o').textContent = $('size').value + ' px'; render(); });
+    $('margin').addEventListener('input', () => { $('margin-o').textContent = $('margin').value; render(); });
+    const tear = () => { const st = $('stub'); st.classList.remove('torn'); void st.offsetWidth; st.classList.add('torn'); setTimeout(() => st.classList.remove('torn'), 1600); };
+    $('dl-png').addEventListener('click', tear); $('dl-svg').addEventListener('click', tear);
+    copyBtn($('copy-svg'), () => window.__svg || '', 'Copy SVG');
+    render();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

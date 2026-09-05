@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-world="green-bar-printout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter and Minifier - Free, Private, In Your Browser</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Format, validate and minify JSON as you type, printed on green-bar paper. Sort keys, spot the exact column of an error, copy the result. Free, no upload, nothing leaves your browser.">
+    <meta name="theme-color" content="#d5e3cc">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/json-prettifier/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="JSON Formatter and Minifier - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Format, validate and minify JSON as you type, printed on green-bar paper. Sort keys, spot the exact column of an error, copy the result. Free, no upload, nothing leaves your browser.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/json-prettifier/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JSON Formatter and Minifier - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Format, validate and minify JSON as you type, printed on green-bar paper. Sort keys, spot the exact column of an error, copy the result. Free, no upload, nothing leaves your browser.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --paper:#f4f1e3; --bar:#d5e3cc; --ink:#1e2a20; --ink-soft:#3b4a3e; --faded:#7d8a7f; --ribbon:#b3261e; --key:#7a4f1d; --num:#1f4e79; --hole:#c9c2ae; --tractor:44px; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); font-family:'Share Tech Mono', ui-monospace, monospace;
+      background-color:var(--paper);
+      background-image:
+        repeating-linear-gradient(180deg, transparent 0 1055px, #b9b3a0 1055px 1056px),
+        repeating-linear-gradient(180deg, var(--paper) 0 48px, var(--bar) 48px 96px);
+    }
+    .tractor { position:fixed; top:0; bottom:0; width:var(--tractor); background-color:var(--paper); background-image:radial-gradient(circle at 50% 50%, var(--hole) 6px, transparent 7px); background-size:var(--tractor) 47px; z-index:3; }
+    .tractor.l { left:0; border-right:1px dashed #c7c1ad; } .tractor.r { right:0; border-left:1px dashed #c7c1ad; }
+    .content { position:relative; z-index:2; padding:40px calc(var(--tractor) + 52px) 60px; max-width:1440px; margin:0 auto; }
+    .jobline, .ruler { white-space:pre; overflow:hidden; letter-spacing:.06em; }
+    .jobline { font-size:12.5px; text-transform:uppercase; color:var(--ink-soft); }
+    .ruler { font-size:11.5px; color:var(--faded); margin:4px 0 26px; }
+    h1 { margin:0 0 8px; font-weight:400; font-size:clamp(30px, 4.2vw, 52px); letter-spacing:.06em; text-transform:uppercase; line-height:1.05; }
+    .lede { margin:0 0 30px; font-family:'Public Sans', system-ui, sans-serif; font-size:16px; line-height:1.5; color:#4a5a4d; max-width:640px; }
+    .grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:26px; }
+    .box { border:2px solid var(--ink); padding:14px 18px; background:rgba(255,255,255,0.35); position:relative; }
+    .box .tag { position:absolute; top:-11px; left:14px; background:var(--paper); padding:0 8px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+    textarea.in { width:100%; min-height:260px; border:none; background:transparent; resize:vertical; font:15px/1.6 'Share Tech Mono', monospace; color:var(--ink); outline:none; }
+    .out { min-height:260px; font-size:15px; line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .out .ln { display:block; animation:print .18s steps(2) both; }
+    @keyframes print { from { opacity:0; transform:translateY(-2px); } to { opacity:1; transform:none; } }
+    .k { color:var(--key); } .n { color:var(--num); } .p { color:var(--ribbon); } .err { color:var(--ribbon); }
+    .panel { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:24px 0; }
+    .sw { display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border:2px solid var(--ink); background:#e9e6d6; color:var(--ink); font:12.5px 'Share Tech Mono', monospace; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; box-shadow:2px 2px 0 var(--ink); }
+    .sw i { width:9px; height:9px; border-radius:50%; background:#8a9a8c; box-shadow:inset 0 1px 1px rgba(0,0,0,0.4); }
+    .sw[aria-pressed="true"] { background:var(--ink); color:var(--paper); }
+    .sw[aria-pressed="true"] i { background:#5cff8f; box-shadow:0 0 6px #5cff8f; }
+    .tear { margin-left:auto; padding:10px 16px; border:2px dashed var(--ribbon); color:var(--ribbon); background:transparent; font:12.5px 'Share Tech Mono', monospace; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; }
+    .status { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin-top:10px; }
+    .memo { margin-top:46px; background:#fffdf7; color:#242424; font-family:'Public Sans', system-ui, sans-serif; padding:28px 32px; max-width:760px; box-shadow:0 10px 30px -18px rgba(0,0,0,0.5); position:relative; transform:rotate(-0.4deg); }
+    .memo::before { content:''; position:absolute; top:-14px; left:30px; width:34px; height:52px; border:3px solid var(--faded); border-radius:14px 14px 12px 12px; border-bottom-color:transparent; }
+    .memo h2 { margin:0 0 10px; font:600 24px 'Public Sans', sans-serif; letter-spacing:-.01em; }
+    .memo p { margin:0 0 10px; font-size:14.5px; line-height:1.6; color:#4a4a4a; }
+    .memo details { border-top:1px solid #e4dfd0; } .memo summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .memo a { color:var(--num); }
+    .foot { margin-top:26px; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faded); display:flex; flex-wrap:wrap; gap:8px 24px; align-items:center; }
+    .foot a { color:var(--ink-soft); }
+    .tool-feedback { font-family:'Public Sans', system-ui, sans-serif; font-size:13px; color:var(--ink-soft); margin-top:18px; }
+    .tool-feedback summary::before { color:var(--ribbon); }
+    @media (max-width: 900px) { .grid { grid-template-columns:1fr; } }
+    @media (max-width: 640px) { :root { --tractor:22px; } .content { padding:26px calc(var(--tractor) + 14px) 40px; } .jobline { font-size:10px; } .ruler { font-size:9px; } textarea.in, .out { min-height:150px; font-size:13px; } .memo { padding:20px 18px; transform:none; } .tear { margin-left:0; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <div class="tractor l" aria-hidden="true"></div><div class="tractor r" aria-hidden="true"></div>
+    <main class="content">
+      <div class="jobline">JOB 0042   JSON FORMATTER   LINE PRINTER 02   PAGE 001                                     CRUSHER-LABS TOOLS</div>
+      <div class="ruler">----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2----+----3</div>
+      <h1>JSON Formatter</h1>
+      <p class="lede">Paste JSON in the input box. It prints formatted, line by line, on the green bar. Errors print in ribbon red. Nothing leaves your browser.</p>
+      <div class="grid">
+        <div class="box"><span class="tag">Input · type or paste</span><textarea id="json-in" class="in" spellcheck="false" aria-label="JSON input">{"name":"crusher","tools":37,"free":true,"tags":["static","private"],"pins":{"kit":"none"}}</textarea></div>
+        <div class="box"><span class="tag">Output · printed</span><div id="json-out" class="out" aria-live="polite"></div></div>
+      </div>
+      <div class="panel">
+        <button class="sw json-mode" data-m="pretty" aria-pressed="true"><i></i>Pretty</button>
+        <button class="sw json-mode" data-m="min" aria-pressed="false"><i></i>Minify</button>
+        <button id="json-sort" class="sw" aria-pressed="false"><i></i>Sort keys</button>
+        <button id="json-copy" class="tear">Tear off · copy output</button>
+      </div>
+      <div id="json-hint" class="status"></div>
+      <section class="memo">
+        <h2>Format, validate and minify JSON</h2>
+        <p>Paste any JSON and it prints formatted with two-space indentation and syntax coloring. Invalid input prints the parser's message and, where the browser reports it, the position it failed at, so a missing comma is a one-second fix. Minify collapses everything to a single line for configs and API payloads; Sort keys orders every object alphabetically, recursively.</p>
+        <p>Everything runs in your browser. Large payloads never leave the tab, which makes this safe for real API responses.</p>
+        <details><summary>What about JSON with comments?</summary><p>Strict JSON has no comments. Lines starting with // are stripped before parsing so that config files still format.</p></details>
+        <details><summary>Can it handle big files?</summary><p>Yes. It is your machine doing the work; several megabytes format in well under a second.</p></details>
+        <details><summary>Why green-bar paper?</summary><p>Because formatted output is a printout, and line-printer paper is the most readable thing ever designed for long structured text: the half-inch bars keep your eye on the line.</p></details>
+      </section>
+      <div class="foot"><span>End of job 0042 · lines printed: <span id="json-lines">0</span></span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+
+
+    const inp = document.getElementById('json-in'), out = document.getElementById('json-out'), hint = document.getElementById('json-hint'), sortBtn = document.getElementById('json-sort'), lines = document.getElementById('json-lines');
+    let mode = 'pretty', sort = false;
+    const sortKeys = v => Array.isArray(v) ? v.map(sortKeys) : (v && typeof v === 'object') ? Object.keys(v).sort().reduce((o, k) => (o[k] = sortKeys(v[k]), o), {}) : v;
+    const paintLine = (el, s) => { let last = 0; for (const m of s.matchAll(/("(?:[^"\\]|\\.)*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\]])/g)) { if (m.index > last) el.appendChild(document.createTextNode(s.slice(last, m.index))); if (m[1]) { el.appendChild(h('span', null, m[1], m[2] ? 'k' : '')); if (m[2]) el.appendChild(document.createTextNode(m[2])); } else if (m[3] || m[4]) el.appendChild(h('span', null, m[0], 'n')); else el.appendChild(h('span', null, m[5], 'p')); last = m.index + m[0].length; } if (last < s.length) el.appendChild(document.createTextNode(s.slice(last))); };
+    const render = () => {
+      const raw = inp.value.replace(/^\s*\/\/.*$/gm, ''); out.textContent = '';
+      if (!raw.trim()) { hint.textContent = 'Awaiting input'; lines.textContent = '0'; return; }
+      try { let v = JSON.parse(raw); if (sort) v = sortKeys(v); const s = mode === 'pretty' ? JSON.stringify(v, null, 2) : JSON.stringify(v); const ls = s.split('\n'); ls.forEach((l, i) => { const el = h('span', 'animation-delay:' + Math.min(i, 60) * 22 + 'ms', null, 'ln'); paintLine(el, l); out.appendChild(el); }); hint.textContent = 'Valid · ' + s.length + ' chars · ' + ls.length + ' lines'; lines.textContent = String(ls.length); }
+      catch (e) { const m = (e.message.match(/position (\d+)/) || [])[1]; out.appendChild(h('span', null, '*** ERROR' + (m ? ' AT CHAR ' + m : '') + ': ' + e.message.toUpperCase() + ' ***', 'ln err')); hint.textContent = 'Invalid JSON'; lines.textContent = '1'; }
+    };
+    inp.addEventListener('input', render);
+    document.querySelectorAll('.json-mode').forEach(b => b.addEventListener('click', () => { mode = b.dataset.m; document.querySelectorAll('.json-mode').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render(); }));
+    sortBtn.addEventListener('click', () => { sort = !sort; sortBtn.setAttribute('aria-pressed', String(sort)); render(); });
+    copyBtn(document.getElementById('json-copy'), () => out.textContent, 'Tear off · copy output', 'Torn off · copied');
+    render();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

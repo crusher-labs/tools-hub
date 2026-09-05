@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-world="luggage-tag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder/Decoder - Encode and Decode URLs, Query Strings and Components</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Percent-encode text and URLs or decode them back, printed on an airline bag tag: the host is the destination code, the encoded string rides on the claim stub, and tearing the stub copies it. Component, whole-URL and form (+) modes, a query-string breakdown, nothing uploaded.">
+    <meta name="theme-color" content="#e6e8ec">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/url-encoder-decoder/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="URL Encoder/Decoder - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Percent-encode text and URLs or decode them back, printed on an airline bag tag: the host is the destination code, the encoded string rides on the claim stub, and tearing the stub copies it. Component, whole-URL and form (+) modes, a query-string breakdown, nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/url-encoder-decoder/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="URL Encoder/Decoder - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Percent-encode text and URLs or decode them back, printed on an airline bag tag: the host is the destination code, the encoded string rides on the claim stub, and tearing the stub copies it. Component, whole-URL and form (+) modes, a query-string breakdown, nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700&family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --hall:#e6e8ec; --ink:#14171c; --muted:#5d6570; --tagpaper:#fbfbfa; --line:#c9ccd2; --red:#d0212a; --blue:#1d4f9c; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--hall); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(30px, 4.6vw, 48px)/1 'Barlow Semi Condensed', sans-serif; text-transform:uppercase; letter-spacing:.01em; }
+    .lede { margin:12px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .keys { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:16px; font-size:13px; color:var(--muted); }
+    .keys b { font-weight:600; color:var(--ink); }
+    .key { padding:8px 14px; border:1px solid var(--ink); border-radius:3px; background:#fff; color:var(--ink); font:600 12px 'Barlow Semi Condensed', sans-serif; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; }
+    .key[aria-pressed="true"] { background:var(--ink); color:#fff; }
+    .tag { display:grid; grid-template-columns: 1.15fr 1fr 1.05fr; background:var(--tagpaper); border-radius:14px; box-shadow:0 18px 40px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.08); position:relative; overflow:hidden; }
+    .tag::before { content:''; position:absolute; left:18px; top:50%; width:14px; height:14px; margin-top:-7px; border-radius:50%; background:var(--hall); box-shadow:inset 0 1px 2px rgba(0,0,0,.3); }
+    .sec { padding:20px 22px 20px 44px; min-width:0; }
+    .sec + .sec { border-left:1px solid var(--line); padding-left:22px; }
+    .sec.stub { border-left:2px dashed #9aa0a8; position:relative; transform-origin:left center; }
+    .stub.torn { animation: tear .7s ease-in both; }
+    @keyframes tear { 40% { transform:rotate(3deg) translateX(12px); opacity:1; } 100% { transform:rotate(8deg) translateX(60px) translateY(40px); opacity:0; } }
+    .tiny { font:600 9px 'Barlow Semi Condensed', sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:0; }
+    .dest { margin:2px 0 0; font:700 clamp(54px, 7vw, 84px)/1 'Barlow Semi Condensed', sans-serif; letter-spacing:.02em; }
+    .host { margin:4px 0 0; font:600 15px 'Barlow Semi Condensed', sans-serif; letter-spacing:.06em; text-transform:uppercase; color:var(--blue); word-break:break-all; }
+    .fl { display:flex; gap:18px; margin-top:14px; }
+    .fl div { min-width:0; }
+    .fl b { display:block; font:700 20px 'Barlow Semi Condensed', sans-serif; letter-spacing:.04em; }
+    .plate { margin:10px 0 0; font:16px 'Share Tech Mono', monospace; letter-spacing:.12em; }
+    .bars { display:block; width:100%; height:64px; margin-top:8px; }
+    .stripe { margin-top:12px; height:12px; background:repeating-linear-gradient(90deg, var(--red) 0 22px, #fff 22px 30px); border-radius:2px; }
+    .name { margin:8px 0 0; font:600 13px 'Barlow Semi Condensed', sans-serif; letter-spacing:.06em; text-transform:uppercase; word-break:break-all; color:#2a2f36; }
+    .code { margin:4px 0 0; font:12px/1.5 'Share Tech Mono', monospace; word-break:break-all; color:#1f242b; max-height:96px; overflow:hidden; }
+    .tearbtn { margin-top:12px; padding:8px 12px; border:1px solid var(--ink); border-radius:3px; background:#fff; font:700 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; }
+    .hold { position:absolute; right:18px; top:14px; transform:rotate(-8deg); border:3px solid var(--red); color:var(--red); padding:2px 8px; font:700 14px 'Barlow Semi Condensed', sans-serif; letter-spacing:.2em; opacity:0; pointer-events:none; }
+    .tag.bad .hold { opacity:.85; }
+    .desk { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px; }
+    .lab { margin:0 0 6px; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+    textarea { width:100%; min-height:130px; resize:vertical; padding:12px 14px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); font:14px/1.55 'Share Tech Mono', monospace; outline:none; }
+    textarea:focus { border-color:var(--ink); }
+    textarea[readonly] { background:#f4f5f7; }
+    .meta { margin:6px 0 0; font-size:12px; color:var(--muted); min-height:1.2em; }
+    .meta.err { color:var(--red); }
+    .parts { margin-top:22px; background:#fff; border:1px solid var(--line); border-radius:6px; padding:16px 18px; }
+    .parts h2 { margin:0 0 10px; font:700 16px 'Barlow Semi Condensed', sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .parts table { width:100%; border-collapse:collapse; font-size:13px; }
+    .parts td { padding:6px 8px; border-top:1px solid #eceef1; vertical-align:top; word-break:break-all; }
+    .parts td:first-child { width:120px; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+    .parts code { font:13px 'Share Tech Mono', monospace; }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:700 24px 'Barlow Semi Condensed', sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid var(--line); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'Share Tech Mono', monospace; background:#dfe2e7; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 860px) { main { padding:26px 12px 56px; } .tag { grid-template-columns:1fr; } .tag::before { left:50%; top:16px; margin:0 0 0 -7px; } .sec { padding:26px 18px 18px; } .sec + .sec { border-left:0; border-top:1px solid var(--line); padding:16px 18px; } .sec.stub { border-top:2px dashed #9aa0a8; transform-origin:top center; } .desk { grid-template-columns:1fr; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Bag tag · licence plate · claim stub</p>
+      <h1>URL Encoder/Decoder</h1>
+      <p class="lede">Paste a URL or any text. It is printed on a bag tag: the host becomes the destination code, the encoded string rides on the claim stub, and tearing the stub off puts it on your clipboard. Decode goes the other way.</p>
+      <div class="keys">
+        <button type="button" class="key mode" data-mode="encode" aria-pressed="true">Encode</button>
+        <button type="button" class="key mode" data-mode="decode" aria-pressed="false">Decode</button>
+        <span id="enc-opts"><b>Encode as</b>
+          <button type="button" class="key how" data-how="component" aria-pressed="true">Component</button>
+          <button type="button" class="key how" data-how="uri" aria-pressed="false">Whole URL</button>
+          <button type="button" class="key how" data-how="form" aria-pressed="false">Form (space as +)</button>
+        </span>
+        <label id="dec-opts" style="display:none"><input type="checkbox" id="plus" checked> Read + as a space</label>
+      </div>
+      <div class="tag" id="tag">
+        <div class="sec">
+          <p class="tiny">Destination</p>
+          <p class="dest" id="dest">EXA</p>
+          <p class="host" id="host">example.com</p>
+          <div class="fl"><div><p class="tiny">Carrier</p><b id="carrier">HTTPS</b></div><div><p class="tiny">Gate</p><b id="port">443</b></div><div><p class="tiny">Pcs</p><b id="pcs">1/1</b></div></div>
+          <div class="stripe" aria-hidden="true"></div>
+        </div>
+        <div class="sec">
+          <p class="tiny">Licence plate</p>
+          <p class="plate" id="plate">0 001 000000</p>
+          <svg class="bars" id="bars" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <p class="tiny" style="margin-top:8px">Passenger · path</p>
+          <p class="name" id="pname">/</p>
+        </div>
+        <div class="sec stub" id="stub">
+          <p class="tiny">Claim stub · <span id="stub-lab">encoded</span></p>
+          <p class="code" id="stub-code"></p>
+          <button type="button" class="tearbtn" id="tear">Tear off (copy)</button>
+          <div class="hold">HOLD</div>
+        </div>
+      </div>
+      <div class="desk">
+        <div><p class="lab" id="in-lab">URL or text to encode</p><textarea id="in" spellcheck="false">https://example.com/search?q=hello world&amp;lang=en&amp;tags=a,b#top</textarea><p class="meta" id="in-meta"></p></div>
+        <div><p class="lab" id="out-lab">Encoded</p><textarea id="out" readonly></textarea><p class="meta" id="out-meta"></p></div>
+      </div>
+      <div class="parts" id="parts"><h2>Routing · the URL taken apart</h2><table id="ptable"></table></div>
+      <section class="notes">
+        <h2>Percent-encoding, explained</h2>
+        <p>A URL can only carry a small set of characters safely. Everything else, spaces, accents, ampersands inside a value, emoji, is written as a percent sign and the character's UTF-8 bytes in hex: a space is <code>%20</code>, an ampersand <code>%26</code>, é is <code>%C3%A9</code>. Encoding turns text into that form; decoding turns it back.</p>
+        <h3>Which mode</h3>
+        <p><b>Component</b> is <code>encodeURIComponent</code>: it encodes everything that is not a letter, digit or one of <code>- _ . ! ~ * ' ( )</code>, which is right for a single value you are about to put into a query string. <b>Whole URL</b> is <code>encodeURI</code>: it leaves the structural characters <code>: / ? # &amp; = @</code> alone so a complete address stays an address. <b>Form</b> is what an HTML form sends: component encoding with spaces as <code>+</code>. Decoding reads all three; untick "read + as a space" if a literal plus was meant.</p>
+        <h3>Why a bag tag</h3>
+        <p>A bag tag is a URL for a suitcase: a destination code, a carrier, a routing, and a ten-digit licence plate in a barcode that every scanner on the way can read without understanding the rest. The claim stub is the copy you keep. Here the host becomes the destination, the scheme the carrier, the path the passenger name, and the stub carries the encoded string.</p>
+        <details><summary>Why does my decoded text show HOLD?</summary><p>The input has a percent sign that is not followed by two hex digits, or the bytes do not form valid UTF-8, so the browser refuses to decode it. Fix the sequence or encode the stray % as %25.</p></details>
+        <details><summary>Should I encode the whole URL or just the value?</summary><p>Just the value, with Component mode, then build the URL around it. Encoding a whole URL that already contains encoded values encodes the percent signs again (%20 becomes %2520).</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. Encoding and decoding happen in your browser with its own URL functions.</p></details>
+      </section>
+      <div class="foot"><span>Bag tag · claim stub</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const NS = 'http://www.w3.org/2000/svg';
+    const inp = $('in'), out = $('out'), tagEl = $('tag'), stub = $('stub'), bars = $('bars'), ptable = $('ptable');
+    let mode = 'encode', how = 'component';
+    const encode = (s) => how === 'uri' ? encodeURI(s) : how === 'form' ? encodeURIComponent(s).replace(/%20/g, '+') : encodeURIComponent(s);
+    const decode = (s) => decodeURIComponent($('plus').checked ? s.replace(/\+/g, ' ') : s);
+    const hash = (s) => { let hsh = 5381; for (let i = 0; i < s.length; i++) hsh = ((hsh << 5) + hsh + s.charCodeAt(i)) >>> 0; return hsh; };
+    function drawBars(s) {
+      clear(bars); let x = 4; const n = Math.max(1, Math.min(s.length, 48)); const unit = 292 / (n * 6);
+      for (let i = 0; i < n; i++) { const c = s.charCodeAt(i) || 32; const w = [1 + (c % 3), 1 + ((c >> 2) % 3), 1 + ((c >> 4) % 2)]; w.forEach((k, j) => { const r = document.createElementNS(NS, 'rect'); r.setAttribute('x', x.toFixed(2)); r.setAttribute('y', '0'); r.setAttribute('width', (k * unit).toFixed(2)); r.setAttribute('height', '64'); r.setAttribute('fill', '#14171c'); bars.appendChild(r); x += k * unit + unit * (j === 2 ? 1 : 0.6); }); }
+    }
+    function routing(u) {
+      clear(ptable);
+      const row = (k, v) => { const tr = document.createElement('tr'); const a = document.createElement('td'); a.textContent = k; const b = document.createElement('td'); const c = document.createElement('code'); c.textContent = v; b.appendChild(c); tr.appendChild(a); tr.appendChild(b); ptable.appendChild(tr); };
+      if (!u) { row('status', 'Not a full URL; paste one with a scheme (https://...) to see it taken apart.'); return; }
+      row('scheme', u.protocol.replace(':', '')); row('host', u.hostname); if (u.port) row('port', u.port); row('path', u.pathname);
+      const params = [...u.searchParams.entries()]; params.forEach(([k, v]) => row('query · ' + k, v)); if (!params.length && u.search) row('query', u.search);
+      if (u.hash) row('fragment', u.hash.slice(1));
+    }
+    function update() {
+      const s = inp.value; let result = '', error = '';
+      try { result = mode === 'encode' ? encode(s) : decode(s); } catch (e) { error = e.message; }
+      tagEl.classList.toggle('bad', !!error);
+      out.value = error ? '' : result;
+      $('in-meta').textContent = s.length + ' characters · ' + new TextEncoder().encode(s).length + ' bytes';
+      $('out-meta').textContent = error ? 'HOLD: ' + error : (result.length ? result.length + ' characters' : '');
+      $('out-meta').classList.toggle('err', !!error);
+      const plain = mode === 'encode' ? s : (error ? s : result);
+      let u = null; try { u = new URL(plain); } catch (e) { try { u = /^[a-z][a-z0-9+.-]*:/i.test(plain) ? null : new URL('https://' + plain); if (u && !u.hostname.includes('.')) u = null; } catch (e2) { u = null; } }
+      const host = u ? u.hostname : '';
+      $('dest').textContent = host ? host.replace(/^www\./, '').replace(/[^a-z0-9]/gi, '').slice(0, 3).toUpperCase().padEnd(3, 'X') : (s ? 'TXT' : '---');
+      $('host').textContent = host || (s ? 'plain text · no host' : 'nothing checked in');
+      $('carrier').textContent = u ? u.protocol.replace(':', '').toUpperCase() : 'TEXT';
+      $('port').textContent = u ? (u.port || (u.protocol === 'https:' ? '443' : u.protocol === 'http:' ? '80' : '-')) : '-';
+      $('pcs').textContent = u ? [...u.searchParams.keys()].length + ' PRM' : '1/1';
+      $('pname').textContent = u ? (u.pathname + u.search + u.hash) || '/' : (s.slice(0, 48) || '-');
+      const hsh = hash(s); $('plate').textContent = '0 ' + String(u ? (u.protocol === 'https:' ? 1 : 2) : 9).padStart(3, '0') + ' ' + String(hsh % 1000000).padStart(6, '0');
+      drawBars(result || s || 'empty');
+      $('stub-lab').textContent = mode === 'encode' ? 'encoded' : 'decoded';
+      $('stub-code').textContent = error ? 'Nothing to claim: ' + error : (result.slice(0, 220) + (result.length > 220 ? ' ...' : '')) || 'The stub is blank.';
+      routing(u);
+    }
+    function setMode(m) {
+      mode = m; document.querySelectorAll('.mode').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+      $('enc-opts').style.display = m === 'encode' ? '' : 'none'; $('dec-opts').style.display = m === 'decode' ? '' : 'none';
+      $('in-lab').textContent = m === 'encode' ? 'URL or text to encode' : 'Encoded text to decode'; $('out-lab').textContent = m === 'encode' ? 'Encoded' : 'Decoded';
+      update();
+    }
+    document.querySelectorAll('.mode').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+    pressGroup('.how', (b) => { how = b.dataset.how; update(); });
+    $('plus').addEventListener('change', update);
+    inp.addEventListener('input', update);
+    $('tear').addEventListener('click', async () => {
+      const b = $('tear');
+      try { await navigator.clipboard.writeText(out.value); b.textContent = 'Torn off · copied'; } catch (e) { b.textContent = 'Select to copy'; }
+      stub.classList.remove('torn'); void stub.offsetWidth; stub.classList.add('torn');
+      setTimeout(() => { stub.classList.remove('torn'); b.textContent = 'Tear off (copy)'; }, 1500);
+    });
+    update();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

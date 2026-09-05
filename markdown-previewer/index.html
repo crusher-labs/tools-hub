@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-world="manuscript-and-book">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Previewer - Write Markdown and See It Typeset as a Book Page</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Write Markdown on a typescript manuscript and watch it typeset live on a book page with a running head, folio and drop cap: headings, lists, tables, code, quotes, links, task lists. Copy the HTML. Nothing uploaded.">
+    <meta name="theme-color" content="#161412">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/markdown-previewer/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Markdown Previewer - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Write Markdown on a typescript manuscript and watch it typeset live on a book page with a running head, folio and drop cap: headings, lists, tables, code, quotes, links, task lists. Copy the HTML. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/markdown-previewer/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Markdown Previewer - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Write Markdown on a typescript manuscript and watch it typeset live on a book page with a running head, folio and drop cap: headings, lists, tables, code, quotes, links, task lists. Copy the HTML. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --desk:#161412; --ink:#f0e9dc; --muted:#9a9084; --ms:#efe6cf; --msink:#2b2420; --page:#f6efe0; --pageink:#241f1a; --rule:#c2b8a3; --accent:#8b2f24; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--desk); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; background-image: radial-gradient(ellipse at 50% -10%, #2a2420, var(--desk) 60%); }
+    main { max-width:1180px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:600 11px 'JetBrains Mono', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:600 clamp(28px, 4.2vw, 42px)/1.1 'Lora', Georgia, serif; }
+    .lede { margin:12px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .tools { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; margin-bottom:16px; font-size:13px; color:var(--muted); }
+    .key { padding:8px 14px; border:1px solid #4a423b; border-radius:3px; background:#231f1b; color:var(--ink); font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .key:hover { border-color:var(--muted); }
+    .desk { display:grid; grid-template-columns: 1fr 1fr; gap:26px; align-items:stretch; }
+    .ms { background:var(--ms); color:var(--msink); padding:22px 22px 22px 48px; position:relative; box-shadow:0 16px 36px rgba(0,0,0,.5); min-height:600px; display:flex; flex-direction:column; }
+    .ms::before { content:''; position:absolute; left:36px; top:0; bottom:0; width:1px; background:rgba(139,47,36,.45); }
+    .ms .head { display:flex; justify-content:space-between; font:400 10px 'JetBrains Mono', monospace; letter-spacing:.16em; text-transform:uppercase; color:#6b5f55; margin-bottom:12px; }
+    textarea { width:100%; min-height:560px; flex:1; resize:vertical; border:0; background:transparent; color:var(--msink); font:14px/1.7 'JetBrains Mono', monospace; outline:none; padding:0; }
+    .bookwrap { perspective:1600px; }
+    .page { background:var(--page); color:var(--pageink); padding:34px 44px 40px; box-shadow: -8px 0 0 #e6dcc6, -14px 0 0 #d9ceb6, 0 18px 40px rgba(0,0,0,.55); border-radius:2px 8px 8px 2px; min-height:600px; transform-origin:left center; position:relative; }
+    .page.turn { animation: turn .75s cubic-bezier(.3,.7,.3,1); }
+    @keyframes turn { 0% { transform:rotateY(-28deg); box-shadow: -8px 0 0 #e6dcc6, -14px 0 0 #d9ceb6, 40px 20px 40px rgba(0,0,0,.6); } 100% { transform:none; } }
+    .running { display:flex; justify-content:space-between; gap:12px; font:italic 12px 'Lora', Georgia, serif; color:#6f6558; border-bottom:1px solid var(--rule); padding-bottom:6px; margin-bottom:22px; letter-spacing:.04em; }
+    .running .folio { font-style:normal; font-variant-numeric:oldstyle-nums; }
+    .book { font:16.5px/1.65 'Lora', Georgia, serif; hyphens:auto; }
+    .book h1 { font:600 30px/1.15 'Lora', Georgia, serif; margin:0 0 18px; text-align:center; letter-spacing:.01em; }
+    .book h2 { font:600 21px/1.25 'Lora', Georgia, serif; margin:26px 0 10px; }
+    .book h3 { font:italic 600 17px/1.3 'Lora', Georgia, serif; margin:20px 0 8px; }
+    .book h4, .book h5, .book h6 { font:600 15px/1.3 'Lora', Georgia, serif; margin:16px 0 6px; letter-spacing:.06em; text-transform:uppercase; }
+    .book p { margin:0 0 12px; text-align:justify; }
+    .book p.dropcap::first-letter { float:left; font-size:3.6em; line-height:.82; padding:6px 8px 0 0; font-weight:600; color:var(--accent); }
+    .book blockquote { margin:14px 26px; padding:0 0 0 16px; border-left:2px solid var(--accent); font-style:italic; color:#4a4038; }
+    .book ul, .book ol { margin:0 0 12px; padding-left:26px; }
+    .book li { margin:3px 0; }
+    .book li.task { list-style:none; margin-left:-22px; }
+    .book li.task input { margin-right:8px; accent-color:var(--accent); }
+    .book code { font:13.5px 'JetBrains Mono', monospace; background:rgba(0,0,0,.06); padding:1px 5px; border-radius:3px; }
+    .book pre { margin:0 0 14px; padding:12px 14px; background:#efe6d3; border:1px solid var(--rule); border-radius:3px; overflow:auto; font:13px/1.55 'JetBrains Mono', monospace; }
+    .book pre code { background:none; padding:0; font-size:13px; }
+    .book table { border-collapse:collapse; margin:0 0 14px; width:100%; font-size:15px; }
+    .book th, .book td { border-bottom:1px solid var(--rule); padding:6px 8px; text-align:left; vertical-align:top; }
+    .book th { font-weight:600; border-bottom:2px solid var(--pageink); }
+    .book hr { border:0; text-align:center; margin:22px 0; }
+    .book hr::after { content:'\2042'; color:#6f6558; font-size:18px; letter-spacing:.3em; }
+    .book a { color:var(--accent); }
+    .book img { max-width:100%; display:block; margin:10px auto; }
+    .book figcaption { text-align:center; font:italic 13px 'Lora', Georgia, serif; color:#6f6558; }
+    .book del { color:#8a7f72; }
+    .book .empty { color:#8a7f72; font-style:italic; text-align:center; margin-top:60px; }
+    .colophon { position:absolute; left:44px; right:44px; bottom:12px; display:flex; justify-content:space-between; font:italic 11px 'Lora', Georgia, serif; color:#8a7f72; }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:600 24px 'Lora', Georgia, serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; color:#d5cbbd; }
+    .notes details { border-top:1px solid #3a332d; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'JetBrains Mono', monospace; background:#2a2420; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'JetBrains Mono', monospace; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 900px) { main { padding:26px 12px 56px; } .desk { grid-template-columns:1fr; } .ms { padding:18px 14px 18px 30px; min-height:0; } .ms::before { left:22px; } textarea { min-height:320px; } .page { padding:26px 22px 36px; min-height:0; box-shadow: -5px 0 0 #e6dcc6, -9px 0 0 #d9ceb6, 0 18px 40px rgba(0,0,0,.55); } .colophon { left:22px; right:22px; } .book p { text-align:left; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Manuscript · typeset · recto</p>
+      <h1>Markdown Previewer</h1>
+      <p class="lede">Write on the manuscript, read it on the page. Markdown becomes a typeset book page as you type: running head, folio, drop cap, and every heading, list, table and code block in its place.</p>
+      <div class="tools"><button type="button" class="key" id="copy-html">Copy HTML</button><button type="button" class="key" id="copy-md">Copy Markdown</button><button type="button" class="key" id="sample">Load the sample</button><button type="button" class="key" id="clear">Clear</button><span id="stats"></span></div>
+      <div class="desk">
+        <div class="ms">
+          <div class="head"><span>MS · draft</span><span id="ms-count">0 words</span></div>
+          <textarea id="md" spellcheck="false" aria-label="Markdown source"></textarea>
+        </div>
+        <div class="bookwrap">
+          <div class="page" id="page">
+            <div class="running"><span id="running">Untitled</span><span class="folio" id="folio">1</span></div>
+            <div class="book" id="book"></div>
+            <div class="colophon"><span id="pages">1 page</span><span>set in Lora</span></div>
+          </div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>Markdown, typeset</h2>
+        <p>Markdown is plain text with a few marks: <code>#</code> for a heading, <code>*</code> or <code>-</code> for a list, <code>**bold**</code>, <code>*italic*</code>, <code>[a link](https://...)</code>, backticks for code. It was designed to read well before it is rendered and to become HTML afterwards. The page on the right is that HTML, set like a book: the first heading becomes the running head, the first paragraph after it gets a drop cap, and the folio counts pages at roughly three hundred words each.</p>
+        <h3>What is supported</h3>
+        <p>Headings one to six, paragraphs, bold, italic, strikethrough, inline code, fenced code blocks, block quotes, ordered and unordered lists with nesting by indentation, task lists, links, images, horizontal rules and pipe tables. Two spaces at the end of a line force a line break. Raw HTML is shown as text, not rendered, which keeps the page safe to paste anything into.</p>
+        <h3>Why a manuscript and a book</h3>
+        <p>For most of the history of printing the author's copy and the printed page were different objects: a typescript with wide margins for the editor's marks, and the compositor's typeset page with its running heads and folios. Markdown keeps that split. What you write is the manuscript; what the reader gets is the book.</p>
+        <details><summary>Where does the running head come from?</summary><p>The first level-one heading in the text. If there is none, it reads Untitled. It turns the page when it changes.</p></details>
+        <details><summary>Can I get the HTML?</summary><p>Copy HTML puts the rendered markup on your clipboard, plain elements with no classes or styles, ready for a blog, a CMS or an email.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. Rendering happens in your browser, and nothing you write leaves it.</p></details>
+      </section>
+      <div class="foot"><span>Manuscript and book · recto</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const md = $('md'), bookEl = $('book'), pageEl = $('page');
+    const SAMPLE = "# The Lighthouse Keeper's Log\n\nThe lamp was lit at **half past six**, a quarter hour before the almanac asked for it, because the fog had come in early and the *Marguerite* was due round the point.\n\n## Second watch\n\n- Wind north-north-east, freshening\n- Barometer falling since noon\n- Oil: 3 gallons used, 41 in store\n\n> A light that fails once is worse than no light at all. The ships plan for darkness; they do not plan for surprise.\n\n### Repairs\n\n1. Replaced the cracked prism on the seaward face\n2. Greased the clockwork; it runs `4h 12m` per winding now\n3. ~~Painted the gallery rail~~ (rain)\n\n| Hour | Visibility | Vessels |\n| --- | --- | --- |\n| 19:00 | 2 miles | 1 |\n| 21:00 | half a mile | 0 |\n| 23:00 | nil | 0 |\n\n```\nsignal: two long, one short\nmeaning: keep off, rocks to the east\n```\n\n- [x] Log entered\n- [ ] Wick trimmed\n\nRead the [Board's instructions](https://example.com/instructions) before the morning watch.\n\n---\n\n*Entered by the keeper, 3 September.*";
+    const mk = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+    const safeUrl = (u) => (/^(https?:|mailto:|#|\/)/i.test(u.trim()) ? u.trim() : '#');
+    function inline(parent, s) {
+      let i = 0;
+      const re = /(`+)([\s\S]*?)\1|!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)|\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)|(\*\*|__)(?=\S)([\s\S]*?\S)\8|(\*|_)(?=\S)([\s\S]*?\S)\10|~~(?=\S)([\s\S]*?\S)~~|<(https?:\/\/[^>\s]+)>|  \n/g;
+      for (const m of s.matchAll(re)) {
+        if (m.index > i) parent.appendChild(document.createTextNode(s.slice(i, m.index)));
+        if (m[1] !== undefined) { const c = mk('code'); c.textContent = m[2]; parent.appendChild(c); }
+        else if (m[4] !== undefined) { const fig = mk('figure'); const img = mk('img'); img.src = safeUrl(m[4]); img.alt = m[3]; img.loading = 'lazy'; fig.appendChild(img); if (m[3] || m[5]) { const cap = mk('figcaption'); cap.textContent = m[5] || m[3]; fig.appendChild(cap); } parent.appendChild(fig); }
+        else if (m[6] !== undefined) { const a = mk('a'); a.href = safeUrl(m[7]); a.rel = 'noopener'; a.target = '_blank'; inline(a, m[6]); parent.appendChild(a); }
+        else if (m[8] !== undefined) { const b = mk('strong'); inline(b, m[9]); parent.appendChild(b); }
+        else if (m[10] !== undefined) { const em = mk('em'); inline(em, m[11]); parent.appendChild(em); }
+        else if (m[12] !== undefined) { const d = mk('del'); inline(d, m[12]); parent.appendChild(d); }
+        else if (m[13] !== undefined) { const a = mk('a'); a.href = m[13]; a.textContent = m[13]; a.rel = 'noopener'; a.target = '_blank'; parent.appendChild(a); }
+        else parent.appendChild(mk('br'));
+        i = m.index + m[0].length;
+      }
+      if (i < s.length) parent.appendChild(document.createTextNode(s.slice(i)));
+    }
+    function render(src) {
+      const out = document.createDocumentFragment();
+      const lines = src.replace(/\r\n?/g, '\n').split('\n');
+      let i = 0, firstH1 = '', paraAfterH1 = false;
+      const para = (buf) => { const p = mk('p'); inline(p, buf.join('\n').trim()); if (paraAfterH1) { p.classList.add('dropcap'); paraAfterH1 = false; } out.appendChild(p); };
+      function list(start, indent) {
+        const isOl = /^\s*\d+[.)]\s/.test(lines[start]);
+        const ul = mk(isOl ? 'ol' : 'ul'); let k = start;
+        while (k < lines.length) {
+          const ln = lines[k]; const m = ln.match(/^(\s*)([-*+]|\d+[.)])\s+(.*)$/);
+          if (!m) { if (ln.trim() === '' && k + 1 < lines.length && /^\s+/.test(lines[k + 1]) && lines[k + 1].match(/^(\s*)/)[1].length > indent) { k++; continue; } break; }
+          const ind = m[1].length;
+          if (ind < indent) break;
+          if (ind > indent) { const sub = list(k, ind); ul.lastElementChild ? ul.lastElementChild.appendChild(sub.node) : ul.appendChild(sub.node); k = sub.next; continue; }
+          const li = mk('li'); let body = m[3];
+          const task = body.match(/^\[( |x|X)\]\s+(.*)$/);
+          if (task) { li.className = 'task'; const cb = mk('input'); cb.type = 'checkbox'; cb.checked = task[1] !== ' '; cb.disabled = true; li.appendChild(cb); body = task[2]; }
+          inline(li, body); ul.appendChild(li); k++;
+        }
+        return { node: ul, next: k };
+      }
+      let buf = [];
+      const flush = () => { if (buf.length) { para(buf); buf = []; } };
+      while (i < lines.length) {
+        const ln = lines[i];
+        if (/^\s*$/.test(ln)) { flush(); i++; continue; }
+        const fence = ln.match(/^(\s*)(```|~~~)\s*(\S*)/);
+        if (fence) { flush(); const code = []; i++; while (i < lines.length && !lines[i].startsWith(fence[1] + fence[2])) { code.push(lines[i]); i++; } i++; const pre = mk('pre'); const c = mk('code'); if (fence[3]) c.className = 'language-' + fence[3]; c.textContent = code.join('\n'); pre.appendChild(c); out.appendChild(pre); continue; }
+        const hd = ln.match(/^(#{1,6})\s+(.+?)\s*#*\s*$/);
+        if (hd) { flush(); const el = mk('h' + hd[1].length); inline(el, hd[2]); out.appendChild(el); if (hd[1].length === 1) { if (!firstH1) firstH1 = el.textContent; paraAfterH1 = true; } i++; continue; }
+        if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(ln)) { flush(); out.appendChild(mk('hr')); i++; continue; }
+        if (/^\s*>/.test(ln)) { flush(); const q = mk('blockquote'); const inner = []; while (i < lines.length && /^\s*>/.test(lines[i])) { inner.push(lines[i].replace(/^\s*>\s?/, '')); i++; } q.appendChild(render(inner.join('\n')).frag); out.appendChild(q); continue; }
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(ln)) { flush(); const r = list(i, ln.match(/^(\s*)/)[1].length); out.appendChild(r.node); i = r.next; continue; }
+        if (ln.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(lines[i + 1])) {
+          flush(); const cells = (row) => row.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+          const table = mk('table'); const thead = mk('thead'); const trh = mk('tr'); cells(ln).forEach((c) => { const th = mk('th'); inline(th, c); trh.appendChild(th); }); thead.appendChild(trh); table.appendChild(thead);
+          const tbody = mk('tbody'); i += 2;
+          while (i < lines.length && lines[i].includes('|')) { const tr = mk('tr'); cells(lines[i]).forEach((c) => { const td = mk('td'); inline(td, c); tr.appendChild(td); }); tbody.appendChild(tr); i++; }
+          table.appendChild(tbody); out.appendChild(table); continue;
+        }
+        buf.push(ln); i++;
+      }
+      flush();
+      return { frag: out, title: firstH1 };
+    }
+    let lastTitle = null;
+    function update() {
+      const src = md.value;
+      const r = render(src);
+      clear(bookEl);
+      if (!src.trim()) bookEl.appendChild(Object.assign(mk('p', 'empty'), { textContent: 'The page is blank. Write on the manuscript.' })); else bookEl.appendChild(r.frag);
+      const title = r.title || 'Untitled';
+      $('running').textContent = title;
+      if (lastTitle !== null && title !== lastTitle) { pageEl.classList.remove('turn'); void pageEl.offsetWidth; pageEl.classList.add('turn'); }
+      lastTitle = title;
+      const words = (bookEl.textContent.match(/\S+/g) || []).length, pages = Math.max(1, Math.ceil(words / 300));
+      $('ms-count').textContent = words + (words === 1 ? ' word' : ' words');
+      $('pages').textContent = pages + (pages === 1 ? ' page' : ' pages') + ' · ' + words + ' words';
+      $('folio').textContent = String(pages);
+      $('stats').textContent = src.length ? src.split('\n').length + ' lines of Markdown' : '';
+    }
+    md.addEventListener('input', update);
+    copyBtn($('copy-html'), () => Array.from(bookEl.children).map((c) => c.outerHTML).join(String.fromCharCode(10)), 'Copy HTML');
+    copyBtn($('copy-md'), () => md.value, 'Copy Markdown');
+    $('sample').addEventListener('click', () => { md.value = SAMPLE; update(); });
+    $('clear').addEventListener('click', () => { md.value = ''; update(); md.focus(); });
+    md.value = SAMPLE; update();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

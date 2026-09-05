@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-world="signal-corruption">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zalgo Text Generator - Cursed and Glitch Text</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Turn any text into cursed Zalgo glitch text with stacked Unicode marks on a corrupted signal. Set the intensity, choose above, through and below, copy and paste anywhere. Free, no signup.">
+    <meta name="theme-color" content="#050505">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/zalgo-text-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Zalgo Text Generator - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Turn any text into cursed Zalgo glitch text with stacked Unicode marks on a corrupted signal. Set the intensity, choose above, through and below, copy and paste anywhere. Free, no signup.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/zalgo-text-generator/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Zalgo Text Generator - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Turn any text into cursed Zalgo glitch text with stacked Unicode marks on a corrupted signal. Set the intensity, choose above, through and below, copy and paste anywhere. Free, no signup.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nosifer&family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --void:#050505; --acid:#9dff00; --mag:#ff00c8; --cyan:#00e5ff; --text:#e9e9e4; --muted:#8a8f80; --edge:rgba(157,255,0,0.22); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--void); color:var(--text); font-family:'Public Sans', system-ui, sans-serif; position:relative; overflow-x:hidden; }
+    body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px); pointer-events:none; z-index:0; }
+    .bar1, .bar2 { position:fixed; left:-40px; right:-40px; height:6px; pointer-events:none; z-index:1; opacity:.55; }
+    .bar1 { top:18%; background:var(--acid); animation:slide 7s linear infinite; }
+    .bar2 { top:62%; height:3px; background:var(--mag); animation:slide 11s linear infinite reverse; }
+    @keyframes slide { 0% { transform:translateX(-30px); } 50% { transform:translateX(30px); } 100% { transform:translateX(-30px); } }
+    main { position:relative; z-index:2; max-width:880px; margin:0 auto; padding:52px 24px 60px; }
+    header { text-align:center; margin-bottom:30px; }
+    h1 { margin:0; font-family:'Nosifer', Impact, sans-serif; font-weight:400; font-size:clamp(30px, 6vw, 58px); letter-spacing:.02em; color:var(--acid); text-shadow:2px 0 var(--mag), -2px 0 var(--cyan); animation:jitter 4s steps(2) infinite; }
+    @keyframes jitter { 0%, 92% { transform:none; } 94% { transform:translateX(-2px) skewX(-4deg); } 96% { transform:translateX(2px) skewX(4deg); } 98% { transform:none; } }
+    .lede { margin:12px auto 0; max-width:60ch; font-size:16px; line-height:1.5; color:var(--muted); }
+    .console { border:1px solid var(--edge); background:#0b0b0d; padding:22px; display:grid; gap:16px; box-shadow:0 0 0 1px #000, 0 30px 60px -30px rgba(157,255,0,0.25); }
+    .in { width:100%; background:#050505; border:1px solid var(--edge); color:var(--text); font:16px/1.5 'Share Tech Mono', monospace; padding:11px 14px; outline:none; }
+    .in:focus { border-color:var(--acid); box-shadow:0 0 0 3px rgba(157,255,0,0.15); }
+    .meterrow { display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center; font:12px 'Share Tech Mono', monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+    .meter { position:relative; height:14px; background:repeating-linear-gradient(90deg, #1c1f18 0 6px, transparent 6px 9px); }
+    .meter i { position:absolute; left:0; top:0; bottom:0; background:repeating-linear-gradient(90deg, var(--acid) 0 6px, transparent 6px 9px); box-shadow:0 0 12px rgba(157,255,0,0.5); }
+    .meterrow input { position:absolute; inset:0; width:100%; opacity:0; margin:0; cursor:pointer; }
+    .meterwrap { position:relative; }
+    .chan { display:flex; gap:10px; flex-wrap:wrap; }
+    .ch { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--edge); background:#050505; color:var(--muted); font:12px 'Share Tech Mono', monospace; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; }
+    .ch i { width:8px; height:8px; border-radius:50%; background:#2a2f24; }
+    .ch[aria-pressed="true"] { color:var(--text); border-color:var(--acid); } .ch[aria-pressed="true"] i { background:var(--acid); box-shadow:0 0 8px var(--acid); }
+    .presets { display:flex; gap:8px; flex-wrap:wrap; }
+    .pre { padding:8px 14px; border:1px solid var(--edge); background:transparent; color:var(--muted); font:600 12px 'Public Sans', sans-serif; letter-spacing:.06em; cursor:pointer; }
+    .pre:hover { color:var(--text); border-color:var(--acid); }
+    .crt { position:relative; border:2px solid #1a1d16; border-radius:14px; background:radial-gradient(ellipse at 50% 40%, #0f120c, #050505 75%); padding:34px 22px; min-height:150px; font-size:28px; line-height:3.6; overflow:hidden; box-shadow:inset 0 0 60px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(157,255,0,0.12); color:var(--text); overflow-wrap:anywhere; }
+    .crt::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0 1px, transparent 1px 3px); pointer-events:none; animation:flicker 3s steps(3) infinite; }
+    @keyframes flicker { 0%, 88% { opacity:1; } 90% { opacity:.6; } 92% { opacity:1; } }
+    .acts { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .btn { padding:11px 18px; border:1px solid var(--acid); background:var(--acid); color:#0b1400; font:700 13px 'Public Sans', sans-serif; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 0 18px rgba(157,255,0,0.35); }
+    .btn.sec { background:transparent; color:var(--text); border-color:var(--edge); box-shadow:none; }
+    .log { margin-top:40px; border:1px solid var(--edge); padding:22px 24px; background:#0b0b0d; }
+    .log h2 { margin:0 0 10px; font:14px 'Share Tech Mono', monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--acid); }
+    .log p { margin:0 0 10px; font-size:14.5px; line-height:1.65; color:#b9bdb0; }
+    .log details { border-top:1px solid #1c1f18; } .log summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; color:var(--text); }
+    .log a { color:var(--acid); }
+    .foot { margin-top:22px; font:12px 'Share Tech Mono', monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 24px; }
+    .foot a { color:var(--acid); }
+    .tool-feedback { margin-top:14px; font-size:13px; color:#b9bdb0; }
+    .tool-feedback summary::before { color:var(--mag); }
+    @media (max-width: 640px) { main { padding:30px 14px 40px; } .console { padding:14px; } .crt { font-size:22px; padding:26px 14px; } .meterrow { grid-template-columns:1fr; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <div class="bar1" aria-hidden="true"></div><div class="bar2" aria-hidden="true"></div>
+    <main>
+      <header><h1>ZALGO TEXT</h1><p class="lede">Cursed, glitchy, melting text made of stacked Unicode marks. Tune the corruption, copy, paste anywhere.</p></header>
+      <section class="console">
+        <input id="z-in" class="in" value="cursed text" maxlength="300" aria-label="Text to corrupt">
+        <div class="meterrow"><span>Signal</span><div class="meterwrap"><div class="meter"><i id="z-fill" style="width:30%"></i></div><input id="z-int" type="range" min="1" max="20" value="6" aria-label="Intensity"></div><span id="z-iv">6 / 20</span></div>
+        <div class="chan" role="group" aria-label="Where the marks grow"><button class="ch" type="button" id="z-up" aria-pressed="true"><i></i>Above</button><button class="ch" type="button" id="z-mid" aria-pressed="true"><i></i>Through</button><button class="ch" type="button" id="z-down" aria-pressed="true"><i></i>Below</button></div>
+        <div class="presets"><button class="pre" type="button" data-l="2">Mild</button><button class="pre" type="button" data-l="6">Creepy</button><button class="pre" type="button" data-l="11">Cursed</button><button class="pre" type="button" data-l="18">He Comes</button></div>
+        <div id="z-out" class="crt" aria-live="polite"></div>
+        <div class="acts"><button id="z-copy" class="btn" type="button">Copy cursed text</button><button id="z-re" class="btn sec" type="button">Re-roll</button></div>
+      </section>
+      <section class="log">
+        <h2>Transmission log</h2>
+        <p>Zalgo text (also called cursed text or glitch text) stacks Unicode combining marks, the accents meant to sit on a single letter, dozens deep, until the text looks like it is melting or corrupted. Because the output is real Unicode, not an image or a font, it survives copy and paste into Discord, Twitter/X bios, YouTube comments, game chats and most places that accept text.</p>
+        <p>The signal meter controls how many marks stack on each letter; the three channels choose where they grow. Re-roll keeps the settings but picks new random marks. Keep it to short phrases: heavy stacks are hard to read and miserable for screen readers.</p>
+        <details><summary>Why does it look different in different apps?</summary><p>Every renderer draws combining marks its own way. Some clip the stacks to the line height, some let them overflow.</p></details>
+        <details><summary>Will it get me banned anywhere?</summary><p>Some servers filter extreme zalgo because it disrupts chat layout. Mild and Creepy usually pass; He Comes may not.</p></details>
+        <details><summary>Where does the name come from?</summary><p>From a 2004 creepypasta meme: Zalgo is a fictional eldritch entity whose arrival corrupts text.</p></details>
+      </section>
+      <div class="foot"><span>Channel 13 · no carrier</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const inp = document.getElementById('z-in'), int = document.getElementById('z-int'), out = document.getElementById('z-out'), fill = document.getElementById('z-fill'), iv = document.getElementById('z-iv');
+    const chans = { up: document.getElementById('z-up'), mid: document.getElementById('z-mid'), down: document.getElementById('z-down') };
+    const on = k => chans[k].getAttribute('aria-pressed') === 'true';
+    const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => String.fromCodePoint(a + i));
+    const UP = [...range(0x300, 0x315), ...range(0x31A, 0x31A), ...range(0x33D, 0x344), ...range(0x346, 0x346), ...range(0x34A, 0x34C), ...range(0x350, 0x352), ...range(0x357, 0x357), ...range(0x35B, 0x35B), ...range(0x363, 0x36F)];
+    const MID = [...range(0x334, 0x338), '҉'];
+    const DOWN = [...range(0x316, 0x319), ...range(0x31C, 0x333), ...range(0x339, 0x33C), ...range(0x345, 0x345), ...range(0x347, 0x349), ...range(0x34D, 0x34E), ...range(0x353, 0x356), ...range(0x359, 0x35A), ...range(0x35C, 0x35C), ...range(0x35F, 0x362)];
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+    const render = () => { const L = parseInt(int.value, 10); fill.style.width = (L / 20 * 100) + '%'; iv.textContent = L + ' / 20'; out.textContent = [...(inp.value || 'cursed text')].map(ch => { if (/\s/.test(ch)) return ch; let s = ch; const u = on('up') ? L + Math.floor(Math.random() * L) : 0, m = on('mid') ? Math.max(1, Math.floor(L / 3)) : 0, d = on('down') ? L + Math.floor(Math.random() * L) : 0; for (let i = 0; i < u; i++) s += pick(UP); for (let i = 0; i < m; i++) s += pick(MID); for (let i = 0; i < d; i++) s += pick(DOWN); return s; }).join(''); };
+    inp.addEventListener('input', render); int.addEventListener('input', render);
+    Object.values(chans).forEach(b => b.addEventListener('click', () => { b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); render(); }));
+    document.querySelectorAll('.pre').forEach(b => b.addEventListener('click', () => { int.value = b.dataset.l; render(); }));
+    document.getElementById('z-re').addEventListener('click', render);
+    copyBtn(document.getElementById('z-copy'), () => out.textContent, 'Copy cursed text', 'Copied');
+    render();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

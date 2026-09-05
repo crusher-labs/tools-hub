@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" data-world="baggage-drop">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor - Compress JPG, PNG and WebP to a Target Size in Your Browser</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Compress an image to a smaller file in your browser: set the quality or an allowance in KB and the scale counts the size down, resize the longest side, convert to JPEG or WebP, and download. Nothing is uploaded.">
+    <meta name="theme-color" content="#0f1418">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/image-compressor/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Image Compressor - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Compress an image to a smaller file in your browser: set the quality or an allowance in KB and the scale counts the size down, resize the longest side, convert to JPEG or WebP, and download. Nothing is uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/image-compressor/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Image Compressor - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Compress an image to a smaller file in your browser: set the quality or an allowance in KB and the scale counts the size down, resize the longest side, convert to JPEG or WebP, and download. Nothing is uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700&family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --hall:#0f1418; --steel:#262e35; --steel2:#1a2026; --text:#e8edf1; --muted:#8b98a3; --led:#ff8a3d; --ok:#5bf28a; --bad:#ff4d4d; --belt:#111417; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--hall); color:var(--text); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(30px, 4.6vw, 48px)/1 'Barlow Semi Condensed', sans-serif; text-transform:uppercase; letter-spacing:.01em; }
+    .lede { margin:12px 0 22px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .station { display:grid; grid-template-columns: 1.2fr 1fr; gap:22px; align-items:start; }
+    .belt { position:relative; background:linear-gradient(180deg, #2b333a, #1c2227); border-radius:14px; padding:18px; box-shadow:0 30px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06); }
+    .drop { position:relative; min-height:300px; border-radius:8px; background:var(--belt); background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 36px); display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:pointer; border:2px dashed transparent; }
+    .drop.over { border-color:var(--led); }
+    .drop.running { animation: belt .6s linear infinite; }
+    @keyframes belt { from { background-position:0 0; } to { background-position:36px 0; } }
+    .drop::before, .drop::after { content:''; position:absolute; left:0; right:0; height:10px; background:linear-gradient(180deg, #4a545c, #20262b); }
+    .drop::before { top:0; } .drop::after { bottom:0; }
+    .drop img { max-width:92%; max-height:260px; border-radius:4px; box-shadow:0 14px 30px rgba(0,0,0,.6); object-fit:contain; background:#fff; }
+    .drop .hint { text-align:center; color:var(--muted); font:600 14px 'Barlow Semi Condensed', sans-serif; letter-spacing:.14em; text-transform:uppercase; padding:20px; }
+    .drop .hint b { display:block; font-size:22px; color:var(--text); margin-bottom:6px; }
+    .drop input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+    .scale { margin-top:14px; display:grid; grid-template-columns: 1fr auto; gap:14px; align-items:center; background:#0a0d10; border-radius:10px; padding:14px 16px; border:1px solid #33404a; }
+    .seg { display:flex; gap:6px; align-items:flex-end; }
+    .seg svg { width:34px; height:56px; }
+    .seg .unit { font:600 20px 'Share Tech Mono', monospace; color:var(--led); margin-left:6px; letter-spacing:.1em; text-shadow:0 0 8px rgba(255,138,61,.6); }
+    .status { text-align:right; font:700 13px 'Barlow Semi Condensed', sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+    .status .lamp { display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:8px; vertical-align:-1px; background:#333; box-shadow:inset 0 1px 2px rgba(0,0,0,.6); }
+    .status.ok .lamp { background:var(--ok); box-shadow:0 0 10px var(--ok); } .status.bad .lamp { background:var(--bad); box-shadow:0 0 10px var(--bad); }
+    .status small { display:block; font:400 11px 'Share Tech Mono', monospace; color:var(--muted); letter-spacing:.08em; margin-top:4px; text-transform:none; }
+    .panel { background:var(--steel2); border:1px solid #33404a; border-radius:12px; padding:16px 18px; display:grid; gap:12px; }
+    .panel h2 { margin:0; font:700 12px 'Barlow Semi Condensed', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--led); }
+    .ctl { display:grid; grid-template-columns: 110px 1fr 64px; gap:10px; align-items:center; font-size:13px; }
+    .ctl label { color:var(--muted); font:600 12px 'Barlow Semi Condensed', sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+    .ctl input[type="range"] { width:100%; accent-color:var(--led); }
+    .ctl output, .ctl select, .ctl input[type="number"] { font:600 13px 'Share Tech Mono', monospace; color:var(--text); }
+    .ctl select, .ctl input[type="number"] { width:100%; padding:7px 8px; background:#0a0d10; border:1px solid #33404a; border-radius:6px; }
+    .ctl .wide { grid-column: 2 / -1; }
+    .keys { display:flex; flex-wrap:wrap; gap:8px; }
+    .key { padding:9px 14px; border:1px solid #33404a; border-radius:6px; background:#2a343c; color:var(--text); font:700 12px 'Barlow Semi Condensed', sans-serif; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; text-decoration:none; display:inline-block; }
+    .key.go { background:var(--led); border-color:var(--led); color:#1a0d04; }
+    .key[aria-disabled="true"] { opacity:.4; pointer-events:none; }
+    .tag { background:#f4efe6; color:#1a1d21; border-radius:8px; padding:12px 14px; font:400 12.5px 'Share Tech Mono', monospace; display:grid; grid-template-columns:1fr 1fr; gap:6px 12px; position:relative; }
+    .tag::before { content:''; position:absolute; left:14px; top:-6px; width:12px; height:12px; border-radius:50%; background:var(--steel2); }
+    .tag b { display:block; font:700 10px 'Barlow Semi Condensed', sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#6b6f75; }
+    .tag .big { grid-column:1 / -1; font:700 26px 'Barlow Semi Condensed', sans-serif; letter-spacing:.02em; }
+    .tag .big small { font-size:14px; color:#6b6f75; margin-left:8px; }
+    .notes { margin-top:44px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:700 26px 'Barlow Semi Condensed', sans-serif; text-transform:uppercase; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; color:#cfd6dc; }
+    .notes details { border-top:1px solid #33404a; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Barlow Semi Condensed', sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--text); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 880px) { main { padding:26px 12px 56px; } .station { grid-template-columns:1fr; } .drop { min-height:220px; } .seg svg { width:26px; height:44px; } .ctl { grid-template-columns: 84px 1fr 60px; } .scale { grid-template-columns:1fr; } .status { text-align:left; } }
+
+    [hidden] { display:none !important; }
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Bag drop · belt scale · allowance</p>
+      <h1>Image Compressor</h1>
+      <p class="lede">Put an image on the belt. The scale reads its weight in kilobytes and counts down as you turn the quality knob or set an allowance; when it is under the limit, check it in. Nothing leaves your browser.</p>
+      <div class="station">
+        <div>
+          <div class="belt">
+            <div class="drop" id="drop"><div class="hint" id="hint"><b>Place a bag on the belt</b>drop an image here or click to choose · JPG, PNG, WebP, GIF</div><input type="file" id="file" accept="image/*" aria-label="Choose an image"></div>
+            <div class="scale">
+              <div class="seg" id="seg" aria-live="polite"><span class="unit">KB</span></div>
+              <div class="status" id="status"><span class="lamp"></span><span id="status-t">No bag on the scale</span><small id="status-s"></small></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Check-in desk</h2>
+          <div class="ctl"><label for="q">Quality</label><input id="q" type="range" min="10" max="100" value="80"><output id="q-o">80</output></div>
+          <div class="ctl"><label for="max">Longest side</label><select id="max" class="wide"><option value="0">Keep the original size</option><option value="4096">4096 px</option><option value="2048" selected>2048 px</option><option value="1600">1600 px</option><option value="1200">1200 px</option><option value="800">800 px</option><option value="400">400 px</option></select></div>
+          <div class="ctl"><label for="fmt">Format</label><select id="fmt" class="wide"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP (smaller, modern browsers)</option><option value="image/png">PNG (lossless, resize only)</option></select></div>
+          <div class="ctl"><label for="allow">Allowance</label><input id="allow" type="number" min="5" max="50000" value="200" style="grid-column:2"><span style="font:600 12px 'Share Tech Mono', monospace;color:var(--muted)">KB</span></div>
+          <div class="keys"><button type="button" class="key go" id="fit">Fit to allowance</button><a class="key" id="dl" href="#" download="compressed.jpg" aria-disabled="true">Check in · download</a><button type="button" class="key" id="clear">Clear</button></div>
+          <div class="tag" id="tagbox" hidden>
+            <div class="big" id="t-size">- <small>from -</small></div>
+            <div><b>Dimensions</b><span id="t-dim">-</span></div><div><b>Format</b><span id="t-fmt">-</span></div>
+            <div><b>Saved</b><span id="t-saved">-</span></div><div><b>Quality</b><span id="t-q">-</span></div>
+          </div>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>Lighter bags travel faster</h2>
+        <p>Image files are heavy for the same reason luggage is: they carry more than they need. A photo from a phone is often 3 to 6 MB at 4000 pixels wide; a web page shows it at 1200 and the rest is dead weight. Compression works in two ways here. Resizing the longest side throws out pixels nobody will see, and quality trades invisible detail for a much smaller file: JPEG and WebP at 75 to 85 look the same as the original to almost everyone at a fraction of the size.</p>
+        <h3>The allowance</h3>
+        <p>Many forms and platforms set a limit: 200 KB for a profile picture, 1 MB for an upload, 100 KB for an email signature. Type it as the allowance and press Fit: the desk searches for the highest quality that lands under the limit at the chosen size, and the lamp turns green when the bag can be checked in.</p>
+        <h3>Why a bag drop</h3>
+        <p>A self-service bag drop weighs the bag on the belt, shows the weight on a display, compares it with the allowance and only then prints the tag and takes the bag away. That is exactly a compressor's job: weigh, trim, check, tag, deliver.</p>
+        <details><summary>JPEG or WebP?</summary><p>WebP is 25 to 35 percent smaller at the same quality and every current browser shows it. Choose JPEG when the file has to open in older software or an email client.</p></details>
+        <details><summary>Why does PNG not get smaller with quality?</summary><p>PNG is lossless; it has no quality knob. Resizing still helps. For photos, converting to JPEG or WebP is the real saving; keep PNG for screenshots, logos and anything with transparency.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The image is read, resized and re-encoded by your browser; the download is created there too.</p></details>
+      </section>
+      <div class="foot"><span>Bag drop · belt scale</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const NS = 'http://www.w3.org/2000/svg';
+    const drop = $('drop'), hint = $('hint'), fileIn = $('file'), seg = $('seg'), status = $('status');
+    // seven-segment digits: segments a b c d e f g
+    const SEGS = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg', '-': 'g', ' ': '' };
+    const POLY = { a: '4,2 30,2 26,6 8,6', b: '31,3 31,27 27,25 27,7', c: '31,29 31,53 27,49 27,31', d: '4,54 30,54 26,50 8,50', e: '3,29 3,53 7,49 7,31', f: '3,3 3,27 7,25 7,7', g: '5,28 29,28 26,30 8,30 5,28' };
+    const digits = [];
+    for (let i = 0; i < 5; i++) {
+      const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 34 56');
+      const d = {}; for (const k of Object.keys(POLY)) { const p = document.createElementNS(NS, 'polygon'); p.setAttribute('points', POLY[k]); p.setAttribute('fill', '#2a1608'); svg.appendChild(p); d[k] = p; }
+      seg.insertBefore(svg, seg.firstChild); digits.push(d);
+    }
+    digits.reverse();
+    let shownValue = 0, animFrom = 0, animTo = 0, animT0 = 0;
+    function paint(n) {
+      const s = String(Math.max(0, Math.round(n))).padStart(5, ' ');
+      for (let i = 0; i < 5; i++) { const on = SEGS[s[i]] || ''; for (const k of Object.keys(POLY)) { digits[i][k].setAttribute('fill', on.includes(k) ? '#ff8a3d' : '#2a1608'); digits[i][k].style.filter = on.includes(k) ? 'drop-shadow(0 0 3px rgba(255,138,61,.8))' : ''; } }
+    }
+    function countTo(n) { animFrom = shownValue; animTo = n; animT0 = performance.now(); const step = (t) => { const k = Math.min(1, (t - animT0) / 500); shownValue = animFrom + (animTo - animFrom) * (1 - Math.pow(1 - k, 3)); paint(shownValue); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+    paint(0);
+    let img = null, srcFile = null, outBlob = null, outUrl = null, busy = false, lastQ = 80;
+    const kb = (b) => Math.round(b / 1024 * 10) / 10;
+    function setStatus(kind, t, s) { status.className = 'status' + (kind ? ' ' + kind : ''); $('status-t').textContent = t; $('status-s').textContent = s || ''; }
+    async function load(file) {
+      if (!file || !file.type.startsWith('image/')) { setStatus('bad', 'That is not an image', file ? file.type || 'unknown type' : ''); return; }
+      srcFile = file;
+      const url = URL.createObjectURL(file); const el = new Image(); el.src = url; await el.decode(); img = el;
+      while (drop.firstChild) drop.removeChild(drop.firstChild);
+      const pv = document.createElement('img'); pv.src = url; pv.alt = file.name; drop.appendChild(pv); drop.appendChild(fileIn);
+      $('dl').download = file.name.replace(/\.[^.]+$/, '') + '-compressed.jpg';
+      countTo(kb(file.size));
+      setStatus('', 'Weighing ' + file.name, img.naturalWidth + ' \u00d7 ' + img.naturalHeight + ' · ' + kb(file.size) + ' KB on arrival');
+      await compress(Number($('q').value));
+    }
+    function targetSize() { const max = Number($('max').value); let w = img.naturalWidth, h = img.naturalHeight; if (max && Math.max(w, h) > max) { const k = max / Math.max(w, h); w = Math.round(w * k); h = Math.round(h * k); } return [w, h]; }
+    function encode(quality) {
+      const [w, h] = targetSize(); const c = document.createElement('canvas'); c.width = w; c.height = h; const ctx = c.getContext('2d');
+      const mime = $('fmt').value; if (mime === 'image/jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); }
+      ctx.drawImage(img, 0, 0, w, h);
+      return new Promise((res) => c.toBlob((b) => res({ blob: b, w, h }), mime, quality / 100));
+    }
+    async function compress(quality) {
+      if (!img || busy) return; busy = true; drop.classList.add('running'); lastQ = quality;
+      const r = await encode(quality); busy = false; drop.classList.remove('running');
+      if (!r.blob) { setStatus('bad', 'This browser cannot write that format', 'try JPEG'); return; }
+      outBlob = r.blob; if (outUrl) URL.revokeObjectURL(outUrl); outUrl = URL.createObjectURL(outBlob);
+      const ext = $('fmt').value === 'image/webp' ? '.webp' : $('fmt').value === 'image/png' ? '.png' : '.jpg';
+      const a = $('dl'); a.href = outUrl; a.download = srcFile.name.replace(/\.[^.]+$/, '') + '-compressed' + ext; a.setAttribute('aria-disabled', 'false');
+      const size = kb(outBlob.size), allow = Number($('allow').value) || 0, saved = Math.max(0, Math.round((1 - outBlob.size / srcFile.size) * 100));
+      countTo(size);
+      if (allow && size > allow) setStatus('bad', 'Overweight · ' + size + ' KB over an allowance of ' + allow + ' KB', 'lower the quality or the size, or press Fit to allowance'); else setStatus('ok', 'OK to check in · ' + size + ' KB', allow ? 'under the ' + allow + ' KB allowance' : 'no allowance set');
+      $('tagbox').hidden = false; $('t-size').textContent = ''; $('t-size').appendChild(document.createTextNode(size + ' KB')); $('t-size').appendChild(h('small', null, 'from ' + kb(srcFile.size) + ' KB'));
+      $('t-dim').textContent = r.w + ' \u00d7 ' + r.h + (r.w !== img.naturalWidth ? ' (was ' + img.naturalWidth + ' \u00d7 ' + img.naturalHeight + ')' : ''); $('t-fmt').textContent = ext.slice(1).toUpperCase(); $('t-saved').textContent = saved + '%'; $('t-q').textContent = $('fmt').value === 'image/png' ? 'lossless' : quality;
+    }
+    async function fit() {
+      if (!img) return; while (busy) await new Promise((r) => setTimeout(r, 30)); const allow = (Number($('allow').value) || 0) * 1024; if (!allow) return; busy = true;
+      if ($('fmt').value === 'image/png') $('fmt').value = 'image/jpeg';
+      let lo = 10, hi = 100, best = null; drop.classList.add('running');
+      for (let i = 0; i < 7; i++) { const mid = Math.round((lo + hi) / 2); const r = await encode(mid); if (r.blob && r.blob.size <= allow) { best = mid; lo = mid + 1; } else hi = mid - 1; if (lo > hi) break; }
+      drop.classList.remove('running'); busy = false;
+      if (best === null) { const sizes = ['2048', '1600', '1200', '800', '400']; const cur = sizes.indexOf($('max').value); const next = sizes[Math.min(sizes.length - 1, cur + 1)] || '400'; if ($('max').value !== next) { $('max').value = next; return fit(); } best = 10; }
+      $('q').value = best; $('q-o').textContent = best; await compress(best);
+    }
+    fileIn.addEventListener('change', () => load(fileIn.files[0]));
+    ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+    drop.addEventListener('drop', (e) => { const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) load(f); });
+    let qTimer = null;
+    $('q').addEventListener('input', () => { $('q-o').textContent = $('q').value; clearTimeout(qTimer); qTimer = setTimeout(() => compress(Number($('q').value)), 120); });
+    $('max').addEventListener('change', () => compress(Number($('q').value)));
+    $('fmt').addEventListener('change', () => compress(Number($('q').value)));
+    $('allow').addEventListener('input', () => { if (outBlob) compress(lastQ); });
+    $('fit').addEventListener('click', fit);
+    $('clear').addEventListener('click', () => { img = null; srcFile = null; outBlob = null; while (drop.firstChild) drop.removeChild(drop.firstChild); drop.appendChild(hint); drop.appendChild(fileIn); fileIn.value = ''; countTo(0); setStatus('', 'No bag on the scale', ''); $('tagbox').hidden = true; $('dl').setAttribute('aria-disabled', 'true'); });
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-world="composition-book">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Handwriting Converter - Free, No Watermark</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert typed text into realistic handwritten pages in a composition book: five hands, blue, black or green ink, wide-ruled paper with a red margin, multi-page output as PNG. Free, private, no watermark.">
+    <meta name="theme-color" content="#1a1a1a">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/text-to-handwriting/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Text to Handwriting Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert typed text into realistic handwritten pages in a composition book: five hands, blue, black or green ink, wide-ruled paper with a red margin, multi-page output as PNG. Free, private, no watermark.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/text-to-handwriting/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Text to Handwriting Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert typed text into realistic handwritten pages in a composition book: five hands, blue, black or green ink, wide-ruled paper with a red margin, multi-page output as PNG. Free, private, no watermark.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&family=Homemade+Apple&family=Indie+Flower&family=Shadows+Into+Light&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --desk:#6d4a2c; --paper:#fbfaf3; --rule:#b7c8e2; --margin:#e57373; --ink:#1d2433; --pen:#274bb3; --label:#fffdf8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); font-family:'Public Sans', system-ui, sans-serif;
+      background:linear-gradient(90deg, rgba(0,0,0,0.12), transparent 12%, transparent 88%, rgba(0,0,0,0.12)), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 9px), linear-gradient(180deg, #7a5432, var(--desk) 40%, #5a3c22); }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 60px; }
+    .book { border-radius:6px 14px 14px 6px; box-shadow:0 30px 60px -24px rgba(0,0,0,0.8), 0 2px 0 rgba(255,255,255,0.05); overflow:hidden; background:var(--paper); }
+    .cover { position:relative; padding:34px 28px 30px; color:#fff; background-color:#0e0e0e;
+      background-image:
+        repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 4px),
+        radial-gradient(ellipse 90px 34px at 6% 22%, #fff 0 45%, rgba(255,255,255,0.35) 62%, transparent 78%),
+        radial-gradient(ellipse 50px 110px at 27% 72%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 130px 40px at 52% 12%, #fff 0 42%, rgba(255,255,255,0.35) 60%, transparent 78%),
+        radial-gradient(ellipse 40px 70px at 73% 58%, #fff 0 40%, rgba(255,255,255,0.3) 58%, transparent 74%),
+        radial-gradient(ellipse 110px 46px at 93% 32%, #fff 0 44%, rgba(255,255,255,0.35) 62%, transparent 78%),
+        radial-gradient(ellipse 70px 28px at 44% 88%, #fff 0 42%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 36px 36px at 17% 86%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 58px 22px at 64% 44%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 24px 60px at 84% 84%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 80px 30px at 35% 40%, #fff 0 40%, rgba(255,255,255,0.3) 58%, transparent 74%),
+        radial-gradient(ellipse 30px 30px at 58% 70%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 46px 18px at 12% 55%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%),
+        radial-gradient(ellipse 66px 26px at 79% 10%, #fff 0 40%, rgba(255,255,255,0.3) 60%, transparent 76%); }
+    .spine { position:absolute; left:0; top:0; bottom:0; width:26px; background:linear-gradient(90deg, #1a1a1a, #2b2b2b 60%, #1a1a1a); box-shadow:inset -2px 0 3px rgba(0,0,0,0.6); }
+    .label { position:relative; margin:0 auto; max-width:560px; background:var(--label); color:var(--ink); border:1.5px solid #333; border-radius:4px; padding:18px 22px 14px; box-shadow:0 2px 0 rgba(0,0,0,0.5); }
+    .label::before { content:''; position:absolute; inset:5px; border:1px solid #9a9a9a; border-radius:2px; pointer-events:none; }
+    .label h1 { margin:0; font-family:'Caveat', cursive; font-weight:700; font-size:clamp(34px, 5vw, 56px); line-height:1; color:var(--pen); text-align:center; }
+    .label .lines { margin-top:12px; display:grid; gap:12px; }
+    .label .lines div { border-bottom:1px solid #6a6a6a; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#555; padding-bottom:2px; display:flex; justify-content:space-between; }
+    .label .lines span:last-child { font-family:'Caveat', cursive; font-size:16px; letter-spacing:0; text-transform:none; color:var(--pen); }
+    .pageb { position:relative; padding:0 0 40px 0; background-color:var(--paper); background-image:repeating-linear-gradient(180deg, transparent 0 32px, var(--rule) 32px 33px); background-position:0 6px; }
+    .pageb::before { content:''; position:absolute; left:72px; top:0; bottom:0; width:2px; background:var(--margin); opacity:.8; }
+    .body { padding:22px 40px 0 100px; }
+    .lede { margin:0 0 33px; font-size:16px; line-height:33px; color:#3b4252; max-width:720px; }
+    .grid { display:grid; grid-template-columns:1.1fr 1fr; gap:36px; align-items:start; }
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .lbl { font-family:'Caveat', cursive; font-size:20px; color:var(--pen); line-height:33px; }
+    textarea.in { width:100%; min-height:165px; border:none; border-bottom:2px dashed var(--pen); background:transparent; resize:vertical; font:16px/33px 'Public Sans', system-ui, sans-serif; color:var(--ink); outline:none; padding:0; }
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:10px; }
+    .chip { padding:6px 12px; border:1.5px solid var(--ink); border-radius:3px 12px 3px 12px; background:#fff; color:var(--ink); font:600 13px 'Public Sans', sans-serif; cursor:pointer; transform:rotate(-1deg); }
+    .chip:nth-child(even) { transform:rotate(1deg); }
+    .chip[aria-pressed="true"] { background:#fff06a; }
+    .pens { display:flex; gap:10px; align-items:center; }
+    .pen { width:26px; height:26px; border-radius:50% 50% 50% 50%; border:2px solid #fff; box-shadow:0 0 0 1.5px #888; cursor:pointer; padding:0; }
+    .pen[aria-pressed="true"] { box-shadow:0 0 0 2.5px var(--ink); }
+    .size { display:flex; align-items:center; gap:10px; }
+    .size input { accent-color:var(--pen); width:140px; }
+    .btn { padding:10px 16px; border:1.5px solid var(--ink); background:var(--pen); color:#fff; border-radius:3px; font:600 13px 'Public Sans', sans-serif; cursor:pointer; box-shadow:2px 2px 0 var(--ink); }
+    .btn.sec { background:#fff; color:var(--ink); }
+    .btn[disabled] { opacity:.5; cursor:not-allowed; }
+    .hint { margin:8px 0 0; font-family:'Caveat', cursive; font-size:18px; color:#5a6478; line-height:33px; }
+    .sheets { display:grid; gap:22px; }
+    .sheet { position:relative; display:grid; gap:6px; }
+    .sheet canvas { width:100%; height:auto; border-radius:3px; box-shadow:0 14px 30px -18px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.08); background:#fff; transform:rotate(-0.6deg); }
+    .sheet:nth-child(even) canvas { transform:rotate(0.5deg); }
+    .sheet .bar { display:flex; align-items:center; justify-content:space-between; gap:12px; font-family:'Caveat', cursive; font-size:18px; color:#5a6478; }
+    .sheet .bar button { padding:6px 12px; border:1.5px solid var(--ink); background:#fff; border-radius:3px; font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .inside { margin:44px 40px 0 100px; border:1.5px solid #333; padding:22px 26px; background:#fff; position:relative; }
+    .inside::before { content:'INSIDE COVER'; position:absolute; top:-9px; left:16px; background:#fff; padding:0 8px; font-size:10px; letter-spacing:.18em; color:#555; }
+    .inside h2 { margin:0 0 10px; font-family:'Caveat', cursive; font-size:32px; color:var(--pen); line-height:1.1; }
+    .inside p { margin:0 0 10px; font-size:14.5px; line-height:1.65; color:#3b4252; }
+    .inside details { border-top:1px solid #d9d0bb; } .inside summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .inside a { color:var(--pen); }
+    .foot { margin:22px 40px 0 100px; font-family:'Caveat', cursive; font-size:18px; color:#5a6478; display:flex; flex-wrap:wrap; gap:8px 24px; }
+    .foot a { color:var(--pen); }
+    .tool-feedback { margin:14px 40px 0 100px; font-size:13px; color:#3b4252; }
+    .tool-feedback summary::before { color:var(--margin); }
+    @media (max-width: 860px) { main { padding:16px 10px 40px; } .grid { grid-template-columns:1fr; } .pageb::before { left:34px; } .body { padding:18px 16px 0 48px; } .inside, .foot, .tool-feedback { margin-left:48px; margin-right:16px; } .cover { padding:24px 16px 22px; } .spine { width:14px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <div class="book">
+        <div class="cover"><div class="spine" aria-hidden="true"></div>
+          <div class="label"><h1>Text to Handwriting</h1><div class="lines"><div><span>Name</span><span>whoever is typing</span></div><div><span>Subject</span><span>assignments, notes, letters</span></div></div></div>
+        </div>
+        <div class="pageb">
+          <div class="body">
+            <p class="lede">Type it, pick a hand and an ink, and the pages write themselves below on wide-ruled paper. Download each page as a PNG. No watermark, nothing uploaded.</p>
+            <div class="grid">
+              <div>
+                <div class="field"><label class="lbl" for="hw-in">Your text</label><textarea id="hw-in" class="in" maxlength="50000">The quick brown fox jumps over the lazy dog while the river keeps moving under the old stone bridge.
+
+Assignments due Monday. Bring the notebook.</textarea></div>
+                <div class="row" role="group" aria-label="Handwriting style"><button class="chip hw-font" type="button" data-f="Caveat" aria-pressed="true">Caveat</button><button class="chip hw-font" type="button" data-f="Patrick Hand" aria-pressed="false">Patrick Hand</button><button class="chip hw-font" type="button" data-f="Indie Flower" aria-pressed="false">Indie Flower</button><button class="chip hw-font" type="button" data-f="Shadows Into Light" aria-pressed="false">Shadows Into Light</button><button class="chip hw-font" type="button" data-f="Homemade Apple" aria-pressed="false">Homemade Apple</button></div>
+                <div class="row"><span class="lbl">Ink</span><div class="pens" role="group" aria-label="Ink"><button class="pen hw-ink" type="button" data-c="#274bb3" aria-pressed="true" style="background:#274bb3" aria-label="Blue ink"></button><button class="pen hw-ink" type="button" data-c="#1c1c1c" aria-pressed="false" style="background:#1c1c1c" aria-label="Black ink"></button><button class="pen hw-ink" type="button" data-c="#14532d" aria-pressed="false" style="background:#14532d" aria-label="Green ink"></button></div><span class="lbl" style="margin-left:10px">Size</span><div class="size"><input id="hw-size" type="range" min="26" max="46" value="34" aria-label="Text size"></div></div>
+                <div class="row"><button id="hw-gen" class="btn" type="button">Write the pages</button><button id="hw-all" class="btn sec" type="button" disabled>Download all pages</button></div>
+                <p id="hw-hint" class="hint">Pages are wide-ruled, A4-proportioned PNGs.</p>
+              </div>
+              <div id="hw-sheets" class="sheets" aria-live="polite"></div>
+            </div>
+          </div>
+          <section class="inside">
+            <h2>Convert text to handwriting online</h2>
+            <p>Type or paste your text, choose one of five hands and an ink, and this tool writes it out on wide-ruled composition-book paper (11/32-inch ruling, red margin), with slight per-character tilt and baseline shift so lines do not look machine-perfect. Long text flows onto as many pages as it needs; each page downloads as a clean PNG with no watermark.</p>
+            <p>Students use it to turn typed notes into handwritten-style assignment pages; teachers use it for worksheets; anyone can use it for letters and journals. Everything renders on a canvas in your own browser tab; nothing you type is uploaded.</p>
+            <details><summary>Does it look like real handwriting?</summary><p>Each character gets a random tilt, size and baseline shift. Pick Homemade Apple for the messiest cursive, Patrick Hand for tidy print.</p></details>
+            <details><summary>Can I print the pages as A4?</summary><p>Yes. Pages are generated at A4 proportions (1240 x 1754 px). Print at fit-to-page and the ruling lines up.</p></details>
+            <details><summary>Is there a length limit?</summary><p>Up to 50,000 characters per run, roughly 25-30 handwritten pages. The work happens on your device.</p></details>
+          </section>
+          <div class="foot"><span>Composition book no. 4</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+          <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+        </div>
+      </div>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const inp = document.getElementById('hw-in'), sheets = document.getElementById('hw-sheets'), size = document.getElementById('hw-size'), hint = document.getElementById('hw-hint'), genBtn = document.getElementById('hw-gen'), allBtn = document.getElementById('hw-all');
+    let font = 'Caveat', ink = '#274bb3', pages = [];
+    const W = 1240, H = 1754, ML = 150, MT = 150, MR = 90, MB = 110;
+    const jitter = (s, r) => { const x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return ((x - Math.floor(x)) - 0.5) * 2 * r; };
+    function paper(ctx, lh) { ctx.fillStyle = '#fbfaf3'; ctx.fillRect(0, 0, W, H); ctx.strokeStyle = '#b7c8e2'; ctx.lineWidth = 1.5; for (let y = MT; y <= H - MB + lh * 0.35; y += lh) { ctx.beginPath(); ctx.moveTo(0, y + lh * 0.35); ctx.lineTo(W, y + lh * 0.35); ctx.stroke(); } ctx.strokeStyle = '#e57373'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ML - 26, 0); ctx.lineTo(ML - 26, H); ctx.stroke(); }
+    function line(ctx, text, x, y, fs, seed) { let cx = x; for (let k = 0; k < text.length; k++) { const ch = text[k], s = seed + k; ctx.save(); ctx.translate(cx, y + jitter(s + .5, fs * 0.035)); ctx.rotate(jitter(s, 0.03)); ctx.font = Math.round(fs * (1 + jitter(s + .25, 0.04))) + 'px "' + font + '"'; ctx.fillText(ch, 0, 0); ctx.restore(); ctx.font = fs + 'px "' + font + '"'; cx += ctx.measureText(ch).width + jitter(s + .75, fs * 0.015); } }
+    async function write() {
+      const text = inp.value.replace(/\r\n/g, '\n'); if (!text.trim()) { hint.textContent = 'Type some text first.'; return; }
+      const fs = parseInt(size.value, 10) * 1.25, lh = Math.round(fs * 1.6);
+      genBtn.disabled = true; hint.textContent = 'Writing';
+      try { await document.fonts.load(fs + 'px "' + font + '"', 'Aa'); } catch (e) {}
+      const m = document.createElement('canvas').getContext('2d'); m.font = fs + 'px "' + font + '"';
+      const lines = []; for (const para of text.split('\n')) { if (!para.trim()) { lines.push(''); continue; } let l = ''; for (const w of para.split(/\s+/)) { const p = l ? l + ' ' + w : w; if (m.measureText(p).width > W - ML - MR && l) { lines.push(l); l = w; } else l = p; } if (l) lines.push(l); }
+      const per = Math.floor((H - MT - MB) / lh); sheets.textContent = ''; pages = [];
+      for (let p = 0; p * per < lines.length; p++) { const c = document.createElement('canvas'); c.width = W; c.height = H; const ctx = c.getContext('2d'); paper(ctx, lh); ctx.fillStyle = ink; ctx.textBaseline = 'alphabetic'; ctx.font = fs + 'px "' + font + '"'; lines.slice(p * per, (p + 1) * per).forEach((t, i) => { if (t) line(ctx, t, ML, MT + (i + 1) * lh - Math.round(lh * 0.35), fs, (p * per + i) * 1000); }); pages.push(c);
+        const sheet = h('div', null, null, 'sheet'); sheet.appendChild(c); const bar = h('div', null, null, 'bar'); bar.appendChild(h('span', null, 'page ' + (p + 1))); const b = h('button', null, 'Download PNG'); b.type = 'button'; const n = p + 1; b.addEventListener('click', () => download(n)); bar.appendChild(b); sheet.appendChild(bar); sheets.appendChild(sheet); }
+      hint.textContent = pages.length + ' page' + (pages.length > 1 ? 's' : '') + ' written.'; allBtn.disabled = pages.length === 0; genBtn.disabled = false;
+    }
+    function download(n) { const c = pages[n - 1]; if (!c) return; c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'handwriting-page-' + n + '.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 5000); }, 'image/png'); }
+    genBtn.addEventListener('click', write); allBtn.addEventListener('click', () => pages.forEach((c, i) => setTimeout(() => download(i + 1), i * 300)));
+    pressGroup('.hw-font', b => { font = b.dataset.f; write(); });
+    pressGroup('.hw-ink', b => { ink = b.dataset.c; write(); });
+    size.addEventListener('change', write);
+    write(); setTimeout(write, 1500);
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

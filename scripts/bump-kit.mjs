@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
-const utilityToolsRoot = resolve(repoRoot, '..', 'utility-tools');
+const utilityToolsRoot = repoRoot;
 
 const version = process.argv[2];
 if (!version || !/^\d+\.\d+\.\d+$/.test(version)) {

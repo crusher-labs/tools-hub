@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" data-world="carbonless-form">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to YAML/CSV Converter - Convert JSON, YAML and CSV Both Ways</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert between JSON, YAML and CSV in any direction on a three-part carbonless form: write on one sheet and the other two copies fill in. Nested data flattened for CSV, typed values for JSON, tear off any copy to your clipboard. Nothing uploaded.">
+    <meta name="theme-color" content="#e3dfd4">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/json-yaml-csv-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="JSON to YAML/CSV Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert between JSON, YAML and CSV in any direction on a three-part carbonless form: write on one sheet and the other two copies fill in. Nested data flattened for CSV, typed values for JSON, tear off any copy to your clipboard. Nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/json-yaml-csv-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JSON to YAML/CSV Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert between JSON, YAML and CSV in any direction on a three-part carbonless form: write on one sheet and the other two copies fill in. Nested data flattened for CSV, typed values for JSON, tear off any copy to your clipboard. Nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --desk:#e3dfd4; --ink:#26231f; --muted:#6b665c; --white:#fdfcf8; --canary:#fff1a8; --pink:#ffd6dc; --rule:rgba(0,0,0,.08); --stub:#2a2926; --red:#c8322b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--desk); color:var(--ink); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1180px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:700 11px 'Courier Prime', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:700 clamp(26px, 4vw, 40px)/1.1 'Courier Prime', monospace; text-transform:uppercase; letter-spacing:.02em; }
+    .lede { margin:12px 0 22px; max-width:66ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .opts { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-bottom:18px; font-size:13px; color:var(--muted); }
+    .opts b { font-weight:600; color:var(--ink); }
+    .key { padding:7px 12px; border:1px solid var(--ink); border-radius:3px; background:#f7f5ee; color:var(--ink); font:700 11px 'Courier Prime', monospace; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; }
+    .key[aria-pressed="true"] { background:var(--ink); color:#fff; }
+    .set { position:relative; }
+    .stub { background:var(--stub); color:#d9d3c4; padding:10px 18px; font:700 11px 'Courier Prime', monospace; letter-spacing:.2em; text-transform:uppercase; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; border-radius:4px 4px 0 0; box-shadow:0 3px 0 #171614; }
+    .sheets { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:14px; padding:14px 14px 20px; background:linear-gradient(180deg, #1f1e1b, transparent 40px); border-radius:0 0 4px 4px; }
+    .sheet { position:relative; border-radius:0 0 3px 3px; box-shadow:0 10px 24px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.6) inset; padding:0 0 12px; transform-origin:top left; }
+    .sheet.json { background:var(--white); } .sheet.yaml { background:var(--canary); } .sheet.csv { background:var(--pink); }
+    .sheet.torn { animation: tear .7s ease-in both; }
+    @keyframes tear { 0% { transform:none; opacity:1; } 35% { transform:rotate(-1.5deg) translateY(6px); } 100% { transform:rotate(-4deg) translateY(90px); opacity:0; } }
+    .perf { border-bottom:2px dashed rgba(0,0,0,.28); padding:9px 12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+    .part { font:700 10px 'Courier Prime', monospace; letter-spacing:.16em; text-transform:uppercase; color:#3d3a34; }
+    .acts { display:flex; gap:6px; }
+    .tear, .save { font:700 10px 'Courier Prime', monospace; letter-spacing:.08em; text-transform:uppercase; padding:5px 9px; border:1px solid #3d3a34; border-radius:3px; background:rgba(255,255,255,.55); color:#26231f; cursor:pointer; text-decoration:none; }
+    .fields { display:flex; gap:14px; flex-wrap:wrap; padding:8px 12px 0; font-size:11px; color:#3d3a34; }
+    .fields b { display:block; font:700 9px 'Courier Prime', monospace; letter-spacing:.14em; text-transform:uppercase; color:#6b665c; }
+    .fields i { font-style:normal; font:13px 'Courier Prime', monospace; }
+    .fields span { border-bottom:1px solid rgba(0,0,0,.25); min-width:70px; padding-bottom:2px; }
+    textarea { display:block; width:100%; min-height:340px; resize:vertical; margin-top:8px; padding:10px 12px; border:0; background:repeating-linear-gradient(180deg, transparent 0 21px, var(--rule) 21px 22px); background-attachment:local; color:var(--ink); font:13px/22px 'Courier Prime', monospace; outline:none; }
+    textarea:focus { box-shadow: inset 3px 0 0 var(--ink); }
+    .err { margin:0; padding:0 12px; font:12px 'Courier Prime', monospace; color:var(--red); min-height:1.2em; }
+    .void { position:absolute; left:50%; top:46%; transform:translate(-50%, -50%) rotate(-14deg); font:700 84px 'Courier Prime', monospace; letter-spacing:.2em; color:var(--red); border:6px solid var(--red); padding:0 18px; border-radius:8px; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .sheet.bad .void { opacity:.75; }
+    .notes { margin-top:44px; max-width:74ch; }
+    .notes h2 { margin:0 0 10px; font:700 22px 'Courier Prime', monospace; text-transform:uppercase; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid #c9c3b4; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes code { font:13px 'Courier Prime', monospace; background:#d6d1c4; padding:1px 5px; border-radius:3px; }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:12px 'Courier Prime', monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--ink); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 900px) { main { padding:26px 12px 56px; } .sheets { grid-template-columns:1fr; padding:10px 10px 16px; } textarea { min-height:220px; } .void { font-size:64px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">3-part carbonless set · white · canary · pink</p>
+      <h1>JSON to YAML/CSV Converter</h1>
+      <p class="lede">Write on any sheet and the other two copies take the impression: JSON on the white original, YAML on the canary copy, CSV on the pink one. Tear off the copy you want and it is on your clipboard.</p>
+      <div class="opts"><span><b>CSV delimiter</b></span><button type="button" class="key d" data-d="auto" aria-pressed="true">Auto</button><button type="button" class="key d" data-d="," aria-pressed="false">Comma</button><button type="button" class="key d" data-d=";" aria-pressed="false">Semicolon</button><button type="button" class="key d" data-d="tab" aria-pressed="false">Tab</button><span id="status"></span></div>
+      <div class="set">
+        <div class="stub"><span>Data transfer set · form 3P</span><span>No. <span id="serial">000001</span></span></div>
+        <div class="sheets">
+        <section class="sheet json" id="sh-json">
+          <div class="perf"><span class="part">Original · white · JSON</span><span class="acts"><button type="button" class="tear" data-fmt="json">Tear off (copy)</button><a class="save" data-fmt="json" href="#" download="data.json">Save .json</a></span></div>
+          <div class="fields"><span><b>Format</b>JSON</span><span><b>Records</b><i id="rec-json">0</i></span><span><b>Bytes</b><i id="byt-json">0</i></span></div>
+          <textarea id="s-json" spellcheck="false" aria-label="JSON sheet: type or paste JSON here"></textarea>
+          <p class="err" id="e-json"></p>
+          <div class="void" id="v-json" aria-hidden="true">VOID</div>
+        </section>
+        <section class="sheet yaml" id="sh-yaml">
+          <div class="perf"><span class="part">Copy 1 · canary · YAML</span><span class="acts"><button type="button" class="tear" data-fmt="yaml">Tear off (copy)</button><a class="save" data-fmt="yaml" href="#" download="data.yaml">Save .yaml</a></span></div>
+          <div class="fields"><span><b>Format</b>YAML</span><span><b>Records</b><i id="rec-yaml">0</i></span><span><b>Bytes</b><i id="byt-yaml">0</i></span></div>
+          <textarea id="s-yaml" spellcheck="false" aria-label="YAML sheet: type or paste YAML here"></textarea>
+          <p class="err" id="e-yaml"></p>
+          <div class="void" id="v-yaml" aria-hidden="true">VOID</div>
+        </section>
+        <section class="sheet csv" id="sh-csv">
+          <div class="perf"><span class="part">Copy 2 · pink · CSV</span><span class="acts"><button type="button" class="tear" data-fmt="csv">Tear off (copy)</button><a class="save" data-fmt="csv" href="#" download="data.csv">Save .csv</a></span></div>
+          <div class="fields"><span><b>Format</b>CSV</span><span><b>Records</b><i id="rec-csv">0</i></span><span><b>Bytes</b><i id="byt-csv">0</i></span></div>
+          <textarea id="s-csv" spellcheck="false" aria-label="CSV sheet: type or paste CSV here"></textarea>
+          <p class="err" id="e-csv"></p>
+          <div class="void" id="v-csv" aria-hidden="true">VOID</div>
+        </section>
+        </div>
+      </div>
+      <section class="notes">
+        <h2>One record, three copies</h2>
+        <p>JSON, YAML and CSV describe the same data three ways. JSON is what programs exchange; YAML is what configuration files prefer, indentation instead of braces; CSV is what spreadsheets open. A carbonless form set works the same way: you write once on the top sheet and every copy underneath gets the impression, each on its own colour so the right one goes to the right desk. Here every sheet is writable. Paste into any of them and the other two are re-pressed as you type.</p>
+        <h3>What changes between formats</h3>
+        <p>JSON to YAML is lossless. CSV is a flat grid, so nested objects are flattened into dotted columns (<code>address.city</code>) and arrays are written as JSON inside the cell; an object of objects becomes rows with a <code>key</code> column. Coming back from CSV, numbers and true/false are typed, everything else stays a string. Delimiters are detected from the first line (comma, semicolon or tab) unless you pick one.</p>
+        <details><summary>Why is my CSV sheet stamped VOID?</summary><p>The sheet you typed on did not parse, so nothing was pressed through. The line under the header says what went wrong; the other two sheets keep their last good copy.</p></details>
+        <details><summary>How much YAML does it understand?</summary><p>The YAML that configuration files use: nested maps and lists, quoted and plain scalars, comments, block scalars with | and &gt;, and simple flow collections like [a, b]. Anchors, tags and multi-document files are not supported.</p></details>
+        <details><summary>Can I convert a CSV with a header row only?</summary><p>Yes; you get an empty list. The first row is always read as the column names.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The whole form runs in your browser; nothing you paste leaves the page.</p></details>
+      </section>
+      <div class="foot"><span>Carbonless · white, canary, pink</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const ta = { json: $('s-json'), yaml: $('s-yaml'), csv: $('s-csv') };
+    const NL = String.fromCharCode(10), TAB = String.fromCharCode(9), DQ = String.fromCharCode(34), SQ = String.fromCharCode(39);
+    let delim = 'auto', source = 'json', serial = 1;
+    // ---- YAML (subset) ----
+    function yamlParse(src) {
+      const lines = src.split(/\r\n?|\n/);
+      const rows = [];
+      lines.forEach((raw, idx) => {
+        let line = raw;
+        if (/^\s*#/.test(line) || /^---\s*$/.test(line) || /^\.\.\.\s*$/.test(line)) return;
+        let inS = false, inD = false, cut = -1;
+        for (let i = 0; i < line.length; i++) { const c = line[i]; if (c === SQ && !inD) inS = !inS; else if (c === DQ && !inS && line[i - 1] !== '\\') inD = !inD; else if (c === '#' && !inS && !inD && (i === 0 || /\s/.test(line[i - 1]))) { cut = i; break; } }
+        if (cut >= 0) line = line.slice(0, cut);
+        if (!line.trim()) return;
+        rows.push({ indent: line.match(/^ */)[0].length, text: line.trim(), n: idx + 1 });
+      });
+      let pos = 0;
+      const err = (m, r) => { throw new Error('YAML line ' + (r ? r.n : '?') + ': ' + m); };
+      const isSeq = (r) => r.text === '-' || r.text.startsWith('- ');
+      function splitMap(t) {
+        const m = t.match(/^(?:"((?:[^"\\]|\\.)*)"|'((?:[^']|'')*)'|([^\s"'\[\]{}][^:]*?))\s*:(?:\s+(.*)|$)/);
+        if (!m) return null;
+        const key = m[1] != null ? JSON.parse(DQ + m[1] + DQ) : m[2] != null ? m[2].split(SQ + SQ).join(SQ) : m[3];
+        return { key: key.trim(), value: (m[4] || '').trim() };
+      }
+      function scalar(t, r) {
+        if (t === '') return null;
+        if (t[0] === DQ) { const m = t.match(/^"((?:[^"\\]|\\.)*)"\s*$/); if (!m) err('unterminated string', r); return JSON.parse(DQ + m[1] + DQ); }
+        if (t[0] === SQ) { const m = t.match(/^'((?:[^']|'')*)'\s*$/); if (!m) err('unterminated string', r); return m[1].split(SQ + SQ).join(SQ); }
+        if (t[0] === '[' || t[0] === '{') return flow(t, r);
+        if (t === '~' || /^(null|Null|NULL)$/.test(t)) return null;
+        if (/^(true|True|TRUE)$/.test(t)) return true;
+        if (/^(false|False|FALSE)$/.test(t)) return false;
+        if (/^[-+]?(0|[1-9][0-9]*)$/.test(t) && t.replace(/^[-+]/, '').length < 16) return parseInt(t, 10);
+        if (/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(t)) return parseFloat(t);
+        if (/^0x[0-9a-fA-F]+$/.test(t)) return parseInt(t, 16);
+        return t;
+      }
+      function flow(t, r) {
+        try { return JSON.parse(t); } catch (e) {}
+        let json = t.replace(/'((?:[^']|'')*)'/g, (m, s) => JSON.stringify(s.split(SQ + SQ).join(SQ)));
+        json = json.replace(/([{\[,]\s*)([^\s"'{}\[\],:]+)\s*:/g, '$1"$2":');
+        json = json.replace(/(:\s*|[\[,]\s*)([^\s"'{}\[\],][^,\]}]*?)\s*(?=[,\]}])/g, (m, pre, v) => pre + JSON.stringify(scalar(v.trim(), r)));
+        try { return JSON.parse(json); } catch (e) { err('cannot read the flow collection ' + t, r); }
+      }
+      function blockScalar(kind, indent) {
+        const start = rows[pos - 1].n;
+        let i = start; const buf = []; let bi = null;
+        while (i < lines.length) {
+          const ln = lines[i];
+          if (ln.trim() === '') { buf.push(''); i++; continue; }
+          const ind = ln.match(/^ */)[0].length;
+          if (ind <= indent) break;
+          if (bi === null) bi = ind;
+          buf.push(ln.slice(Math.min(bi, ind))); i++;
+        }
+        while (buf.length && buf[buf.length - 1] === '') buf.pop();
+        while (pos < rows.length && rows[pos].n <= i) pos++;
+        const s = kind[0] === '|' ? buf.join(NL) : buf.reduce((acc, l, k) => acc + (k === 0 ? '' : (l === '' || buf[k - 1] === '' ? NL : ' ')) + l, '');
+        return kind.endsWith('-') ? s : s + NL;
+      }
+      function parseBlock() {
+        if (pos >= rows.length) return null;
+        const r = rows[pos];
+        if (isSeq(r)) return parseSeq(r.indent);
+        if (splitMap(r.text)) return parseMap(r.indent);
+        pos++; return scalar(r.text, r);
+      }
+      function parseSeq(indent) {
+        const arr = [];
+        while (pos < rows.length && rows[pos].indent === indent && isSeq(rows[pos])) {
+          const r = rows[pos]; const rest = r.text === '-' ? '' : r.text.slice(2).trim();
+          if (!rest) { pos++; arr.push(pos < rows.length && rows[pos].indent > indent ? parseBlock() : null); continue; }
+          if (rest[0] !== '[' && rest[0] !== '{' && rest[0] !== DQ && rest[0] !== SQ && splitMap(rest)) { rows[pos] = { indent: indent + 2, text: rest, n: r.n }; arr.push(parseMap(indent + 2)); continue; }
+          pos++;
+          if (rest === '|' || rest === '>' || rest === '|-' || rest === '>-') arr.push(blockScalar(rest, indent)); else arr.push(scalar(rest, r));
+        }
+        return arr;
+      }
+      function parseMap(indent) {
+        const obj = {};
+        while (pos < rows.length && rows[pos].indent === indent) {
+          const r = rows[pos]; if (isSeq(r)) break;
+          const kv = splitMap(r.text); if (!kv) err('expected "key: value", got "' + r.text + '"', r);
+          pos++;
+          if (kv.value === '') {
+            if (pos < rows.length && rows[pos].indent > indent) obj[kv.key] = parseBlock();
+            else if (pos < rows.length && rows[pos].indent === indent && isSeq(rows[pos])) obj[kv.key] = parseSeq(indent);
+            else obj[kv.key] = null;
+          } else if (kv.value === '|' || kv.value === '>' || kv.value === '|-' || kv.value === '>-') obj[kv.key] = blockScalar(kv.value, indent);
+          else obj[kv.key] = scalar(kv.value, r);
+        }
+        return obj;
+      }
+      if (!rows.length) return null;
+      const v = parseBlock();
+      if (pos < rows.length) err('unexpected indentation', rows[pos]);
+      return v;
+    }
+    const needsQuote = (s) => s === '' || /^\s|\s$/.test(s) || /^[-?:,\[\]{}#&*!|>'"%@`]/.test(s) || /: |#/.test(s) || /^(true|false|null|~|yes|no|on|off)$/i.test(s) || /^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(s) || /^0x/i.test(s) || s.includes(NL);
+    function yamlEmit(v, ind) {
+      ind = ind || 0; const pad = ' '.repeat(ind);
+      if (v === null || v === undefined) return 'null';
+      if (typeof v === 'string') return needsQuote(v) ? JSON.stringify(v) : v;
+      if (typeof v !== 'object') return String(v);
+      const full = (x) => x && typeof x === 'object' && (Array.isArray(x) ? x.length : Object.keys(x).length);
+      if (Array.isArray(v)) { if (!v.length) return '[]'; return v.map((x) => full(x) ? pad + '- ' + yamlEmit(x, ind + 2).slice(ind + 2) : pad + '- ' + yamlEmit(x, ind + 2)).join(NL); }
+      const keys = Object.keys(v); if (!keys.length) return '{}';
+      return keys.map((k) => { const x = v[k], kk = needsQuote(k) ? JSON.stringify(k) : k; return full(x) ? pad + kk + ':' + NL + yamlEmit(x, ind + 2) : pad + kk + ': ' + yamlEmit(x, ind + 2); }).join(NL);
+    }
+    // ---- CSV ----
+    function csvParse(text, d) {
+      const rowsOut = []; let row = [], field = '', q = false, i = 0;
+      const s = text.replace(/\r\n?/g, NL);
+      while (i < s.length) {
+        const c = s[i];
+        if (q) { if (c === DQ) { if (s[i + 1] === DQ) { field += DQ; i += 2; continue; } q = false; i++; continue; } field += c; i++; continue; }
+        if (c === DQ) { q = true; i++; continue; }
+        if (c === d) { row.push(field); field = ''; i++; continue; }
+        if (c === NL) { row.push(field); rowsOut.push(row); row = []; field = ''; i++; continue; }
+        field += c; i++;
+      }
+      if (field !== '' || row.length) { row.push(field); rowsOut.push(row); }
+      return rowsOut.filter((r) => r.length > 1 || (r.length === 1 && r[0] !== ''));
+    }
+    const typed = (v) => v === '' ? '' : /^(true|false)$/i.test(v) ? v.toLowerCase() === 'true' : (/^-?(0|[1-9]\d*)(\.\d+)?([eE][-+]?\d+)?$/.test(v) && v.length < 16) ? Number(v) : v;
+    function csvToObjects(text, d) { const rowsIn = csvParse(text, d); if (!rowsIn.length) return []; const head = rowsIn[0].map((x) => x.trim()); if (rowsIn.length === 1 && head.length === 1 && head[0] === '') return []; return rowsIn.slice(1).map((r) => { const o = {}; head.forEach((k, i) => { o[k || 'column' + (i + 1)] = typed(r[i] === undefined ? '' : r[i]); }); return o; }); }
+    const flat = (o, prefix, out) => { for (const k of Object.keys(o)) { const v = o[k], key = prefix ? prefix + '.' + k : k; if (v && typeof v === 'object' && !Array.isArray(v)) flat(v, key, out); else out[key] = Array.isArray(v) ? JSON.stringify(v) : v; } return out; };
+    function toCsv(v, d) {
+      let rowsOut;
+      const isObj = (x) => x && typeof x === 'object' && !Array.isArray(x);
+      if (Array.isArray(v)) rowsOut = v.map((x) => isObj(x) ? flat(x, '', {}) : Array.isArray(x) ? Object.fromEntries(x.map((c, i) => ['column' + (i + 1), c])) : { value: x });
+      else if (isObj(v)) { const vals = Object.values(v); rowsOut = vals.length && vals.every(isObj) ? Object.keys(v).map((k) => Object.assign({ key: k }, flat(v[k], '', {}))) : [flat(v, '', {})]; }
+      else rowsOut = [{ value: v }];
+      const head = []; rowsOut.forEach((r) => Object.keys(r).forEach((k) => { if (!head.includes(k)) head.push(k); }));
+      const cell = (x) => { const s = x === null || x === undefined ? '' : typeof x === 'object' ? JSON.stringify(x) : String(x); return s.includes(DQ) || s.includes(NL) || s.includes(d) ? DQ + s.split(DQ).join(DQ + DQ) + DQ : s; };
+      return [head.map(cell).join(d)].concat(rowsOut.map((r) => head.map((k) => cell(r[k])).join(d))).join(NL);
+    }
+    const detect = (text) => { const first = text.split(NL)[0] || ''; const counts = [[',', (first.match(/,/g) || []).length], [';', (first.match(/;/g) || []).length], [TAB, (first.split(TAB).length - 1)]]; counts.sort((a, b) => b[1] - a[1]); return counts[0][1] ? counts[0][0] : ','; };
+    const inDelim = (text) => delim === 'auto' ? detect(text) : delim === 'tab' ? TAB : delim;
+    const outDelim = () => delim === 'auto' ? ',' : delim === 'tab' ? TAB : delim;
+    // ---- the set ----
+    const records = (v) => Array.isArray(v) ? v.length : v && typeof v === 'object' ? Object.keys(v).length : 1;
+    const bytes = (s) => new TextEncoder().encode(s).length;
+    function fields(v) { ['json', 'yaml', 'csv'].forEach((f) => { $('rec-' + f).textContent = v === undefined ? '0' : String(records(v)); $('byt-' + f).textContent = String(bytes(ta[f].value)); }); }
+    function setBad(fmt, msg) { const sh = $('sh-' + fmt); sh.classList.toggle('bad', !!msg); $('e-' + fmt).textContent = msg || ''; }
+    function press(fmt) {
+      source = fmt;
+      const text = ta[fmt].value;
+      if (!text.trim()) { ['json', 'yaml', 'csv'].forEach((f) => { if (f !== fmt) ta[f].value = ''; setBad(f, ''); }); setBad(fmt, ''); fields(undefined); return; }
+      let v;
+      try { v = fmt === 'json' ? JSON.parse(text) : fmt === 'yaml' ? yamlParse(text) : csvToObjects(text, inDelim(text)); }
+      catch (e) { setBad(fmt, e.message.replace(/^JSON\.parse: /, '')); return; }
+      ['json', 'yaml', 'csv'].forEach((f) => setBad(f, ''));
+      if (fmt !== 'json') ta.json.value = JSON.stringify(v, null, 2);
+      if (fmt !== 'yaml') ta.yaml.value = yamlEmit(v);
+      if (fmt !== 'csv') ta.csv.value = toCsv(v, outDelim());
+      fields(v);
+      serial++; $('serial').textContent = String(serial).padStart(6, '0');
+    }
+    ['json', 'yaml', 'csv'].forEach((f) => ta[f].addEventListener('input', () => press(f)));
+    pressGroup('.d', (b) => { delim = b.dataset.d; press(source); });
+    document.querySelectorAll('.tear').forEach((b) => b.addEventListener('click', async () => {
+      const fmt = b.dataset.fmt, sh = $('sh-' + fmt);
+      try { await navigator.clipboard.writeText(ta[fmt].value); b.textContent = 'Torn off · copied'; } catch (e) { b.textContent = 'Select to copy'; }
+      sh.classList.remove('torn'); void sh.offsetWidth; sh.classList.add('torn');
+      setTimeout(() => { sh.classList.remove('torn'); b.textContent = 'Tear off (copy)'; }, 1500);
+    }));
+    document.querySelectorAll('.save').forEach((a) => a.addEventListener('click', (e) => {
+      const fmt = a.dataset.fmt, mime = fmt === 'json' ? 'application/json' : fmt === 'yaml' ? 'application/yaml' : 'text/csv';
+      const url = URL.createObjectURL(new Blob([ta[fmt].value], { type: mime }));
+      a.href = url; setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }));
+    ta.json.value = JSON.stringify([
+      { id: 1, name: 'Ada Lovelace', role: 'analyst', active: true, joined: '1843-10-01', skills: ['maths', 'engines'], address: { city: 'London', country: 'UK' } },
+      { id: 2, name: 'Grace Hopper', role: 'rear admiral', active: false, joined: '1944-07-02', skills: ['compilers', 'COBOL'], address: { city: 'Arlington', country: 'US' } },
+      { id: 3, name: 'Hedy Lamarr', role: 'inventor', active: true, joined: '1942-08-11', skills: ['frequency hopping'], address: { city: 'Vienna', country: 'AT' } }
+    ], null, 2);
+    press('json');
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

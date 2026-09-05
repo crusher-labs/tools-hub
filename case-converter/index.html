@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-world="type-case">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter - UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case and more. Set on a printer's type case: pull a drawer label and the sorts slide onto the composing stick. Free, nothing uploaded.">
+    <meta name="theme-color" content="#2b1b10">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/case-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Case Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case and more. Set on a printer's type case: pull a drawer label and the sorts slide onto the composing stick. Free, nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/case-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Case Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case and more. Set on a printer's type case: pull a drawer label and the sorts slide onto the composing stick. Free, nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --wood:#2b1b10; --rail:#6b4a2e; --rail2:#4c341f; --pocket:#170e08; --sort:#c9b79a; --paper:#f2e8d2; --ink:#2a2118; --lead:#e9e2d3; --muted:#a58f74; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:#e8dcc6; font-family:'Public Sans', system-ui, sans-serif; background-color:var(--wood); background-image: repeating-linear-gradient(92deg, rgba(255,255,255,.028) 0 3px, transparent 3px 11px), linear-gradient(180deg, #33200f, #261709); }
+    main { max-width:1140px; margin:0 auto; padding:36px 20px 64px; }
+    h1 { margin:0; font:700 clamp(30px, 4.4vw, 46px)/1.05 'Libre Caslon Text', Georgia, serif; color:#f1e6cf; }
+    .lede { margin:10px 0 26px; max-width:60ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .copy { background:var(--paper); color:var(--ink); border-radius:2px; padding:18px 18px 10px; box-shadow:0 10px 24px rgba(0,0,0,.45); position:relative; }
+    .copy::before { content:'COPY'; position:absolute; top:-10px; left:18px; padding:2px 8px; background:#c9a54a; color:#2a1c08; font:700 10px 'Public Sans', sans-serif; letter-spacing:.2em; }
+    .copy textarea { width:100%; min-height:110px; resize:vertical; border:0; background:transparent; color:var(--ink); font:17px/1.6 'Libre Caslon Text', Georgia, serif; outline:none; }
+    .pulls { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px; margin:22px 0; }
+    .pull { border:0; cursor:pointer; padding:0; background:linear-gradient(180deg, #d9b65a, #a8842d 60%, #8f6f22); border-radius:3px; box-shadow:0 3px 0 #5d4612, 0 6px 12px rgba(0,0,0,.4); text-align:left; }
+    .pull span { display:block; margin:5px; padding:8px 10px; background:#f5ecd6; color:#2a1c08; border-radius:2px; font:600 13px 'Public Sans', sans-serif; letter-spacing:.02em; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .pull[aria-pressed="true"] span { background:#2a1c08; color:#f5ecd6; }
+    .pull:active { transform:translateY(2px); box-shadow:0 1px 0 #5d4612; }
+    .case { border:12px solid var(--rail); border-radius:4px; background:var(--pocket); box-shadow: inset 0 0 0 2px var(--rail2), 0 20px 40px rgba(0,0,0,.5); padding:4px; display:grid; grid-template-columns: 16fr 14px 7fr; }
+    .lc, .uc { display:grid; gap:3px; }
+    .lc { grid-template-columns:repeat(16, minmax(0, 1fr)); grid-template-rows:repeat(7, 26px); }
+    .uc { grid-template-columns:repeat(7, minmax(0, 1fr)); grid-template-rows: 26px repeat(4, 39px); }
+    .mid { background:var(--rail); margin:0 3px; }
+    .box { background:linear-gradient(180deg, #1d130b, #120b06); box-shadow: inset 0 0 0 1px #4a3220; display:flex; align-items:center; justify-content:center; font:15px 'Libre Caslon Text', Georgia, serif; color:var(--sort); overflow:hidden; transition: background .18s, color .18s; }
+    .box small { font:500 8px 'Public Sans', sans-serif; letter-spacing:.06em; text-transform:uppercase; color:#8c7358; text-align:center; line-height:1.15; }
+    .box.pick { background:#c9a54a; color:#2a1c08; box-shadow: inset 0 0 0 1px #f0d88a; }
+    .stick { margin-top:24px; background:linear-gradient(180deg, #6a7078, #444a52 30%, #33383f); border-radius:3px; padding:14px 18px; box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 14px 30px rgba(0,0,0,.5); position:relative; min-height:78px; }
+    .stick::after { content:''; position:absolute; right:14px; top:-8px; width:26px; height:calc(100% + 16px); background:linear-gradient(180deg, #9aa1a8, #5d646c); border-radius:2px; box-shadow:0 2px 6px rgba(0,0,0,.5); }
+    .set { margin:0 44px 0 0; font:22px/1.5 'Libre Caslon Text', Georgia, serif; color:var(--lead); white-space:pre-wrap; min-height:1.5em; }
+    .set .w { display:inline-block; max-width:100%; overflow-wrap:anywhere; animation: slide .32s ease-out both; }
+    .set .w span { animation: fade .32s ease-out both; }
+    .set .empty { color:#9aa1a8; font-style:italic; font-size:16px; }
+    @keyframes slide { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+    @keyframes fade { from { opacity:0; } to { opacity:1; } }
+    .tools { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:14px; }
+    .key { padding:9px 16px; border:1px solid #8a6a2c; border-radius:3px; background:transparent; color:#e8dcc6; font:600 13px 'Public Sans', sans-serif; cursor:pointer; }
+    .key:hover { background:rgba(201,165,74,.15); }
+    .count { font-size:13px; color:var(--muted); }
+    .plain { margin-top:12px; }
+    .plain summary { cursor:pointer; font-size:13px; color:var(--muted); }
+    .plain textarea { width:100%; min-height:90px; margin-top:8px; padding:10px 12px; border:1px solid #6b4a2e; background:#1d130b; color:#e8dcc6; font:14px/1.5 'Public Sans', sans-serif; border-radius:3px; }
+    .notes { margin-top:44px; background:var(--paper); color:var(--ink); padding:26px 30px; border-radius:2px; box-shadow:0 10px 24px rgba(0,0,0,.4); }
+    .notes h2 { margin:0 0 10px; font:700 26px 'Libre Caslon Text', Georgia, serif; }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; }
+    .notes details { border-top:1px solid #d9ccb0; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes a { color:#7a4a12; }
+    .foot { margin-top:28px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:600 11px 'Public Sans', sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .foot a { white-space:nowrap; }
+    .foot a { color:#f1e6cf; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 760px) { main { padding:26px 12px 56px; } .case { grid-template-columns:1fr; gap:8px; border-width:8px; } .mid { display:none; } .lc { grid-template-rows:repeat(7, 22px); gap:2px; } .uc { grid-template-rows: 22px repeat(4, 30px); gap:2px; } .box { font-size:12px; } .box small { font-size:6.5px; } .set { font-size:19px; margin-right:34px; } .pulls { grid-template-columns:repeat(2, 1fr); gap:8px; } .notes { padding:20px 16px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <h1>Case Converter</h1>
+      <p class="lede">Set your text in any case. Pull a drawer label and the sorts slide out of the type case onto the composing stick: UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case and more.</p>
+      <div class="copy"><textarea id="src" spellcheck="false" placeholder="Type or paste the copy to set..." aria-label="Text to convert">the quick brown fox jumps over the lazy dog. pack my box with five dozen liquor jugs!</textarea></div>
+      <div class="pulls" id="pulls">
+        <button type="button" class="pull" data-case="upper" aria-pressed="false"><span>UPPERCASE</span></button>
+        <button type="button" class="pull" data-case="lower" aria-pressed="false"><span>lowercase</span></button>
+        <button type="button" class="pull" data-case="title" aria-pressed="false"><span>Title Case</span></button>
+        <button type="button" class="pull" data-case="sentence" aria-pressed="false"><span>Sentence case</span></button>
+        <button type="button" class="pull" data-case="camel" aria-pressed="false"><span>camelCase</span></button>
+        <button type="button" class="pull" data-case="pascal" aria-pressed="false"><span>PascalCase</span></button>
+        <button type="button" class="pull" data-case="snake" aria-pressed="false"><span>snake_case</span></button>
+        <button type="button" class="pull" data-case="kebab" aria-pressed="false"><span>kebab-case</span></button>
+        <button type="button" class="pull" data-case="constant" aria-pressed="false"><span>CONSTANT_CASE</span></button>
+        <button type="button" class="pull" data-case="alternating" aria-pressed="false"><span>aLtErNaTiNg</span></button>
+        <button type="button" class="pull" data-case="inverse" aria-pressed="false"><span>iNVERSE cASE</span></button>
+      </div>
+      <div class="case" aria-hidden="true"><div id="lc" class="lc"></div><div class="mid"></div><div id="uc" class="uc"></div></div>
+      <div class="stick"><div id="set" class="set" aria-live="polite"><span class="empty">Pull a drawer label to set the line.</span></div></div>
+      <div class="tools"><button type="button" class="key" id="copy">Copy</button><button type="button" class="key" id="clear">Clear</button><span class="count" id="count"></span></div>
+      <details class="plain"><summary>Plain copy (select all)</summary><textarea id="out" readonly aria-label="Converted text"></textarea></details>
+      <section class="notes">
+        <h2>Upper case and lower case are drawers</h2>
+        <p>The names come from this object. A hand compositor kept two shallow drawers of metal type on a slanted rack: the capitals in the upper case, the small letters, spaces and punctuation in the lower case, nearer to hand because they were needed more. The California job case, drawn above, folded both into one drawer of 89 boxes, sized by how often each letter is used (the e box is the biggest) and arranged so the common letters sit in a rough circle under the compositor's right hand. Each letter is picked out of its box and set on a composing stick, one line at a time.</p>
+        <h3>What each drawer label sets</h3>
+        <p>UPPERCASE and lowercase change every letter. Title Case capitalises the first letter of every word; Sentence case capitalises the first letter of each sentence and lowercases the rest. camelCase, PascalCase, snake_case, kebab-case and CONSTANT_CASE are the programmer's cases: the words are split apart (spaces, punctuation and existing camel humps all count as breaks) and joined back with the chosen seam. aLtErNaTiNg flips every other letter and iNVERSE swaps each letter's case. Line breaks are kept; the programmer's cases are applied line by line so a pasted list stays a list.</p>
+        <details><summary>Title Case or Sentence case?</summary><p>Title Case is for headings and names: Every Word Capitalised. Sentence case is ordinary prose: a capital at the start of each sentence and after each full stop, question mark or exclamation mark, plus the pronoun I.</p></details>
+        <details><summary>How do camelCase and snake_case split words?</summary><p>On anything that is not a letter or digit, and also inside an existing identifier: helloWorld becomes hello and world, HTMLParser becomes html and parser. Digits stay attached to the word they follow.</p></details>
+        <details><summary>Does it keep my punctuation and line breaks?</summary><p>The plain cases (UPPER, lower, Title, Sentence, aLtErNaTiNg, iNVERSE) keep every character and only change letters. The programmer's cases drop punctuation by design, but keep each line separate.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The whole page runs in your browser and nothing you type leaves it.</p></details>
+      </section>
+      <div class="foot"><span>California job case · 89 boxes</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const src = $('src'), setEl = $('set'), out = $('out'), count = $('count'), lc = $('lc'), uc = $('uc');
+    const LC = [
+      ['ffi', 1, 1], ['fl', 2, 1], ['5-em', 3, 1, 1, 1, 'sp5'], ['4-em', 4, 1, 1, 1, 'sp4'], ["'", 5, 1], ['k', 6, 1], ['e', 7, 1, 2, 3], ['1', 9, 1], ['2', 10, 1], ['3', 11, 1], ['4', 12, 1], ['5', 13, 1], ['6', 14, 1], ['7', 15, 1], ['8', 16, 1],
+      ['j', 1, 2], ['b', 2, 2, 1, 2], ['c', 3, 2, 2, 2], ['d', 5, 2, 2, 2], ['i', 9, 2, 2, 2], ['s', 11, 2, 2, 2], ['f', 13, 2, 1, 2], ['g', 14, 2, 1, 2], ['ff', 15, 2], ['9', 16, 2],
+      ['?', 1, 3], ['fi', 15, 3], ['0', 16, 3],
+      ['!', 1, 4], ['l', 2, 4, 1, 2], ['m', 3, 4, 2, 2], ['n', 5, 4, 2, 2], ['h', 7, 4, 2, 2], ['o', 9, 4, 2, 2], ['y', 11, 4, 1, 2], ['p', 12, 4, 1, 2], ['w', 13, 4, 1, 2], [',', 14, 4, 1, 2], ['en quad', 15, 4, 1, 2, 'en'], ['em quad', 16, 4, 1, 2, 'em'],
+      ['z', 1, 5],
+      ['x', 1, 6], ['v', 2, 6, 1, 2], ['u', 3, 6, 2, 2], ['t', 5, 6, 2, 2], ['3-em spaces', 7, 6, 2, 2, ' '], ['a', 9, 6, 2, 2], ['r', 11, 6, 2, 2], [';', 13, 6], [':', 14, 6], ['quads', 15, 6, 2, 2, 'quads'],
+      ['q', 1, 7], ['.', 13, 7], ['-', 14, 7]
+    ];
+    const UC = [['$', 1, 1]];
+    for (let c = 2; c <= 7; c++) UC.push(['', c, 1]);
+    ['ABCDEFG', 'HIKLMNO', 'PQRSTVW'].forEach((row, r) => row.split('').forEach((ch, c) => UC.push([ch, c + 1, r + 2])));
+    ['X', 'Y', 'Z', 'J', 'U', '&', 'ffl'].forEach((ch, c) => UC.push([ch, c + 1, 5]));
+    const boxes = {};
+    function box(parent, spec) {
+      const [label, col, row, w = 1, ht = 1, key] = spec;
+      const b = h('div', 'grid-area:' + row + ' / ' + col + ' / span ' + ht + ' / span ' + w, null, 'box');
+      if (label.length > 3 || label === 'ffi' || label === 'ffl') b.appendChild(h('small', null, label)); else b.textContent = label;
+      parent.appendChild(b);
+      boxes[key || label] = b;
+    }
+    LC.forEach((s) => box(lc, s)); UC.forEach((s) => box(uc, s));
+    const words = (s) => s.replace(/(\p{Ll}|\p{N})(\p{Lu})/gu, '$1 $2').replace(/(\p{Lu}+)(\p{Lu}\p{Ll})/gu, '$1 $2').split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+    const cap = (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    const perLine = (fn) => (s) => s.split('\n').map(fn).join('\n');
+    const CASES = {
+      upper: (s) => s.toUpperCase(),
+      lower: (s) => s.toLowerCase(),
+      title: (s) => s.toLowerCase().replace(/(^|[^\p{L}\p{N}'])(\p{L})/gu, (m, a, b) => a + b.toUpperCase()),
+      sentence: (s) => s.toLowerCase().replace(/(^\s*|[.!?]\s+)(\p{L})/gmu, (m, a, b) => a + b.toUpperCase()).replace(/\bi\b/g, 'I'),
+      camel: perLine((s) => words(s).map((w, i) => (i ? cap(w) : w.toLowerCase())).join('')),
+      pascal: perLine((s) => words(s).map(cap).join('')),
+      snake: perLine((s) => words(s).map((w) => w.toLowerCase()).join('_')),
+      kebab: perLine((s) => words(s).map((w) => w.toLowerCase()).join('-')),
+      constant: perLine((s) => words(s).map((w) => w.toUpperCase()).join('_')),
+      alternating: (s) => { let i = 0; return s.replace(/\p{L}/gu, (c) => (i++ % 2 ? c.toUpperCase() : c.toLowerCase())); },
+      inverse: (s) => s.replace(/\p{L}/gu, (c) => { const u = c.toUpperCase(); return c === u ? c.toLowerCase() : u; })
+    };
+    let current = null;
+    function pick(text) {
+      document.querySelectorAll('.box.pick').forEach((b) => b.classList.remove('pick'));
+      const seen = new Set(); let i = 0;
+      for (const ch of text) {
+        const b = boxes[ch]; if (!b || seen.has(ch)) continue;
+        seen.add(ch);
+        setTimeout(() => { b.classList.add('pick'); setTimeout(() => b.classList.remove('pick'), 700); }, Math.min(i * 45, 1500));
+        i++; if (seen.size > 60) break;
+      }
+    }
+    function apply(animate) {
+      if (!current) return;
+      const text = CASES[current](src.value);
+      out.value = text;
+      count.textContent = text.length + ' characters · ' + (text.trim() ? text.trim().split(/\s+/).length : 0) + ' words';
+      clear(setEl);
+      if (!text) { setEl.appendChild(h('span', null, 'Nothing to set. Type some copy above.', 'empty')); return; }
+      if (!animate || text.length > 400) { setEl.textContent = text; return; }
+      const step = Math.min(14, 900 / text.length); let i = 0;
+      for (const tok of text.split(/(\s+)/)) {
+        if (!tok) continue;
+        if (/^\s+$/.test(tok)) { for (const ch of tok) { setEl.appendChild(ch === '\n' ? document.createElement('br') : document.createTextNode(ch)); } continue; }
+        const w = h('span', 'animation-delay:' + Math.round(i * step) + 'ms', null, 'w');
+        for (const ch of tok) { w.appendChild(h('span', 'animation-delay:' + Math.round(i * step) + 'ms', ch)); i++; }
+        setEl.appendChild(w);
+      }
+      pick(text);
+    }
+    document.querySelectorAll('.pull').forEach((p) => p.addEventListener('click', () => { current = p.dataset.case; document.querySelectorAll('.pull').forEach((x) => x.setAttribute('aria-pressed', String(x === p))); apply(true); }));
+    src.addEventListener('input', () => apply(false));
+    copyBtn($('copy'), () => out.value, 'Copy');
+    $('clear').addEventListener('click', () => { src.value = ''; apply(false); src.focus(); });
+    document.querySelector('.pull[data-case="title"]').click();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

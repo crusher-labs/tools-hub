@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-world="radar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester - Test Regular Expressions Online with Live Matches and Groups</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Test a regular expression against your text and watch every match paint onto a radar scope as the sweep passes: highlighted matches, capture groups, named groups, flags and a replace preview. JavaScript regex, nothing uploaded.">
+    <meta name="theme-color" content="#06110b">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/regex-tester/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Regex Tester - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Test a regular expression against your text and watch every match paint onto a radar scope as the sweep passes: highlighted matches, capture groups, named groups, flags and a replace preview. JavaScript regex, nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/regex-tester/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Regex Tester - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Test a regular expression against your text and watch every match paint onto a radar scope as the sweep passes: highlighted matches, capture groups, named groups, flags and a replace preview. JavaScript regex, nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --bg:#06110b; --panel:#0b1a11; --edge:#1d3a28; --phos:#5cff8f; --phos2:#2fbf63; --text:#d8efe0; --muted:#7fa78f; --warn:#ffb347; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    .kicker { margin:0 0 10px; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:400 clamp(26px, 4vw, 40px)/1.05 'Share Tech Mono', monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--phos); text-shadow:0 0 12px rgba(92,255,143,.35); }
+    .lede { margin:12px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .station { display:grid; grid-template-columns: 400px 1fr; gap:26px; align-items:start; }
+    .scope { position:relative; width:100%; aspect-ratio:1; border-radius:50%; background: radial-gradient(circle at 50% 50%, #0d2a19 0%, #081b10 55%, #04100a 100%); box-shadow: 0 0 0 10px #101814, 0 0 0 12px #2a3a30, 0 30px 50px rgba(0,0,0,.6), inset 0 0 60px rgba(0,0,0,.6); overflow:hidden; }
+    .scope svg { position:absolute; inset:0; width:100%; height:100%; }
+    .ring { fill:none; stroke:rgba(92,255,143,.22); stroke-width:1; }
+    .tick { stroke:rgba(92,255,143,.35); stroke-width:1; }
+    .brg { font:8px 'Share Tech Mono', monospace; fill:rgba(92,255,143,.55); }
+    .sweep { position:absolute; inset:0; border-radius:50%; background: conic-gradient(from -80deg, transparent 0deg, rgba(92,255,143,.02) 10deg, rgba(92,255,143,.18) 60deg, rgba(92,255,143,.55) 79deg, transparent 80.5deg); animation: spin 4s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .blip { position:absolute; width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:50%; background:var(--phos); box-shadow:0 0 8px 2px rgba(92,255,143,.7); animation: paint 4s linear infinite; }
+    @keyframes paint { 0% { opacity:1; transform:scale(1.3); } 12% { opacity:.9; transform:scale(1); } 100% { opacity:.12; transform:scale(.8); } }
+    .blip.big { width:12px; height:12px; margin:-6px 0 0 -6px; }
+    .readout { position:absolute; left:12px; top:10px; font:400 10px 'Share Tech Mono', monospace; letter-spacing:.14em; color:rgba(92,255,143,.8); text-transform:uppercase; line-height:1.6; }
+    .readout2 { position:absolute; left:auto; top:auto; right:12px; bottom:10px; text-align:right; }
+    .nosig { position:absolute; inset:0; display:none; align-items:center; justify-content:center; font:400 18px 'Share Tech Mono', monospace; letter-spacing:.3em; color:var(--warn); text-shadow:0 0 10px rgba(255,179,71,.6); background:rgba(6,17,11,.55); }
+    .scope.dead .nosig { display:flex; }
+    .scope.dead .sweep { animation-play-state:paused; opacity:.3; }
+    .legend { margin-top:12px; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; text-align:center; }
+    .console { display:grid; gap:14px; min-width:0; }
+    .lab { margin:0 0 6px; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .pat { display:flex; align-items:stretch; border:1px solid var(--edge); border-radius:4px; background:var(--panel); }
+    .pat span { padding:10px 10px; font:18px 'Share Tech Mono', monospace; color:var(--muted); }
+    .pat input { flex:1; min-width:0; background:transparent; border:0; outline:none; color:var(--phos); font:18px 'Share Tech Mono', monospace; padding:10px 4px; }
+    .pat .flags { padding:10px 10px; color:var(--phos2); font:18px 'Share Tech Mono', monospace; min-width:48px; }
+    .flagbar { display:flex; flex-wrap:wrap; gap:8px; }
+    .flag { padding:6px 10px; border:1px solid var(--edge); border-radius:4px; background:var(--panel); color:var(--muted); font:400 13px 'Share Tech Mono', monospace; cursor:pointer; }
+    .flag[aria-pressed="true"] { color:#06110b; background:var(--phos); border-color:var(--phos); }
+    textarea, .in { width:100%; background:var(--panel); border:1px solid var(--edge); border-radius:4px; color:var(--text); font:14px/1.55 'Share Tech Mono', monospace; padding:10px 12px; outline:none; }
+    textarea { min-height:130px; resize:vertical; }
+    textarea:focus, .in:focus { border-color:var(--phos2); }
+    .err { margin:6px 0 0; font:400 12px 'Share Tech Mono', monospace; color:var(--warn); min-height:1.2em; }
+    .paint { background:var(--panel); border:1px solid var(--edge); border-radius:4px; padding:10px 12px; font:14px/1.6 'Share Tech Mono', monospace; white-space:pre-wrap; word-break:break-word; max-height:260px; overflow:auto; }
+    .paint mark { background:rgba(92,255,143,.22); color:var(--phos); border-bottom:1px solid var(--phos); border-radius:2px; }
+    .hits { display:grid; gap:6px; max-height:320px; overflow:auto; }
+    .hit { display:grid; grid-template-columns: 52px 1fr; gap:10px; padding:8px 10px; background:var(--panel); border:1px solid var(--edge); border-radius:4px; font:13px 'Share Tech Mono', monospace; }
+    .hit .n { color:var(--phos2); }
+    .hit .m { color:var(--phos); word-break:break-all; }
+    .hit .g { color:var(--muted); font-size:12px; margin-top:3px; word-break:break-all; }
+    .hit .g b { font-weight:400; color:var(--text); }
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .row .in { flex:1; min-width:180px; }
+    .key { padding:8px 14px; border:1px solid var(--edge); border-radius:4px; background:var(--panel); color:var(--text); font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .key:hover { border-color:var(--phos2); }
+    .codes { margin-top:40px; }
+    .codes summary { cursor:pointer; font:400 13px 'Share Tech Mono', monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--phos); }
+    .grid { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:6px; }
+    .cell { display:grid; grid-template-columns: 110px 1fr; gap:8px; padding:7px 10px; background:var(--panel); border:1px solid var(--edge); border-radius:4px; font-size:13px; }
+    .cell code { font:13px 'Share Tech Mono', monospace; color:var(--phos); }
+    .notes { margin-top:40px; max-width:72ch; }
+    .notes h2 { margin:0 0 10px; font:400 24px 'Share Tech Mono', monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--phos); }
+    .notes h3 { margin:16px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:15px; line-height:1.65; color:#b9d3c2; }
+    .notes details { border-top:1px solid var(--edge); } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; color:var(--text); }
+    .notes code { font:13px 'Share Tech Mono', monospace; color:var(--phos); }
+    .foot { margin-top:30px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:400 11px 'Share Tech Mono', monospace; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+    .foot a { color:var(--phos); white-space:nowrap; }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 880px) { main { padding:26px 12px 56px; } .station { grid-template-columns:1fr; } .scope-wrap { max-width:340px; margin:0 auto; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <p class="kicker">Plan position indicator · long-persistence phosphor</p>
+      <h1>Regex Tester</h1>
+      <p class="lede">Type a pattern and a text. Every match is a contact on the scope: it paints bright as the sweep passes and fades until the next turn. Groups, flags and a replace preview sit on the console.</p>
+      <div class="station">
+        <div class="scope-wrap">
+          <div class="scope" id="scope" aria-hidden="true">
+            <svg viewBox="0 0 400 400" id="grid-svg"></svg>
+            <div class="sweep"></div>
+            <div id="blips"></div>
+            <div class="readout" id="ro1"></div>
+            <div class="readout readout2" id="ro2"></div>
+            <div class="nosig">NO SIGNAL</div>
+          </div>
+          <p class="legend">Bearing = position in the text · ring = which match</p>
+        </div>
+        <div class="console">
+          <div>
+            <p class="lab"><label for="pattern">Pattern</label></p>
+            <div class="pat"><span>/</span><input id="pattern" spellcheck="false" autocomplete="off" value="(\d{4})-(\d{2})-(\d{2})" aria-label="Regular expression pattern"><span>/</span><span class="flags" id="flags-out">g</span></div>
+            <p class="err" id="err"></p>
+          </div>
+          <div class="flagbar" id="flagbar">
+            <button type="button" class="flag" data-f="g" aria-pressed="true" title="global: find every match">g global</button>
+            <button type="button" class="flag" data-f="i" aria-pressed="false" title="ignore case">i ignore case</button>
+            <button type="button" class="flag" data-f="m" aria-pressed="false" title="multiline: ^ and $ match at line breaks">m multiline</button>
+            <button type="button" class="flag" data-f="s" aria-pressed="false" title="dot matches newlines">s dotall</button>
+            <button type="button" class="flag" data-f="u" aria-pressed="false" title="unicode">u unicode</button>
+          </div>
+          <div>
+            <p class="lab"><label for="text">Test text</label></p>
+            <textarea id="text" spellcheck="false" aria-label="Text to test against">Contacts logged 2026-09-03 at 04:12 and 1999-12-31 at 23:59.
+Mail alice@example.com or bob@test.org, call 555-0199. Next check: 2027-01-15.</textarea>
+          </div>
+          <div>
+            <p class="lab">Matches painted</p>
+            <div class="paint" id="paint"></div>
+          </div>
+          <div>
+            <p class="lab" id="hits-lab">Contacts</p>
+            <div class="hits" id="hits"></div>
+          </div>
+          <div>
+            <p class="lab"><label for="repl">Replace with (optional, $1 for groups)</label></p>
+            <div class="row"><input id="repl" class="in" spellcheck="false" placeholder="$3/$2/$1" aria-label="Replacement"><button type="button" class="key" id="copy-out">Copy result</button></div>
+            <textarea id="out" readonly style="min-height:70px;margin-top:8px" aria-label="Replace result" placeholder="The replaced text appears here"></textarea>
+          </div>
+        </div>
+      </div>
+      <details class="codes"><summary>Signal codes · quick reference</summary><div id="codes" class="grid"></div></details>
+      <section class="notes">
+        <h2>Test a regular expression</h2>
+        <p>A regular expression is a pattern that describes text: <code>\d{4}-\d{2}-\d{2}</code> is any date written year-month-day, <code>^\s*$</code> is a blank line, <code>(\w+)@(\w+)\.\w+</code> is a rough email address with the user and domain captured as groups. This page runs your pattern in the browser's own JavaScript engine, so what matches here matches in JavaScript, Node and most editors with the same syntax.</p>
+        <h3>Reading the console</h3>
+        <p>Matches are highlighted in the text and listed as contacts with their position and every capture group, numbered and named. Flags change the rules: g finds every match instead of the first, i ignores case, m lets ^ and $ match at line breaks, s lets a dot match a newline, u turns on full Unicode. The replace field shows what <code>text.replace(pattern, replacement)</code> would give, with $1, $2 or $&lt;name&gt; standing for the groups.</p>
+        <h3>Why a radar</h3>
+        <p>A search is a sweep. A plan position indicator draws a line turning about the centre in step with the antenna, and each echo paints bright where the beam finds it, then fades on the long-persistence phosphor until the next pass. Here the text is the range: a match near the start of the text paints near the top of the scope, one near the end paints just before the sweep returns.</p>
+        <details><summary>Why does it say NO SIGNAL?</summary><p>The pattern is not valid: an unclosed bracket, a stray backslash at the end, a quantifier with nothing before it. The line under the pattern quotes the engine's reason.</p></details>
+        <details><summary>Why does it find only one match?</summary><p>The g flag is off. Without it a regex stops at the first match, which is how JavaScript behaves too.</p></details>
+        <details><summary>Can it hang?</summary><p>Some patterns backtrack catastrophically on the wrong text, for example <code>(a+)+$</code> against a long run of a's. Keep the test text modest while you build a pattern, the way you would in an editor.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The pattern and the text stay in your browser.</p></details>
+      </section>
+      <div class="foot"><span>Radar · PPI scope · 4-second sweep</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const NS = 'http://www.w3.org/2000/svg';
+    const el = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+    const pattern = $('pattern'), text = $('text'), paint = $('paint'), hits = $('hits'), hitsLab = $('hits-lab'), err = $('err'), scope = $('scope'), blips = $('blips'), repl = $('repl'), out = $('out'), flagsOut = $('flags-out');
+    const PERIOD = 4000;
+    const svg = $('grid-svg');
+    [40, 80, 120, 160].forEach((r) => svg.appendChild(el('circle', { cx: 200, cy: 200, r, class: 'ring' })));
+    svg.appendChild(el('line', { x1: 200, y1: 24, x2: 200, y2: 376, class: 'tick' })); svg.appendChild(el('line', { x1: 24, y1: 200, x2: 376, y2: 200, class: 'tick' }));
+    for (let a = 0; a < 360; a += 10) {
+      const rad = (a - 90) * Math.PI / 180, long = a % 30 === 0;
+      svg.appendChild(el('line', { x1: 200 + Math.cos(rad) * (long ? 168 : 174), y1: 200 + Math.sin(rad) * (long ? 168 : 174), x2: 200 + Math.cos(rad) * 180, y2: 200 + Math.sin(rad) * 180, class: 'tick' }));
+      if (long) svg.appendChild(el('text', { x: 200 + Math.cos(rad) * 190, y: 200 + Math.sin(rad) * 190 + 3, 'text-anchor': 'middle', class: 'brg' }, String(a).padStart(3, '0')));
+    }
+    let flags = { g: true, i: false, m: false, s: false, u: false };
+    const flagStr = () => Object.keys(flags).filter((k) => flags[k]).join('');
+    const setFlagButtons = () => document.querySelectorAll('.flag').forEach((b) => b.setAttribute('aria-pressed', String(flags[b.dataset.f])));
+    document.querySelectorAll('.flag').forEach((b) => b.addEventListener('click', () => { flags[b.dataset.f] = !flags[b.dataset.f]; setFlagButtons(); run(); }));
+    const lines = (node, a, b) => { clear(node); node.appendChild(document.createTextNode(a)); node.appendChild(document.createElement('br')); node.appendChild(document.createTextNode(b)); };
+    function build() {
+      let src = pattern.value;
+      const m = src.match(/^\/(.*)\/([a-z]*)$/s);
+      if (m) { src = m[1]; if (m[2]) { flags = { g: m[2].includes('g'), i: m[2].includes('i'), m: m[2].includes('m'), s: m[2].includes('s'), u: m[2].includes('u') }; setFlagButtons(); } pattern.value = src; }
+      return new RegExp(src, flagStr());
+    }
+    function run() {
+      flagsOut.textContent = flagStr() || ' ';
+      lines($('ro2'), 'SWEEP 4S', 'FLAGS ' + (flagStr().toUpperCase() || 'NONE'));
+      const s = text.value;
+      let re;
+      try { re = build(); err.textContent = ''; scope.classList.remove('dead'); } catch (e) { err.textContent = e.message; scope.classList.add('dead'); clear(blips); clear(hits); paint.textContent = s; out.value = ''; lines($('ro1'), 'CONTACTS 0', 'RANGE ' + s.length + ' CH'); return; }
+      const found = [];
+      if (pattern.value) {
+        if (re.global) { for (const m of s.matchAll(re)) { found.push(m); if (found.length >= 2000) break; } }
+        else { const m = s.match(re); if (m) found.push(m); }
+      }
+      clear(paint); let last = 0;
+      found.forEach((m) => { if (m.index > last) paint.appendChild(document.createTextNode(s.slice(last, m.index))); const mk = document.createElement('mark'); mk.textContent = m[0] || '\u2205'; paint.appendChild(mk); last = m.index + m[0].length; });
+      if (last < s.length) paint.appendChild(document.createTextNode(s.slice(last)));
+      clear(hits);
+      found.slice(0, 300).forEach((m, i) => {
+        const row = h('div', null, null, 'hit');
+        row.appendChild(h('span', null, '#' + (i + 1), 'n'));
+        const body = h('div'); body.appendChild(h('div', null, JSON.stringify(m[0]) + '  @' + m.index + '-' + (m.index + m[0].length), 'm'));
+        if (m.length > 1 || m.groups) {
+          const g = h('div', null, null, 'g');
+          for (let k = 1; k < m.length; k++) { g.appendChild(h('b', null, '$' + k + ' ')); g.appendChild(document.createTextNode((m[k] === undefined ? 'undefined' : JSON.stringify(m[k])) + '  ')); }
+          if (m.groups) for (const name of Object.keys(m.groups)) { g.appendChild(h('b', null, name + ' ')); g.appendChild(document.createTextNode(JSON.stringify(m.groups[name]) + '  ')); }
+          body.appendChild(g);
+        }
+        row.appendChild(body); hits.appendChild(row);
+      });
+      if (found.length > 300) hits.appendChild(h('div', null, '+ ' + (found.length - 300) + ' more contacts', 'hit'));
+      hitsLab.textContent = found.length ? 'Contacts · ' + found.length + (found.length === 1 ? ' match' : ' matches') + (found.length >= 2000 ? ' (stopped at 2000)' : '') : 'Contacts · none';
+      clear(blips);
+      const len = Math.max(1, s.length);
+      found.slice(0, 400).forEach((m, i) => {
+        const bearing = (m.index / len) * 360, r = 0.28 + (i % 5) * 0.14, rad = (bearing - 90) * Math.PI / 180;
+        const b = h('div', 'left:' + (50 + Math.cos(rad) * r * 50).toFixed(2) + '%; top:' + (50 + Math.sin(rad) * r * 50).toFixed(2) + '%; animation-delay:' + (-(PERIOD * (1 - bearing / 360))).toFixed(0) + 'ms', null, 'blip' + (m[0].length > 12 ? ' big' : ''));
+        b.title = m[0]; blips.appendChild(b);
+      });
+      lines($('ro1'), 'CONTACTS ' + found.length, 'RANGE ' + s.length + ' CH');
+      try { out.value = (repl.value !== '' && found.length) ? s.replace(re, repl.value) : ''; } catch (e) { out.value = e.message; }
+    }
+    const CODES = [['.', 'any character but newline'], ['\\d  \\w  \\s', 'digit, word character, whitespace'], ['\\D  \\W  \\S', 'the opposites'], ['[abc]  [^abc]', 'one of, none of'], ['[a-z]', 'a range'], ['^  $', 'start, end of the text (or line with m)'], ['\\b', 'word boundary'], ['*  +  ?', 'zero or more, one or more, optional'], ['{3}  {2,5}', 'exactly, between'], ['*?  +?', 'lazy: as few as possible'], ['(abc)', 'capture group $1'], ['(?<year>\\d{4})', 'named group'], ['(?:abc)', 'group without capture'], ['a|b', 'either'], ['(?=x)  (?!x)', 'lookahead, negative'], ['(?<=x)  (?<!x)', 'lookbehind, negative'], ['\\.  \\(  \\\\', 'escaped literal']];
+    const codes = $('codes'); CODES.forEach(([c, d]) => { const cell = h('div', null, null, 'cell'); cell.appendChild(h('code', null, c)); cell.appendChild(h('span', null, d)); codes.appendChild(cell); });
+    let timer = null; const soon = () => { clearTimeout(timer); timer = setTimeout(run, 120); };
+    pattern.addEventListener('input', soon); text.addEventListener('input', soon); repl.addEventListener('input', soon);
+    copyBtn($('copy-out'), () => out.value, 'Copy result');
+    run();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

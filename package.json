@@ -7,7 +7,10 @@
   "scripts": {
     "check:static": "node ./scripts/check-static.mjs",
     "smoke": "node ./scripts/smoke.mjs",
-    "preview": "python -m http.server 8723 --bind 127.0.0.1"
+    "preview": "python -m http.server 8723 --bind 127.0.0.1",
+    "render:catalog": "node ./scripts/render-catalog.mjs",
+    "render:sitemap": "node ./scripts/render-sitemap.mjs",
+    "build": "npm run render:catalog && npm run render:sitemap && npm run check:static"
   },
   "engines": {
     "node": ">=22"

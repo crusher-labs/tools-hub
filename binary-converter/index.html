@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-world="front-panel">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Converter - Text to Binary, Binary to Text, Decimal, Hex and Octal</title>
+    <!-- SEO-META-START -->
+    <meta name="description" content="Convert text to binary and binary back to text on a computer front panel: every character lights a row of eight lamps you can flip, and any number reads out in decimal, hex, octal and binary. Free, no signup, nothing uploaded.">
+    <meta name="theme-color" content="#0d1115">
+    <link rel="canonical" href="https://tools.muhammadhassaanjaved.com/binary-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Web Utility Tools by CRUSHER">
+    <meta property="og:title" content="Binary Converter - Web Utility Tools by CRUSHER">
+    <meta property="og:description" content="Convert text to binary and binary back to text on a computer front panel: every character lights a row of eight lamps you can flip, and any number reads out in decimal, hex, octal and binary. Free, no signup, nothing uploaded.">
+    <meta property="og:url" content="https://tools.muhammadhassaanjaved.com/binary-converter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Binary Converter - Web Utility Tools by CRUSHER">
+    <meta name="twitter:description" content="Convert text to binary and binary back to text on a computer front panel: every character lights a row of eight lamps you can flip, and any number reads out in decimal, hex, octal and binary. Free, no signup, nothing uploaded.">
+    <!-- SEO-META-END -->
+    <link rel="icon" href="data:,">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.web3forms.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Public+Sans:wght@400;600&display=swap">
+    <style>
+
+    :root { --bg:#0d1115; --bezel:#2b353f; --line:#3c8fc7; --lamp:#ff3b2f; --lampdim:#3b1411; --text:#e6edf3; --muted:#8fa0ae; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:'Public Sans', system-ui, sans-serif; }
+    main { max-width:1120px; margin:0 auto; padding:36px 20px 64px; }
+    h1 { margin:0; font:400 clamp(26px, 4vw, 40px)/1.05 'Share Tech Mono', monospace; letter-spacing:.06em; text-transform:uppercase; }
+    .lede { margin:10px 0 24px; max-width:64ch; font-size:16px; line-height:1.55; color:var(--muted); }
+    .panel { background:linear-gradient(180deg, #1c242c, #171e25); border:2px solid var(--bezel); border-radius:8px; box-shadow:0 20px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06); overflow:hidden; }
+    .sec { padding:18px 22px 22px; border-top:1px solid rgba(60,143,199,.55); }
+    .sec:first-child { border-top:0; }
+    .sec-h { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px; }
+    .sec-h h2 { margin:0; font:400 13px 'Share Tech Mono', monospace; letter-spacing:.22em; text-transform:uppercase; color:var(--line); }
+    .status { display:flex; gap:22px; flex-wrap:wrap; }
+    .st { display:flex; flex-direction:column; align-items:center; gap:6px; font:11px 'Share Tech Mono', monospace; letter-spacing:.14em; color:var(--muted); }
+    .led { width:14px; height:14px; border-radius:50%; background:radial-gradient(circle at 40% 35%, #5a2320, var(--lampdim) 70%); box-shadow: inset 0 1px 2px rgba(0,0,0,.7), 0 0 0 2px #0d1115, 0 0 0 3px #2c3640; transition: background .12s, box-shadow .12s; flex:none; }
+    .led.on { background:radial-gradient(circle at 40% 35%, #ffb3a8, var(--lamp) 55%, #b5150c 100%); box-shadow: 0 0 10px 2px rgba(255,59,47,.65), 0 0 0 2px #0d1115, 0 0 0 3px #2c3640; }
+    button.led { border:0; padding:0; cursor:pointer; }
+    .lamps { display:flex; gap:6px; align-items:flex-end; flex-wrap:wrap; row-gap:14px; }
+    .grp { display:flex; gap:6px; padding:0 8px; border-left:1px solid rgba(60,143,199,.35); }
+    .grp:first-child { border-left:0; padding-left:0; }
+    .bit { display:flex; flex-direction:column; align-items:center; gap:5px; font:10px 'Share Tech Mono', monospace; color:var(--muted); letter-spacing:.04em; }
+    .sw { width:22px; height:46px; border:0; background:transparent; cursor:pointer; position:relative; padding:0; }
+    .sw::before { content:''; position:absolute; left:50%; top:4px; bottom:4px; width:8px; margin-left:-4px; border-radius:4px; background:#0a0d10; box-shadow: inset 0 1px 3px #000, 0 0 0 1px #2c3640; }
+    .sw i { position:absolute; left:50%; top:50%; width:10px; height:26px; margin-left:-5px; margin-top:-13px; border-radius:5px; background:linear-gradient(180deg, #e9eef2, #9aa4ad 60%, #6b757e); box-shadow:0 2px 3px rgba(0,0,0,.6); transition: transform .12s; transform:translateY(9px); }
+    .sw[aria-pressed="true"] i { transform:translateY(-9px); background:linear-gradient(180deg, #6b757e, #9aa4ad 40%, #e9eef2); }
+    .readouts { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; margin-top:18px; }
+    .ro { background:#0b0f13; border:1px solid #2c3640; border-radius:4px; padding:10px 12px; display:grid; gap:4px; align-content:start; }
+    .ro b { font:11px 'Share Tech Mono', monospace; letter-spacing:.18em; color:var(--line); font-weight:400; }
+    .ro span { font:18px 'Share Tech Mono', monospace; color:#ffd8d2; word-break:break-all; min-height:1.2em; }
+    .ro button { justify-self:start; margin-top:4px; }
+    .in { width:100%; background:#0b0f13; border:1px solid #2c3640; border-radius:4px; color:var(--text); font:15px 'Share Tech Mono', monospace; padding:10px 12px; outline:none; }
+    .in:focus { border-color:var(--line); }
+    textarea.in { min-height:90px; resize:vertical; font-family:'Public Sans', sans-serif; line-height:1.5; }
+    textarea.in.mono { font-family:'Share Tech Mono', monospace; }
+    .key { padding:8px 14px; border:1px solid #2c3640; border-radius:4px; background:#232c35; color:var(--text); font:600 12px 'Public Sans', sans-serif; cursor:pointer; }
+    .key[aria-pressed="true"] { background:var(--line); border-color:var(--line); color:#06131c; }
+    .key:hover { border-color:var(--line); }
+    .row2 { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .row2 .in { flex:1; min-width:160px; }
+    .rows { margin-top:14px; display:grid; gap:6px; }
+    .r { display:grid; grid-template-columns: 36px auto 1fr 40px 36px 40px; gap:12px; align-items:center; padding:6px 8px; background:#0b0f13; border:1px solid #1f272f; border-radius:4px; font:13px 'Share Tech Mono', monospace; }
+    .r .ch { text-align:center; font-size:16px; color:#fff; }
+    .r .ch.ctl { font-size:10px; color:var(--muted); }
+    .r .v { color:#ffd8d2; }
+    .r .d { color:var(--muted); }
+    .r .lamps { gap:5px; }
+    .r .lamps .led { width:12px; height:12px; }
+    .r .lamps .grp { padding:0 5px; }
+    .more { font:12px 'Share Tech Mono', monospace; color:var(--muted); margin:10px 0 0; min-height:1.2em; }
+    .notes { margin-top:40px; border:1px solid var(--bezel); border-radius:8px; padding:24px 28px; background:#12181e; }
+    .notes h2 { margin:0 0 10px; font:400 22px 'Share Tech Mono', monospace; letter-spacing:.08em; text-transform:uppercase; }
+    .notes h3 { margin:14px 0 6px; font-size:15px; font-weight:600; }
+    .notes p { margin:0 0 10px; font-size:14.5px; line-height:1.65; color:#b9c5cf; }
+    .notes details { border-top:1px solid #2c3640; } .notes summary { cursor:pointer; padding:10px 0; font-weight:600; font-size:14px; }
+    .notes a { color:#8fd0ff; }
+    .foot { margin-top:26px; display:flex; flex-wrap:wrap; gap:18px; align-items:center; font:12px 'Share Tech Mono', monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+    .foot a { white-space:nowrap; }
+    .foot a { color:var(--text); }
+    .tool-feedback { margin-top:14px; font-size:13px; color:var(--muted); }
+    @media (max-width: 720px) { main { padding:26px 12px 56px; } .sec { padding:14px 12px 18px; } .readouts { grid-template-columns:1fr 1fr; } .r { grid-template-columns: 26px auto 1fr 36px 32px; gap:8px; } .r .o { display:none; } .lamps { gap:3px; } .grp { padding:0 3px; gap:3px; } .bit { font-size:7px; } .led { width:12px; height:12px; } .sw { width:14px; } .notes { padding:20px 14px; } }
+
+    .tool-feedback summary { cursor:pointer; list-style:none; display:inline-flex; gap:8px; align-items:center; }
+    .tool-feedback summary::-webkit-details-marker { display:none; }
+    .tool-feedback summary::before { content:'+'; font-weight:700; }
+    .tool-feedback[open] summary::before { content:'\2212'; }
+    .tool-feedback form { display:grid; gap:10px; margin-top:12px; max-width:520px; }
+    .tool-feedback label { display:grid; gap:4px; font-size:12px; }
+    .tool-feedback textarea, .tool-feedback input[type="email"] { font:14px/1.5 inherit; padding:9px 11px; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback button { justify-self:start; padding:8px 16px; font:600 13px inherit; cursor:pointer; border:1px solid currentColor; background:transparent; color:inherit; border-radius:4px; }
+    .tool-feedback-honey { position:absolute; left:-9999px; top:-9999px; opacity:0; pointer-events:none; }
+    #tool-feedback-status { margin:0; min-height:1.2em; font-size:13px; }
+    #tool-feedback-status[data-kind="error"] { color:#c0392b; }
+    </style>
+</head>
+<body>
+
+    <main>
+      <h1>Binary Converter</h1>
+      <p class="lede">A front panel for numbers and text: lamps show the bits, switches set them. Convert text to binary and back, and any number between decimal, hex, octal and binary.</p>
+      <div class="panel">
+        <section class="sec">
+          <div class="sec-h"><h2>Status</h2></div>
+          <div class="status">
+            <div class="st"><span class="led on" id="st-ok"></span>OK</div>
+            <div class="st"><span class="led" id="st-err"></span>ERR</div>
+            <div class="st"><span class="led" id="st-ovf"></span>OVF</div>
+            <div class="st"><span class="led" id="st-utf"></span>UTF-8</div>
+          </div>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>Address · number</h2><div class="row2"><span class="bit">width</span><button type="button" class="key w" data-w="8" aria-pressed="false">8</button><button type="button" class="key w" data-w="16" aria-pressed="true">16</button><button type="button" class="key w" data-w="32" aria-pressed="false">32</button></div></div>
+          <input id="num" class="in" type="text" spellcheck="false" autocomplete="off" placeholder="Enter a number: 255, 0xFF, 0b11111111, 0o377, -1" aria-label="Number to convert" value="2026">
+          <div id="alamps" class="lamps" style="margin-top:16px" aria-label="Address lamps"></div>
+          <div id="asw" class="lamps" style="margin-top:6px" aria-label="Address switches: click to flip a bit"></div>
+          <div class="readouts">
+            <div class="ro"><b>DEC</b><span id="ro-dec"></span><button type="button" class="key cp" data-for="ro-dec">Copy</button></div>
+            <div class="ro"><b>HEX</b><span id="ro-hex"></span><button type="button" class="key cp" data-for="ro-hex">Copy</button></div>
+            <div class="ro"><b>OCT</b><span id="ro-oct"></span><button type="button" class="key cp" data-for="ro-oct">Copy</button></div>
+            <div class="ro"><b>BIN</b><span id="ro-bin"></span><button type="button" class="key cp" data-for="ro-bin">Copy</button></div>
+          </div>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>Data · text to binary</h2><div class="row2"><button type="button" class="key" id="copy-bin">Copy binary</button><button type="button" class="key" id="copy-hex">Copy hex</button><button type="button" class="key" id="copy-dec">Copy decimal</button></div></div>
+          <textarea id="txt" class="in" spellcheck="false" placeholder="Type text; every character lights a row of eight lamps. Click a lamp to flip its bit." aria-label="Text to convert to binary">Hello</textarea>
+          <div id="rows" class="rows"></div>
+          <p id="more" class="more"></p>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>Data · binary to text</h2><div class="row2"><span class="bit">read as</span><button type="button" class="key b" data-b="auto" aria-pressed="true">Auto</button><button type="button" class="key b" data-b="bin" aria-pressed="false">Binary</button><button type="button" class="key b" data-b="hex" aria-pressed="false">Hex</button><button type="button" class="key b" data-b="dec" aria-pressed="false">Decimal</button></div></div>
+          <textarea id="bin-in" class="in mono" spellcheck="false" placeholder="01001000 01101001   or   0x48 0x69   or   72 105" aria-label="Binary, hex or decimal bytes to convert to text"></textarea>
+          <div class="row2" style="margin-top:10px"><input id="txt-out" class="in" type="text" readonly placeholder="Decoded text" aria-label="Decoded text"><button type="button" class="key" id="copy-txt">Copy</button></div>
+          <p id="bin-meta" class="more"></p>
+        </section>
+      </div>
+      <section class="notes">
+        <h2>Text to binary, and every base between</h2>
+        <p>Computers store text as numbers and numbers as bits. This panel shows both at once: type a word and each character becomes a row of eight lamps, its byte in binary, with the same value in decimal, hex and octal beside it. Type a number in the address row and the lamps show its bits; flip a switch and the readouts follow. Paste binary, hex or decimal bytes at the bottom to turn them back into text.</p>
+        <h3>How text becomes bits</h3>
+        <p>Plain English letters are ASCII: one byte each, so H is 72, 0x48, 01001000. Everything else, from accented letters to emoji, is UTF-8 and takes two to four bytes, which the panel shows as one lamp row per byte with a dot marking the continuation rows. The UTF-8 status lamp lights whenever the text contains one of those characters.</p>
+        <h3>Why a front panel</h3>
+        <p>Before keyboards and screens, machines like the Altair 8800 and the IMSAI 8080 showed their memory as rows of lamps and took input from rows of toggle switches: up meant 1, down meant 0, and the lamps were grouped in threes because operators read them in octal. This page keeps that convention. Every lamp here is also a switch.</p>
+        <details><summary>How do I convert binary to text?</summary><p>Paste the bytes into the bottom box: binary in groups of eight (spaces optional), hex pairs (with or without 0x), or decimal numbers 0 to 255 separated by spaces or commas. Auto works out which one you pasted; pick a base by hand if it guesses wrong.</p></details>
+        <details><summary>Can I convert a negative number?</summary><p>Yes. Type -1 and the address row shows its two's complement at the chosen width: all lamps lit for 16 bits, which is 0xFFFF. The DEC readout shows the unsigned value the lamps represent.</p></details>
+        <details><summary>What does OVF mean?</summary><p>Overflow: the number you typed needs more bits than the current width. Only the low bits are shown; switch to 32 bits to see all of them.</p></details>
+        <details><summary>Is anything uploaded?</summary><p>No. The whole panel runs in your browser; nothing you type leaves the page.</p></details>
+      </section>
+      <div class="foot"><span>Front panel · 8-bit data · 16-bit address</span><a href="https://tools.muhammadhassaanjaved.com/">All tools</a></div>
+      <details class="tool-feedback ">
+      <summary>Suggest an improvement</summary>
+      <form id="tool-feedback-form" novalidate>
+        <label><span>What could be better?</span><textarea name="improvement" rows="3" required maxlength="2000" placeholder="Tell me what is missing or what could work better"></textarea></label>
+        <label><span>Your email (optional, only if you want a reply)</span><input type="email" name="replyto" maxlength="200" placeholder="your@email.com"></label>
+        <input type="text" name="botcheck" class="tool-feedback-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Send</button>
+        <p id="tool-feedback-status" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+    </main>
+    <script>
+
+const h = (tag, style, text, cls) => { const e = document.createElement(tag); if (style) e.style.cssText = style; if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+const copyBtn = (btn, getText, label, done) => btn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(getText()); btn.textContent = done || 'Copied'; } catch (e) { btn.textContent = 'Select to copy'; } setTimeout(() => { btn.textContent = label; }, 1400); });
+const pressGroup = (sel, onPick) => document.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => { document.querySelectorAll(sel).forEach(x => x.setAttribute('aria-pressed', String(x === b))); onPick(b); }));
+
+
+    const $ = (id) => document.getElementById(id);
+    const clear = (e) => { while (e.firstChild) e.removeChild(e.firstChild); };
+    const num = $('num'), alamps = $('alamps'), asw = $('asw'), txt = $('txt'), rows = $('rows'), more = $('more'), binIn = $('bin-in'), txtOut = $('txt-out'), binMeta = $('bin-meta');
+    const st = { ok: $('st-ok'), err: $('st-err'), ovf: $('st-ovf'), utf: $('st-utf') };
+    let width = 16, value = 0n, readAs = 'auto';
+    const setSt = (k, on) => { st[k].classList.toggle('on', !!on); st.ok.classList.toggle('on', !st.err.classList.contains('on')); };
+    const groups = (n) => { const g = []; if (n % 3) g.push(n % 3); for (let i = 0; i < Math.floor(n / 3); i++) g.push(3); return g; };
+    function buildAddress() {
+      clear(alamps); clear(asw);
+      let bit = width - 1;
+      groups(width).forEach((cnt) => {
+        const gl = h('div', null, null, 'grp'), gs = h('div', null, null, 'grp');
+        for (let i = 0; i < cnt; i++) {
+          const b = bit--;
+          const cell = h('div', null, null, 'bit'), led = h('span', null, null, 'led'); led.dataset.bit = b; cell.appendChild(led); cell.appendChild(h('span', null, 'A' + b)); gl.appendChild(cell);
+          const sw = h('button', null, null, 'sw'); sw.type = 'button'; sw.dataset.bit = b; sw.setAttribute('aria-label', 'address bit ' + b); sw.setAttribute('aria-pressed', 'false'); sw.appendChild(h('i'));
+          sw.addEventListener('click', () => { value ^= (1n << BigInt(b)); num.value = value.toString(); setSt('err', false); setSt('ovf', false); showAddress(); });
+          gs.appendChild(sw);
+        }
+        alamps.appendChild(gl); asw.appendChild(gs);
+      });
+    }
+    function showAddress() {
+      const max = (1n << BigInt(width)) - 1n, v = value & max;
+      alamps.querySelectorAll('.led').forEach((l) => l.classList.toggle('on', ((v >> BigInt(l.dataset.bit)) & 1n) === 1n));
+      asw.querySelectorAll('.sw').forEach((s) => s.setAttribute('aria-pressed', String(((v >> BigInt(s.dataset.bit)) & 1n) === 1n)));
+      $('ro-dec').textContent = v.toString();
+      $('ro-hex').textContent = '0x' + v.toString(16).toUpperCase().padStart(Math.ceil(width / 4), '0');
+      $('ro-oct').textContent = '0o' + v.toString(8);
+      $('ro-bin').textContent = v.toString(2).padStart(width, '0').replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
+    function parseNum(raw) {
+      let s = raw.trim().replace(/[_\s,]/g, '');
+      if (!s) return { v: 0n };
+      let neg = false;
+      if (s[0] === '-') { neg = true; s = s.slice(1); } else if (s[0] === '+') s = s.slice(1);
+      let v;
+      try {
+        if (/^0x[0-9a-f]+$/i.test(s) || /^0b[01]+$/i.test(s) || /^0o[0-7]+$/i.test(s)) v = BigInt(s.toLowerCase());
+        else if (/^#[0-9a-f]+$/i.test(s)) v = BigInt('0x' + s.slice(1));
+        else if (/^[0-9]+$/.test(s)) v = BigInt(s);
+        else if (/^[0-9a-f]+$/i.test(s)) v = BigInt('0x' + s);
+        else return { err: 'Not a number I can read. Try 255, 0xFF, 0b1111, 0o377 or #FF.' };
+      } catch (e) { return { err: 'Not a number.' }; }
+      const max = (1n << BigInt(width)) - 1n;
+      let ovf = false;
+      if (neg) { if (v > (1n << BigInt(width - 1))) ovf = true; v = ((1n << BigInt(width)) - v) & max; }
+      else if (v > max) { ovf = true; v = v & max; }
+      return { v, ovf };
+    }
+    function readNum() { const r = parseNum(num.value); setSt('err', !!r.err); setSt('ovf', !!r.ovf); if (r.err) return; value = r.v; showAddress(); }
+    num.addEventListener('input', readNum);
+    pressGroup('.w', (b) => { width = parseInt(b.dataset.w, 10); buildAddress(); readNum(); showAddress(); });
+    document.querySelectorAll('.cp').forEach((b) => copyBtn(b, () => $(b.dataset.for).textContent, 'Copy'));
+
+    const enc = new TextEncoder(), dec = new TextDecoder();
+    const CTL = { 9: 'TAB', 10: 'LF', 13: 'CR', 32: 'SP' };
+    const LIMIT = 96;
+    let bytes = new Uint8Array(0), chars = [];
+    function analyze(text) { bytes = enc.encode(text); chars = []; let pos = 0; for (const ch of text) { const n = enc.encode(ch).length; chars.push({ ch, start: pos, len: n }); pos += n; } }
+    function renderRows(note) {
+      clear(rows); let shown = 0, multi = false;
+      outer: for (const c of chars) {
+        for (let k = 0; k < c.len; k++) {
+          if (shown >= LIMIT) break outer;
+          const bi = c.start + k, b = bytes[bi], cp = c.ch.codePointAt(0);
+          const r = h('div', null, null, 'r');
+          const ctl = CTL[cp] && c.len === 1;
+          r.appendChild(h('span', null, c.len > 1 ? (k === 0 ? c.ch : '·') : (ctl ? CTL[cp] : c.ch), 'ch' + (ctl || k > 0 ? ' ctl' : '')));
+          const lamps = h('div', null, null, 'lamps'), gA = h('div', null, null, 'grp'), gB = h('div', null, null, 'grp'), gC = h('div', null, null, 'grp');
+          for (let bit = 7; bit >= 0; bit--) {
+            const on = (b >> bit) & 1;
+            const led = h('button', null, null, 'led' + (on ? ' on' : '')); led.type = 'button';
+            led.setAttribute('aria-label', 'byte ' + bi + ' bit ' + bit + (on ? ', on' : ', off')); led.setAttribute('aria-pressed', String(!!on));
+            led.addEventListener('click', () => flip(bi, bit));
+            (bit >= 6 ? gA : bit >= 3 ? gB : gC).appendChild(led);
+          }
+          lamps.appendChild(gA); lamps.appendChild(gB); lamps.appendChild(gC); r.appendChild(lamps);
+          r.appendChild(h('span', null, b.toString(2).padStart(8, '0'), 'v'));
+          r.appendChild(h('span', null, String(b), 'd'));
+          r.appendChild(h('span', null, b.toString(16).toUpperCase().padStart(2, '0'), 'd'));
+          r.appendChild(h('span', null, b.toString(8).padStart(3, '0'), 'd o'));
+          rows.appendChild(r); shown++;
+          if (c.len > 1) multi = true;
+        }
+      }
+      setSt('utf', multi);
+      more.textContent = note || (bytes.length > LIMIT ? 'Showing the first ' + LIMIT + ' of ' + bytes.length + ' bytes on the panel; the Copy buttons take all of them.' : (bytes.length ? bytes.length + (bytes.length === 1 ? ' byte' : ' bytes') + (multi ? ' · multi-byte characters take one row per byte' : '') : 'Type something above.'));
+    }
+    function flip(bi, bit) {
+      bytes[bi] ^= (1 << bit);
+      const text = dec.decode(bytes), back = enc.encode(text);
+      txt.value = text; analyze(text);
+      renderRows(back.length !== bytes.length || back.some((v, i) => v !== bytes[i]) ? 'That byte no longer forms valid UTF-8, so the text shows a replacement character and the lamps follow the text.' : '');
+    }
+    txt.addEventListener('input', () => { analyze(txt.value); renderRows(); });
+    const join = (fn) => Array.from(bytes, fn).join(' ');
+    copyBtn($('copy-bin'), () => join((b) => b.toString(2).padStart(8, '0')), 'Copy binary');
+    copyBtn($('copy-hex'), () => join((b) => b.toString(16).toUpperCase().padStart(2, '0')), 'Copy hex');
+    copyBtn($('copy-dec'), () => join((b) => String(b)), 'Copy decimal');
+
+    function parseBytes(s, mode) {
+      const t = s.trim(); if (!t) return { bytes: new Uint8Array(0), mode: 'none' };
+      let m = mode;
+      if (m === 'auto') {
+        const tokens = t.split(/[\s,]+/).filter(Boolean);
+        if (/^[01\s,]+$/.test(t) && tokens.every((x) => x.length % 8 === 0)) m = 'bin';
+        else if (/^[0-9\s,]+$/.test(t)) m = 'dec';
+        else if (/^(0x)?[0-9a-f]+([\s,]+(0x)?[0-9a-f]+)*$/i.test(t)) m = 'hex';
+        else return { err: 'Use binary (01001000), hex (48 or 0x48) or decimal (72) bytes, separated by spaces.' };
+      }
+      const arr = [];
+      if (m === 'bin') { const clean = t.replace(/[^01]/g, ''); if (!clean || clean.length % 8) return { err: 'Binary needs whole bytes: ' + clean.length + ' bits is not a multiple of 8.' }; for (let i = 0; i < clean.length; i += 8) arr.push(parseInt(clean.slice(i, i + 8), 2)); }
+      else if (m === 'hex') { const clean = t.replace(/0x/gi, '').replace(/[^0-9a-f]/gi, ''); if (!clean || clean.length % 2) return { err: 'Hex needs pairs of digits: ' + clean.length + ' digits is odd.' }; for (let i = 0; i < clean.length; i += 2) arr.push(parseInt(clean.slice(i, i + 2), 16)); }
+      else { for (const p of t.split(/[\s,]+/).filter(Boolean)) { const n = Number(p); if (!Number.isInteger(n) || n < 0 || n > 255) return { err: p + ' is not a byte (0 to 255).' }; arr.push(n); } }
+      return { bytes: Uint8Array.from(arr), mode: m };
+    }
+    function decodeIn() {
+      const r = parseBytes(binIn.value, readAs);
+      if (r.err) { txtOut.value = ''; binMeta.textContent = r.err; setSt('err', true); return; }
+      setSt('err', false);
+      let str, note = '';
+      try { str = new TextDecoder('utf-8', { fatal: true }).decode(r.bytes); } catch (e) { str = dec.decode(r.bytes); note = ' · not valid UTF-8, shown with replacement characters'; }
+      txtOut.value = str;
+      binMeta.textContent = r.bytes.length ? r.bytes.length + ' bytes read as ' + ({ bin: 'binary', hex: 'hex', dec: 'decimal' })[r.mode] + note : '';
+    }
+    binIn.addEventListener('input', decodeIn);
+    pressGroup('.b', (b) => { readAs = b.dataset.b; decodeIn(); });
+    copyBtn($('copy-txt'), () => txtOut.value, 'Copy');
+
+    buildAddress(); readNum(); analyze(txt.value); renderRows();
+
+(function() {
+  const KEY = '30e570c5-aeeb-439d-8a8a-bd2516a5dc5d';
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+  const form = document.getElementById('tool-feedback-form');
+  const status = document.getElementById('tool-feedback-status');
+  if (!form || !status) return;
+  const toolName = (document.title || 'tool').trim();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    fd.set('access_key', KEY);
+    fd.set('subject', '[' + toolName + '] Improvement suggestion');
+    fd.set('from_name', toolName);
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Sending';
+    status.textContent = ''; delete status.dataset.kind;
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+      const data = await res.json();
+      if (data.success) { form.reset(); status.textContent = 'Thanks, your suggestion is in.'; status.dataset.kind = 'ok'; }
+      else { status.textContent = data.message || 'Sorry, that did not go through. Try again later?'; status.dataset.kind = 'error'; }
+    } catch (err) { status.textContent = 'Network error. Try again?'; status.dataset.kind = 'error'; }
+    finally { btn.disabled = false; btn.textContent = orig; }
+  });
+})();
+    </script>
+</body>
+</html>

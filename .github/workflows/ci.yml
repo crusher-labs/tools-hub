@@ -19,16 +19,19 @@ jobs:
         with:
           node-version: 22
 
-      # check-static.mjs resolves the 30 tools at ../utility-tools/<repo>. Without this
-      # step the runner has only the hub, and until 2026-09 the checker skipped the
-      # missing directory silently, so CI green meant "hub + 0 tools validated".
-      # The checker now fails hard unless every catalog entry is audited.
-      - name: Clone the utility tools
-        run: |
-          mkdir -p ../utility-tools
-          for repo in $(node -e "JSON.parse(require('fs').readFileSync('tools.json','utf8')).forEach(t => console.log(new URL(t.url).pathname.split('/')[1]))"); do
-            git clone --quiet --depth 1 "https://github.com/crusher-labs/$repo.git" "../utility-tools/$repo"
-          done
-
+      # The tools are subdirectories of this repo since the 2026-09 consolidation,
+      # so checkout alone gives the runner everything. (Before that they were 37
+      # separate repos cloned in here; the checker fails hard unless every catalog
+      # entry is audited, which is what caught the silently-skipped directory.)
       - name: Validate static contract (hub + tools)
         run: npm run check:static
+
+      # The catalog and sitemap are generated files. If someone edits tools.json
+      # without re-running the generators, the hub loses a crawlable link or the
+      # sitemap omits a page - the exact failure that left all 37 tools unindexed.
+      - name: Generated files are up to date
+        run: |
+          node scripts/render-catalog.mjs
+          node scripts/render-sitemap.mjs
+          git diff --exit-code -- index.html sitemap.xml \
+            || { echo "::error::index.html or sitemap.xml is stale - run scripts/render-catalog.mjs and scripts/render-sitemap.mjs"; exit 1; }
