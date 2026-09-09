@@ -10,7 +10,9 @@
     "preview": "python -m http.server 8723 --bind 127.0.0.1",
     "render:catalog": "node ./scripts/render-catalog.mjs",
     "render:sitemap": "node ./scripts/render-sitemap.mjs",
-    "build": "npm run render:catalog && npm run render:sitemap && npm run check:static"
+    "build": "npm run render:catalog && npm run apply:jsonld && npm run apply:author && npm run render:sitemap && npm run check:static",
+    "apply:jsonld": "node ./scripts/apply-jsonld.mjs",
+    "apply:author": "node ./scripts/apply-author-link.mjs"
   },
   "engines": {
     "node": ">=22"
