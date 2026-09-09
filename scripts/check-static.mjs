@@ -164,7 +164,7 @@ function assertStaticContract(label, html) {
     // scripts/apply-author-link.mjs). Both are swept by markers, so a page that
     // lost one was edited by hand or added without running the build.
     must(html.includes('<!-- JSONLD-START'), 'must carry the JSON-LD block (run npm run build)');
-    must(html.includes('"@type": "SoftwareApplication"'), 'JSON-LD must describe the page as a SoftwareApplication');
+    must(html.includes('"@type": "WebApplication"'), 'JSON-LD must describe the page as a WebApplication');
     must(html.includes('<!-- AUTHOR-LINK-START -->'), 'must carry the footer author link (run npm run build)');
     return;
   }

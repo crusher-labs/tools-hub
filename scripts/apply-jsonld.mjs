@@ -8,8 +8,11 @@
 // signal that verdict is asking for. Every tool page already carries a real
 // <h2> + <details> FAQ, so FAQPage describes content that genuinely exists.
 //
-// Deliberately NOT emitted: aggregateRating or review. There are no ratings, and
-// inventing them is both a policy violation and a lie.
+// Deliberately NOT emitted: aggregateRating or review. Google REQUIRES one of them
+// for the Software App rich result, so these pages are not eligible for the star
+// snippet. That is the correct outcome: there are no ratings, and inventing them is
+// both a policy violation and a lie. The markup still earns its place as a
+// comprehension signal. If a real rating mechanism ever ships, revisit this.
 //
 // Run: node scripts/apply-jsonld.mjs   (or npm run build)
 
@@ -101,7 +104,9 @@ function graphFor(rel, html) {
   const tool = byUrl.get(url);
   const name = tool ? tool.name : title.split(/\s+[-|]\s+/)[0].trim();
   const app = {
-    '@type': 'SoftwareApplication',
+    // WebApplication, a SoftwareApplication subtype: accurate for a browser-only
+    // tool, and browserRequirements is properly defined on it.
+    '@type': 'WebApplication',
     '@id': url + '#app',
     name,
     url,
