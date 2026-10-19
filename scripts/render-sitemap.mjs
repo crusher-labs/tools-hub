@@ -6,6 +6,7 @@
 // Re-run after adding or removing a page: node scripts/render-sitemap.mjs
 
 import { readdirSync, statSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
 
@@ -27,12 +28,29 @@ const walk = (dir) => {
 walk(ROOT);
 pages.sort((a, b) => a.length - b.length || a.localeCompare(b));
 
+// lastmod is the date of the last commit that touched the page, so it moves only
+// when that page does. Stamping the build date on every URL told Google all 42
+// pages changed on every rebuild, and Google uses lastmod only "if it's
+// consistently and verifiably" accurate. A page with uncommitted edits gets
+// today's date, because it is about to change.
+const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
+if (git('rev-parse', '--is-shallow-repository') === 'true') {
+  throw new Error('render-sitemap needs full git history to date each page (CI: actions/checkout with fetch-depth: 0)');
+}
 const today = new Date().toISOString().slice(0, 10);
+const lastmod = (rel) => {
+  const file = `${rel}index.html`;
+  if (git('status', '--porcelain', '--', file)) return today;
+  const date = git('log', '-1', '--format=%cs', '--', file);
+  if (!date) throw new Error(`no commit found for ${file}`);
+  return date;
+};
+
 const body = pages.map((rel) => {
   const isHub = rel === '';
   return `  <url>
     <loc>${BASE}${rel}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${lastmod(rel)}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${isHub ? '1.0' : '0.8'}</priority>
   </url>`;

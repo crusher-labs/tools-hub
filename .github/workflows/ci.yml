@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # render-sitemap dates each page by its last commit, so it needs history.
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
