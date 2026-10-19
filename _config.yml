@@ -1,0 +1,13 @@
+# GitHub Pages builds this repo with Jekyll. Without this list it publishes every
+# Markdown file as a page (json-prettifier/AGENTS.md became an indexable,
+# self-canonical json-prettifier/AGENTS.html carrying local workspace paths) and
+# serves the build scripts raw. Only the hub and the tool pages are the site.
+#
+# The tool pages have no front matter, so Jekyll copies them byte for byte.
+# Patterns are matched with File.fnmatch, where * also crosses "/".
+exclude:
+  - "*.md"
+  - "scripts"
+  - "*/scripts"
+  - "package.json"
+  - "package-lock.json"

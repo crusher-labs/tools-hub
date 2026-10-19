@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// Post-deploy smoke test: hits every live URL (hub + 30 utility tools)
-// and verifies HTTP 200, expected title, SEO-META block, key meta tags,
-// pinned framework version, and reachable sitemap.xml + robots.txt.
+// Post-deploy smoke test: hits every URL in the sitemap (hub, 37 tools, the
+// compress-to-KB size pages) and verifies HTTP 200, expected title, SEO-META
+// block, key meta tags, the hub's kit pin, reachable sitemap.xml + robots.txt,
+// and that repo notes and build files are not published.
 //
 // Run after a deploy or as a cron: `npm run smoke`
 // Exits 0 if everything passes, 1 if any check fails.
@@ -112,6 +113,16 @@ async function checkDiscoveryFiles() {
   return { name: 'discovery files', url: HUB_URL + 'sitemap.xml', ok: errors.length === 0, errors };
 }
 
+// Repo notes and build files must not be published. Without _config.yml's exclude
+// list, Pages' Jekyll turned every AGENTS.md into an indexable AGENTS.html.
+async function checkUnpublished() {
+  const paths = ['AGENTS.html', 'CLAUDE.html', 'README.md', 'README.html', 'json-prettifier/AGENTS.html',
+    'json-prettifier/README.md', 'scripts/render-sitemap.mjs', 'compress-image-to-kb/scripts/gen-variants.mjs', 'package.json'];
+  const statuses = await Promise.all(paths.map((p) => statusOf(HUB_URL + p)));
+  const errors = paths.map((p, i) => [p, statuses[i]]).filter(([, s]) => s !== 404).map(([p, s]) => `${p} is published (${s})`);
+  return { name: 'repo files not published', url: HUB_URL + 'AGENTS.html', ok: errors.length === 0, errors };
+}
+
 const stamp = new Date().toISOString().replace('T', ' ').slice(0, 16) + 'Z';
 console.log(`Smoke test of ${endpoints.length} endpoints (${stamp})`);
 console.log('='.repeat(72));
@@ -130,6 +141,11 @@ const discovery = await checkDiscoveryFiles();
 console.log(`  ${discovery.ok ? '✓' : '✗'} ${discovery.name.padEnd(34)} ${discovery.url}`);
 if (!discovery.ok) for (const e of discovery.errors) console.log(`      └ ${e}`);
 results.push(discovery);
+
+const unpublished = await checkUnpublished();
+console.log(`  ${unpublished.ok ? '✓' : '✗'} ${unpublished.name.padEnd(34)} ${unpublished.url}`);
+if (!unpublished.ok) for (const e of unpublished.errors) console.log(`      └ ${e}`);
+results.push(unpublished);
 
 const passed = results.filter(r => r.ok).length;
 const failed = results.length - passed;
