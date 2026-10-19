@@ -33,19 +33,31 @@ pages.sort((a, b) => a.length - b.length || a.localeCompare(b));
 // pages changed on every rebuild, and Google uses lastmod only "if it's
 // consistently and verifiably" accurate. A page with uncommitted edits gets
 // today's date, because it is about to change.
-const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
-if (git('rev-parse', '--is-shallow-repository') === 'true') {
+const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+let shallow;
+try { shallow = git('rev-parse', '--is-shallow-repository'); } catch {
+  throw new Error('render-sitemap must run inside a git checkout of tools-hub: it dates each page by its commits');
+}
+if (shallow === 'true') {
   throw new Error('render-sitemap needs full git history to date each page (CI: actions/checkout with fetch-depth: 0)');
 }
-// Local date, not UTC: git's %cs is the commit date in the committer's own zone,
+// Local date, not UTC: git's %as is the author date in the author's own zone,
 // so a page rendered and committed the same local day must get the same date.
 const now = new Date();
 const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+// A tool's page is its index.html plus the scripts and styles beside it (qrcode.js,
+// lame.min.js); its notes (AGENTS.md, README.md) are not the page. The hub is
+// index.html alone, because the root also holds sitemap.xml, which this writes.
+// Author date (%as), not committer date: a rebase, amend or cherry-pick keeps it.
+const ASSET = /\.(html|js|css|svg|png|jpe?g|webp|gif|ico|woff2?|ttf|txt)$/i;
+const pageFiles = (rel) => (rel === '' ? ['index.html'] : readdirSync(join(ROOT, rel))
+  .filter((f) => ASSET.test(f) && statSync(join(ROOT, rel, f)).isFile())
+  .map((f) => rel + f));
 const lastmod = (rel) => {
-  const file = `${rel}index.html`;
-  if (git('status', '--porcelain', '--', file)) return today;
-  const date = git('log', '-1', '--format=%cs', '--', file);
-  if (!date) throw new Error(`no commit found for ${file}`);
+  const files = pageFiles(rel);
+  if (git('status', '--porcelain', '--', ...files)) return today;
+  const date = git('log', '-1', '--format=%as', '--', ...files);
+  if (!date) throw new Error(`no commit found for ${rel}index.html`);
   return date;
 };
 

@@ -37,4 +37,4 @@ jobs:
           node scripts/render-catalog.mjs
           node scripts/render-sitemap.mjs
           git diff --exit-code -- index.html sitemap.xml \
-            || { echo "::error::index.html or sitemap.xml is stale - run scripts/render-catalog.mjs and scripts/render-sitemap.mjs"; exit 1; }
+            || { echo "::error::index.html or sitemap.xml is stale - run scripts/render-catalog.mjs and scripts/render-sitemap.mjs (a page committed on a later day than its render also lands here; re-render and commit)"; exit 1; }
