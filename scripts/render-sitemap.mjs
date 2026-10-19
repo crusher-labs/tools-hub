@@ -37,7 +37,10 @@ const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8'
 if (git('rev-parse', '--is-shallow-repository') === 'true') {
   throw new Error('render-sitemap needs full git history to date each page (CI: actions/checkout with fetch-depth: 0)');
 }
-const today = new Date().toISOString().slice(0, 10);
+// Local date, not UTC: git's %cs is the commit date in the committer's own zone,
+// so a page rendered and committed the same local day must get the same date.
+const now = new Date();
+const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 const lastmod = (rel) => {
   const file = `${rel}index.html`;
   if (git('status', '--porcelain', '--', file)) return today;
