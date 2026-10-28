@@ -14,7 +14,7 @@ This tool runs entirely in your browser. There is no server. No data is uploaded
 
 ## Contract
 
-Validated by `tools-hub/scripts/check-static.mjs` (world-page contract: SEO block, CSP, feedback form, hub link, prose + FAQ, no kit pins). Run `npm run check:static` from `repos/tools-hub` before committing.
+Validated by `tools-hub/scripts/check-static.mjs` (world-page contract: SEO block, CSP, feedback form, hub link, prose + FAQ, no kit pins). Run `npm run check:static` from the repo root before committing.
 
 ## Development
 

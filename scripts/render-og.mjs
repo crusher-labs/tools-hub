@@ -14,7 +14,7 @@ import { dirname, join, relative } from 'node:path';
 
 let chromium;
 try { ({ chromium } = await import('playwright')); } catch {
-  console.error('render-og needs Playwright: run `npm install` and `npx playwright install chromium` in repos/tools-hub');
+  console.error('render-og needs Playwright: run `npm install` and `npx playwright install chromium` at the repo root');
   process.exit(1);
 }
 
