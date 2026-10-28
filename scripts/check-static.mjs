@@ -131,6 +131,7 @@ console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} too
 function assertStaticContract(label, html) {
   const must = (cond, msg) => softAssert(label, cond, msg);
 
+
   // World pages (2026-09-02 standard): the page is a committed object from the
   // tool's world and owns its CSS. They do not load the kit shell or the style
   // switcher. Detected by data-world="<name>" on <html>; everything else is a
@@ -166,6 +167,10 @@ function assertStaticContract(label, html) {
     must(html.includes('<!-- JSONLD-START'), 'must carry the JSON-LD block (run npm run build)');
     must(html.includes('"@type": "WebApplication"'), 'JSON-LD must describe the page as a WebApplication');
     must(html.includes('<!-- AUTHOR-LINK-START -->'), 'must carry the footer author link (run npm run build)');
+    // Sibling links (scripts/apply-related-links.mjs): without them a tool's only
+    // inbound link is its hub card.
+    const relatedRow = (html.match(/<!-- RELATED-TOOLS-START -->([\s\S]*?)<!-- RELATED-TOOLS-END -->/) || [])[1] || '';
+    must((relatedRow.match(/<a href="https:\/\/tools\.muhammadhassaanjaved\.com\/[a-z0-9-]+\/"/g) || []).length >= 3, 'must carry the related-tools row with at least 3 tool links (run npm run build)');
     return;
   }
 
