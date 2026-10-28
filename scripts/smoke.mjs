@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Post-deploy smoke test: hits every URL in the sitemap (hub, 37 tools, the
 // compress-to-KB size pages) and verifies HTTP 200, expected title, SEO-META
-// block, key meta tags, the hub's kit pin, reachable sitemap.xml + robots.txt,
+// block, key meta tags, the share card image, the hub's kit pin, reachable sitemap.xml + robots.txt,
 // and that repo notes and build files are not published.
 //
 // Run after a deploy or as a cron: `npm run smoke`
@@ -75,6 +75,16 @@ async function checkOne({ name, url, expectedTitle }) {
   if (!/<meta name="theme-color"/.test(html)) errors.push('missing <meta name="theme-color">');
   if (!/<link rel="canonical"/.test(html)) errors.push('missing <link rel="canonical">');
   if (!/property="og:type"/.test(html)) errors.push('missing Open Graph tags');
+  // The share card must exist live, not just be named in the tag.
+  const og = (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
+  if (!og) errors.push('missing og:image');
+  else {
+    try {
+      const r = await fetch(og, { method: 'HEAD', redirect: 'follow' });
+      const type = r.headers.get('content-type') || '';
+      if (r.status !== 200 || !type.startsWith('image/jpeg')) errors.push(`og:image ${og}: HTTP ${r.status} ${type}`);
+    } catch (e) { errors.push(`og:image fetch error: ${e.message}`); }
+  }
 
   // World pages (data-world on <html>) own their CSS and carry no kit pin.
   const isWorld = /<html[^>]*\sdata-world=/.test(html);
