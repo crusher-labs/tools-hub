@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -131,6 +132,12 @@ console.log(`[tools-hub] static contract validated for hub + ${toolsAudited} too
 function assertStaticContract(label, html) {
   const must = (cond, msg) => softAssert(label, cond, msg);
 
+  // Share card (scripts/render-og.mjs renders it, scripts/apply-og.mjs wires it):
+  // every page, hub included, points at its own og.jpg and asks for the large card.
+  const og = (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
+  must(og, 'must declare og:image (run scripts/render-og.mjs, then npm run build)');
+  if (og) must(existsSync(join(repoRoot, decodeURIComponent(new URL(og).pathname))), `og:image ${og} has no file on disk`);
+  must(html.includes('<meta name="twitter:card" content="summary_large_image">'), 'twitter:card must be summary_large_image');
 
   // World pages (2026-09-02 standard): the page is a committed object from the
   // tool's world and owns its CSS. They do not load the kit shell or the style

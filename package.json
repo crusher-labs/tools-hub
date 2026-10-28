@@ -10,12 +10,17 @@
     "preview": "python -m http.server 8723 --bind 127.0.0.1",
     "render:catalog": "node ./scripts/render-catalog.mjs",
     "render:sitemap": "node ./scripts/render-sitemap.mjs",
-    "build": "npm run render:catalog && npm run apply:jsonld && npm run apply:author && npm run apply:related && npm run render:sitemap && npm run check:static",
+    "build": "npm run render:catalog && npm run apply:jsonld && npm run apply:author && npm run apply:related && npm run apply:og && npm run render:sitemap && npm run check:static",
     "apply:jsonld": "node ./scripts/apply-jsonld.mjs",
     "apply:author": "node ./scripts/apply-author-link.mjs",
-    "apply:related": "node ./scripts/apply-related-links.mjs"
+    "apply:related": "node ./scripts/apply-related-links.mjs",
+    "render:og": "node ./scripts/render-og.mjs",
+    "apply:og": "node ./scripts/apply-og.mjs"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
   }
 }

@@ -16,7 +16,7 @@
 //
 // Run: node scripts/apply-jsonld.mjs   (or npm run build)
 
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
 
@@ -120,6 +120,9 @@ function graphFor(rel, html) {
     publisher: PERSON,
     isPartOf: { '@type': 'WebSite', '@id': BASE + '#website' },
   };
+  // The share card (scripts/render-og.mjs) is a real screenshot of the tool, which
+  // Google lists as a recommended WebApplication property.
+  if (existsSync(join(ROOT, rel, 'og.jpg'))) app.screenshot = url + 'og.jpg';
   graph.push(app);
 
   graph.push({
