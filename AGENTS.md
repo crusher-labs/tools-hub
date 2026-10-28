@@ -21,7 +21,7 @@ Workspace rules: `x:\crusher-labs\AGENTS.md`. Global rules: `~/.claude/CLAUDE.md
 | `npm run check:static` | validate the contract for hub + 37 tool pages |
 | `npm run render:catalog` | rewrite the static catalog in `index.html` from `tools.json` |
 | `npm run render:sitemap` | rebuild `sitemap.xml` from the pages on disk; each `lastmod` is the page's last git author date (a page with uncommitted edits gets today), so it needs a full-history checkout |
-| `npm run apply:related` | rewrite each tool page's "Related tools" footer row (next three tools in its category) between `RELATED-TOOLS` markers; part of `build` |
+| `npm run apply:related` | rewrite each tool page's "Related tools" footer row (its `related` picks in `tools.json`, else the next three in its category) between `RELATED-TOOLS` markers; part of `build` |
 | `npm run render:og` | render each page's share card, the top 1200x630 of the page, to `og.jpg` beside it. Needs Playwright (`npm install`, `npx playwright install chromium`); run by hand when a page's look changes, then `npm run build` |
 | `npm run apply:og` | wire `og:image`, its size and alt, `twitter:image` and the large Twitter card to each page's `og.jpg`; part of `build` |
 | `npm run preview` | http.server on `127.0.0.1:8723` |
@@ -39,7 +39,7 @@ No Tailwind CDN, no Font Awesome, anywhere.
 
 ## Adding / removing a tool
 
-Add the directory with its `index.html`, add the entry to `tools.json`, run `npm run render:og -- <slug>` for its share card, then `npm run build` (this regenerates the catalog links, the related-tools rows and the sitemap; skipping it means the tool has no crawlable link and is absent from the sitemap, which is exactly how the first 37 stayed unindexed). Then ask Google to crawl it with URL inspection's "Request indexing": on this site that is what got never-crawled pages crawled (entry 21 of `docs/sessions/tools.md` in the workspace).
+Add the directory with its `index.html`, add the entry to `tools.json` (with three `related` slugs: the tools someone using it would want next, and add it to two other tools' lists so it has inbound links), run `npm run render:og -- <slug>` for its share card, then `npm run build` (this regenerates the catalog links, the related-tools rows and the sitemap; skipping it means the tool has no crawlable link and is absent from the sitemap, which is exactly how the first 37 stayed unindexed). Then ask Google to crawl it with URL inspection's "Request indexing": on this site that is what got never-crawled pages crawled (entry 21 of `docs/sessions/tools.md` in the workspace).
 
 ## What NOT to do
 
