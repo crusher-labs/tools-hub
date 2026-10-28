@@ -39,9 +39,12 @@ for (const file of pages) {
   const at = html.indexOf(SEO_END);
   if (!existsSync(join(dirname(file), 'og.jpg')) || at < 0) { missing.push(rel || '(hub)'); writeFileSync(file, html); continue; }
   const img = `${BASE}${rel ? rel + '/' : ''}og.jpg`;
-  const title = (html.match(/<title>([^<]*)<\/title>/) || [, ''])[1].trim();
+  // og:image:alt describes what is in the image, not the page: the card is the top of
+  // the page, so name what it shows by the page's own heading.
+  const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [, ''])[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const alt = rel ? `Screenshot of the ${h1} tool page` : 'Screenshot of the Web Utility Tools directory page';
   const indent = (html.slice(0, at).match(/\n([ \t]*)$/) || [, ''])[1];
-  const block = `${START}<meta property="og:image" content="${img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${attr(title)}"><meta name="twitter:image" content="${img}">${END}\n${indent}`;
+  const block = `${START}<meta property="og:image" content="${img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${attr(alt)}"><meta name="twitter:image" content="${img}"><meta name="twitter:image:alt" content="${attr(alt)}">${END}\n${indent}`;
   html = html.slice(0, at) + block + html.slice(at);
   html = html.replace('<meta name="twitter:card" content="summary">', '<meta name="twitter:card" content="summary_large_image">');
   writeFileSync(file, html);

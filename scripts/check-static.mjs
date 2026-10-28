@@ -135,7 +135,9 @@ function assertStaticContract(label, html) {
   // Share card (scripts/render-og.mjs renders it, scripts/apply-og.mjs wires it):
   // every page, hub included, points at its own og.jpg and asks for the large card.
   const og = (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
+  const ownCard = 'https://tools.muhammadhassaanjaved.com/' + (label === 'tools-hub/index.html' ? '' : label.replace(/index\.html$/, '')) + 'og.jpg';
   must(og, 'must declare og:image (run scripts/render-og.mjs, then npm run build)');
+  if (og) must(og === ownCard, `og:image must be the page's own card ${ownCard}, not ${og}`);
   if (og) must(existsSync(join(repoRoot, decodeURIComponent(new URL(og).pathname))), `og:image ${og} has no file on disk`);
   must(html.includes('<meta name="twitter:card" content="summary_large_image">'), 'twitter:card must be summary_large_image');
 
@@ -177,7 +179,10 @@ function assertStaticContract(label, html) {
     // Sibling links (scripts/apply-related-links.mjs): without them a tool's only
     // inbound link is its hub card.
     const relatedRow = (html.match(/<!-- RELATED-TOOLS-START -->([\s\S]*?)<!-- RELATED-TOOLS-END -->/) || [])[1] || '';
-    must((relatedRow.match(/<a href="https:\/\/tools\.muhammadhassaanjaved\.com\/[a-z0-9-]+\/"/g) || []).length >= 3, 'must carry the related-tools row with at least 3 tool links (run npm run build)');
+    const relatedLinks = [...relatedRow.matchAll(/<a href="https:\/\/tools\.muhammadhassaanjaved\.com\/([a-z0-9-]+\/(?:[a-z0-9-]+\/)?)"/g)].map((m) => m[1]);
+    must(relatedLinks.filter((p) => !p.includes('/', p.indexOf('/') + 1)).length >= 3, 'must carry the related-tools row with at least 3 tool links (run npm run build)');
+    must(!relatedRow || relatedRow.startsWith('<div class="foot related-tools"><span>'), 'the related-tools row must be the plain generated row (no hidden or extra attributes)');
+    for (const path of relatedLinks) must(existsSync(join(repoRoot, path, 'index.html')), `related link /${path} has no page on disk`);
     return;
   }
 

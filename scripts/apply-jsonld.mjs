@@ -120,8 +120,8 @@ function graphFor(rel, html) {
     publisher: PERSON,
     isPartOf: { '@type': 'WebSite', '@id': BASE + '#website' },
   };
-  // The share card (scripts/render-og.mjs) is a real screenshot of the tool, which
-  // Google lists as a recommended WebApplication property.
+  // The share card (scripts/render-og.mjs) is a real screenshot of the tool, so it is
+  // also given as schema.org's SoftwareApplication "screenshot" property.
   if (existsSync(join(ROOT, rel, 'og.jpg'))) app.screenshot = url + 'og.jpg';
   graph.push(app);
 

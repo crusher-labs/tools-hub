@@ -6,9 +6,10 @@
 // one inbound link (the hub card). Sibling links let each indexed tool point at the
 // others and tell Google which pages belong together.
 //
-// Picks: the next three tools in the same category of tools.json, wrapping round.
-// Categories with fewer than four tools fill the remaining slot from the catalog in
-// order. The main compress-image-to-kb page also links its size pages, which no
+// Picks: the tool's hand-chosen "related" slugs in tools.json (what someone using it
+// would plausibly want next). A tool without that field falls back to the next three
+// tools in its category, wrapping round, filled from the catalog when the category is
+// small. The main compress-image-to-kb page also links its size pages, which no
 // indexed page linked before. Size pages reuse their parent tool's picks.
 //
 // The row is a second <div class="foot"> right after the first, so it inherits each
@@ -35,6 +36,13 @@ const bySlug = new Map(tools.map((t) => [slugOf(t), t]));
 
 const related = (slug) => {
   const me = bySlug.get(slug);
+  if (Array.isArray(me.related)) {
+    return me.related.map((s) => {
+      const t = bySlug.get(s);
+      if (!t || t === me) throw new Error(`tools.json: "${slug}" lists related "${s}", which is not another tool in the catalog`);
+      return t;
+    });
+  }
   const family = tools.filter((t) => t.category === me.category);
   const i = family.indexOf(me);
   const picks = [];

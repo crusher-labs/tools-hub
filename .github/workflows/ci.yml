@@ -32,9 +32,15 @@ jobs:
       # The catalog and sitemap are generated files. If someone edits tools.json
       # without re-running the generators, the hub loses a crawlable link or the
       # sitemap omits a page - the exact failure that left all 37 tools unindexed.
+      # Every generated block (catalog, JSON-LD, author link, related-tools row,
+      # share-card tags, sitemap) must match what the scripts produce from the repo.
       - name: Generated files are up to date
         run: |
           node scripts/render-catalog.mjs
+          node scripts/apply-jsonld.mjs
+          node scripts/apply-author-link.mjs
+          node scripts/apply-related-links.mjs
+          node scripts/apply-og.mjs
           node scripts/render-sitemap.mjs
-          git diff --exit-code -- index.html sitemap.xml \
-            || { echo "::error::index.html or sitemap.xml is stale - run scripts/render-catalog.mjs and scripts/render-sitemap.mjs (a page committed on a later day than its render also lands here; re-render and commit)"; exit 1; }
+          git diff --exit-code -- '*.html' sitemap.xml \
+            || { echo "::error::generated files are stale - run npm run build and commit (a page committed on a later day than its render also lands here; re-render and commit)"; exit 1; }

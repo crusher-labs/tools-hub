@@ -75,14 +75,22 @@ async function checkOne({ name, url, expectedTitle }) {
   if (!/<meta name="theme-color"/.test(html)) errors.push('missing <meta name="theme-color">');
   if (!/<link rel="canonical"/.test(html)) errors.push('missing <link rel="canonical">');
   if (!/property="og:type"/.test(html)) errors.push('missing Open Graph tags');
-  // The share card must exist live, not just be named in the tag.
+  // The share card must exist live, not just be named in the tag. Pages sets the
+  // content type from the extension, so read the bytes: a JPEG, 1200x630.
   const og = (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
   if (!og) errors.push('missing og:image');
   else {
     try {
-      const r = await fetch(og, { method: 'HEAD', redirect: 'follow' });
-      const type = r.headers.get('content-type') || '';
-      if (r.status !== 200 || !type.startsWith('image/jpeg')) errors.push(`og:image ${og}: HTTP ${r.status} ${type}`);
+      const r = await fetch(og, { redirect: 'follow' });
+      const b = Buffer.from(await r.arrayBuffer());
+      let size = null;
+      for (let i = 2; i + 9 < b.length && b[0] === 0xff && b[1] === 0xd8;) {
+        if (b[i] !== 0xff) { i++; continue; }
+        const m = b[i + 1];
+        if (m >= 0xc0 && m <= 0xc3) { size = `${b.readUInt16BE(i + 7)}x${b.readUInt16BE(i + 5)}`; break; }
+        i += 2 + b.readUInt16BE(i + 2);
+      }
+      if (r.status !== 200 || size !== '1200x630') errors.push(`og:image ${og}: HTTP ${r.status}, ${size ? 'JPEG ' + size : 'not a JPEG'}`);
     } catch (e) { errors.push(`og:image fetch error: ${e.message}`); }
   }
 

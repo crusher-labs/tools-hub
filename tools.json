@@ -4,258 +4,443 @@
     "description": "Calculate and lock aspect ratios, with the frame etched live on a camera viewfinder; presets, common sizes, CSS aspect-ratio.",
     "url": "https://tools.muhammadhassaanjaved.com/aspect-ratio-calculator/",
     "icon": "image",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "image-compressor",
+      "svg-placeholder-generator",
+      "youtube-thumbnail-downloader"
+    ]
   },
   {
     "name": "Base64 Encoder/Decoder",
     "description": "Encode text or files to Base64 and decode it back, punched onto an 80-column card as you type. UTF-8, URL-safe, padding control.",
     "url": "https://tools.muhammadhassaanjaved.com/base64-encoder/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "url-encoder-decoder",
+      "html-entity-encoder",
+      "binary-converter"
+    ]
   },
   {
     "name": "Binary Converter",
     "description": "Text to binary and back on a front panel of lamps and switches, with decimal, hex and octal readouts for any number.",
     "url": "https://tools.muhammadhassaanjaved.com/binary-converter/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "base64-encoder",
+      "morse-code-converter",
+      "hash-generator"
+    ]
   },
   {
     "name": "Case Converter",
     "description": "UPPERCASE, lowercase, Title, Sentence, camelCase, snake_case, kebab-case and more, set from a printer's type case onto a composing stick.",
     "url": "https://tools.muhammadhassaanjaved.com/case-converter/",
     "icon": "case",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "word-character-counter",
+      "fancy-text-generator",
+      "regex-tester"
+    ]
   },
   {
     "name": "Color Converter",
     "description": "HEX, RGB, HSL, HSV and CMYK on a 24-patch color checker card, with a loupe on the color you are editing and WCAG contrast.",
     "url": "https://tools.muhammadhassaanjaved.com/color-converter/",
     "icon": "color",
-    "category": "design"
+    "category": "design",
+    "related": [
+      "color-palette-generator",
+      "css-gradient-generator",
+      "css-box-shadow-generator"
+    ]
   },
   {
     "name": "Color Palette Generator",
     "description": "Harmonies as a paint-store fan deck: named, coded chips with five shades each. Copy any hex or the whole palette as CSS variables.",
     "url": "https://tools.muhammadhassaanjaved.com/color-palette-generator/",
     "icon": "color",
-    "category": "design"
+    "category": "design",
+    "related": [
+      "color-converter",
+      "css-gradient-generator",
+      "transparent-png-generator"
+    ]
   },
   {
     "name": "CSS Box-Shadow Generator",
     "description": "Design box-shadow by moving studio lights around the subject; the shadow falls away from each light and the CSS follows.",
     "url": "https://tools.muhammadhassaanjaved.com/css-box-shadow-generator/",
     "icon": "gradient",
-    "category": "design"
+    "category": "design",
+    "related": [
+      "css-gradient-generator",
+      "color-converter",
+      "svg-placeholder-generator"
+    ]
   },
   {
     "name": "CSS Gradient Generator",
     "description": "Linear, radial and conic gradients on a sky at dusk; drag the sun to set the angle, start from real twilight palettes.",
     "url": "https://tools.muhammadhassaanjaved.com/css-gradient-generator/",
     "icon": "gradient",
-    "category": "design"
+    "category": "design",
+    "related": [
+      "color-palette-generator",
+      "css-box-shadow-generator",
+      "color-converter"
+    ]
   },
   {
     "name": "Diff Checker",
     "description": "Compare two texts on a galley proof marked with real proofreader's marks: dele, caret and margin insertions. Copy as unified diff.",
     "url": "https://tools.muhammadhassaanjaved.com/diff-checker/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "word-frequency-counter",
+      "json-prettifier",
+      "json-yaml-csv-converter"
+    ]
   },
   {
     "name": "Discord Timestamp Generator",
     "description": "Generate Discord timestamps that show in everyone's local timezone. All 7 formats, live previews, one-click copy.",
     "url": "https://tools.muhammadhassaanjaved.com/discord-timestamp-generator/",
     "icon": "clock",
-    "category": "time"
+    "category": "time",
+    "related": [
+      "unix-timestamp-converter",
+      "epoch-converter",
+      "invisible-character"
+    ]
   },
   {
     "name": "Epoch/Human Date Converter",
     "description": "Unix timestamps to dates in any zone and back, on a core log of computer time whose marker drops to the moment you enter.",
     "url": "https://tools.muhammadhassaanjaved.com/epoch-converter/",
     "icon": "clock",
-    "category": "time"
+    "category": "time",
+    "related": [
+      "unix-timestamp-converter",
+      "discord-timestamp-generator",
+      "uuid-generator"
+    ]
   },
   {
     "name": "Hash Generator",
     "description": "MD5, SHA-1, SHA-256, SHA-384, SHA-512 and CRC-32 for text or files, rolled onto a fingerprint card, with a verify line that names the matching hash.",
     "url": "https://tools.muhammadhassaanjaved.com/hash-generator/",
     "icon": "shield",
-    "category": "security"
+    "category": "security",
+    "related": [
+      "secure-password-generator",
+      "base64-encoder",
+      "uuid-generator"
+    ]
   },
   {
     "name": "Fancy Text Generator",
     "description": "Turn plain text into 25+ fancy Unicode font styles (bold, cursive, bubble, gothic) to copy and paste anywhere.",
     "url": "https://tools.muhammadhassaanjaved.com/fancy-text-generator/",
     "icon": "case",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "zalgo-text-generator",
+      "invisible-character",
+      "text-to-handwriting"
+    ]
   },
   {
     "name": "Invisible Character",
     "description": "Copy invisible Unicode characters for blank usernames and empty messages, with a generator and a paste-to-test checker.",
     "url": "https://tools.muhammadhassaanjaved.com/invisible-character/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "fancy-text-generator",
+      "zalgo-text-generator",
+      "discord-timestamp-generator"
+    ]
   },
   {
     "name": "HTML Entity Encoder",
     "description": "Encode special characters to HTML entities and decode them back on a 1940s decoder ring, with a searchable code book of every named entity.",
     "url": "https://tools.muhammadhassaanjaved.com/html-entity-encoder/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "url-encoder-decoder",
+      "base64-encoder",
+      "markdown-previewer"
+    ]
   },
   {
     "name": "Image Compressor",
     "description": "Compress an image to a target size on an airport bag drop: the scale counts the KB down, an allowance turns the lamp green or red; JPEG, WebP, PNG.",
     "url": "https://tools.muhammadhassaanjaved.com/image-compressor/",
     "icon": "image",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "compress-image-to-kb",
+      "transparent-png-generator",
+      "video-to-audio-converter"
+    ]
   },
   {
     "name": "Compress Image to KB",
     "description": "Compress JPG, PNG or WebP images to an exact target file size like 50KB, 100KB or 200KB, fully in your browser.",
     "url": "https://tools.muhammadhassaanjaved.com/compress-image-to-kb/",
     "icon": "image",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "image-compressor",
+      "aspect-ratio-calculator",
+      "transparent-png-generator"
+    ]
   },
   {
     "name": "JSON Formatter and Minifier",
     "description": "Format, validate and minify JSON as you type, printed on green-bar paper. Sort keys, spot errors, copy the result.",
     "url": "https://tools.muhammadhassaanjaved.com/json-prettifier/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "json-yaml-csv-converter",
+      "jwt-decoder",
+      "diff-checker"
+    ]
   },
   {
     "name": "JSON to YAML/CSV Converter",
     "description": "JSON, YAML and CSV in any direction on a three-part carbonless form: write on one sheet, the other two copies fill in, tear one off to copy.",
     "url": "https://tools.muhammadhassaanjaved.com/json-yaml-csv-converter/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "json-prettifier",
+      "diff-checker",
+      "base64-encoder"
+    ]
   },
   {
     "name": "JWT Decoder",
     "description": "Decode and verify JSON Web Tokens as a passport: claims on the data page, the expiry stamped red or green, HS/RS/ES signature checks in the browser.",
     "url": "https://tools.muhammadhassaanjaved.com/jwt-decoder/",
     "icon": "shield",
-    "category": "security"
+    "category": "security",
+    "related": [
+      "base64-encoder",
+      "json-prettifier",
+      "unix-timestamp-converter"
+    ]
   },
   {
     "name": "Lorem Ipsum Generator",
     "description": "Lorem ipsum by paragraphs, sentences or words, chiselled into a stone inscription. Plain or HTML, with the Cicero source.",
     "url": "https://tools.muhammadhassaanjaved.com/lorem-ipsum-generator/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "word-character-counter",
+      "svg-placeholder-generator",
+      "markdown-previewer"
+    ]
   },
   {
     "name": "Markdown Previewer",
     "description": "Write Markdown on a manuscript and see it typeset live on a book page with a running head, folio and drop cap.",
     "url": "https://tools.muhammadhassaanjaved.com/markdown-previewer/",
     "icon": "markdown",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "html-entity-encoder",
+      "word-character-counter",
+      "lorem-ipsum-generator"
+    ]
   },
   {
     "name": "Morse Code Converter",
     "description": "Text to Morse and back on a telegraph desk; Play taps the message out on a straight key at real Morse timing.",
     "url": "https://tools.muhammadhassaanjaved.com/morse-code-converter/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "binary-converter",
+      "text-to-handwriting",
+      "case-converter"
+    ]
   },
   {
     "name": "QR Code Generator",
     "description": "QR codes for URLs, text, Wi-Fi, email, phone and SMS on a boarding pass; set correction, size and colours, tear the stub to download PNG or SVG.",
     "url": "https://tools.muhammadhassaanjaved.com/qr-code-generator/",
     "icon": "qr",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "url-encoder-decoder",
+      "secure-password-generator",
+      "svg-placeholder-generator"
+    ]
   },
   {
     "name": "Text to Handwriting",
     "description": "Convert typed text into realistic handwritten pages with handwriting styles, ink colors and ruled paper. PNG output, no watermark.",
     "url": "https://tools.muhammadhassaanjaved.com/text-to-handwriting/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "fancy-text-generator",
+      "word-character-counter",
+      "lorem-ipsum-generator"
+    ]
   },
   {
     "name": "Regex Tester",
     "description": "Test a regular expression on a radar scope: every match paints on as the sweep passes, with groups, flags and a replace preview.",
     "url": "https://tools.muhammadhassaanjaved.com/regex-tester/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "diff-checker",
+      "url-encoder-decoder",
+      "word-frequency-counter"
+    ]
   },
   {
     "name": "Secure Password Generator",
     "description": "Spin a safe dial to generate a strong random password from your browser’s cryptographic generator. Pick the sets, read the strength in bolts, take the key.",
     "url": "https://tools.muhammadhassaanjaved.com/secure-password-generator/",
     "icon": "shield",
-    "category": "security"
+    "category": "security",
+    "related": [
+      "hash-generator",
+      "uuid-generator",
+      "qr-code-generator"
+    ]
   },
   {
     "name": "SVG Placeholder Generator",
     "description": "SVG placeholders at any size, colours and text, hung in a gallery frame that resizes as you type; copy, data URI or download.",
     "url": "https://tools.muhammadhassaanjaved.com/svg-placeholder-generator/",
     "icon": "image",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "transparent-png-generator",
+      "aspect-ratio-calculator",
+      "css-gradient-generator"
+    ]
   },
   {
     "name": "Transparent PNG Generator",
     "description": "Blank or tinted transparent PNGs at any size, glazed into a sash window that resizes to the ratio; download, data URL or CSS.",
     "url": "https://tools.muhammadhassaanjaved.com/transparent-png-generator/",
     "icon": "image",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "svg-placeholder-generator",
+      "image-compressor",
+      "color-converter"
+    ]
   },
   {
     "name": "Unix Timestamp Converter",
     "description": "Epoch to date and back on a split-flap departures board: local, UTC, ISO 8601 and relative, with a ticking epoch clock.",
     "url": "https://tools.muhammadhassaanjaved.com/unix-timestamp-converter/",
     "icon": "clock",
-    "category": "time"
+    "category": "time",
+    "related": [
+      "epoch-converter",
+      "discord-timestamp-generator",
+      "jwt-decoder"
+    ]
   },
   {
     "name": "URL Encoder/Decoder",
     "description": "Encode and decode URLs and query strings on an airline bag tag; the host is the destination, the claim stub carries the result.",
     "url": "https://tools.muhammadhassaanjaved.com/url-encoder-decoder/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "base64-encoder",
+      "html-entity-encoder",
+      "qr-code-generator"
+    ]
   },
   {
     "name": "UUID/GUID Generator",
     "description": "v4, v7 and v1 UUIDs from a take-a-number dispenser: pull the tab and a ticket tears off; bulk, formats, and a reader for any UUID.",
     "url": "https://tools.muhammadhassaanjaved.com/uuid-generator/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "hash-generator",
+      "secure-password-generator",
+      "unix-timestamp-converter"
+    ]
   },
   {
     "name": "Video to Audio Converter",
     "description": "Extract MP3 or WAV from a video on a reel-to-reel dubbing deck, entirely in the browser: reels turn and VU meters swing with the real dub.",
     "url": "https://tools.muhammadhassaanjaved.com/video-to-audio-converter/",
     "icon": "video",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "youtube-thumbnail-downloader",
+      "image-compressor",
+      "aspect-ratio-calculator"
+    ]
   },
   {
     "name": "YouTube Thumbnail Downloader",
     "description": "Preview and download any YouTube video's thumbnail in every available size, up to HD 1280x720. Works for Shorts.",
     "url": "https://tools.muhammadhassaanjaved.com/youtube-thumbnail-downloader/",
     "icon": "video",
-    "category": "media"
+    "category": "media",
+    "related": [
+      "video-to-audio-converter",
+      "image-compressor",
+      "compress-image-to-kb"
+    ]
   },
   {
     "name": "Word & Character Counter",
     "description": "Count words, characters, sentences and paragraphs on a typewriter whose odometer wheels roll as you type, with reading time.",
     "url": "https://tools.muhammadhassaanjaved.com/word-character-counter/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "word-frequency-counter",
+      "case-converter",
+      "text-to-handwriting"
+    ]
   },
   {
     "name": "Word Frequency Counter",
     "description": "Count how often each word appears; the ranking is a drawer of library catalog cards that riffle into order.",
     "url": "https://tools.muhammadhassaanjaved.com/word-frequency-counter/",
     "icon": "text",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "word-character-counter",
+      "diff-checker",
+      "regex-tester"
+    ]
   },
   {
     "name": "Zalgo Text Generator",
     "description": "Turn any text into cursed glitch text with stacked Unicode marks: adjustable intensity, one-click copy.",
     "url": "https://tools.muhammadhassaanjaved.com/zalgo-text-generator/",
     "icon": "case",
-    "category": "text"
+    "category": "text",
+    "related": [
+      "fancy-text-generator",
+      "invisible-character",
+      "morse-code-converter"
+    ]
   }
 ]
