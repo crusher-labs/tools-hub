@@ -2,7 +2,7 @@
 
 The **entire static tools line**: the directory site at `tools.muhammadhassaanjaved.com` plus all 37 tools, each a subdirectory served at `/<slug>/`. One GitHub Pages site, one host, one sitemap. It also owns the validation and generator scripts.
 
-Consolidated on 2026-09-03. Before that the tools were 37 separate Pages sites on `crusher-labs.github.io`; Google had indexed **zero** of them in four months because (a) the hub built its cards client-side so the HTML had no crawlable links, (b) the sitemap listed only the hub, and (c) `github.io` is on the Public Suffix List so the host cannot be verified in Search Console. Those repos now serve redirect stubs.
+Consolidated on 2026-09-05 (commit `0689577`). Before that the tools were 37 separate Pages sites on `crusher-labs.github.io`; Google had indexed **zero** of them in four months because (a) the hub built its cards client-side so the HTML had no crawlable links, (b) the sitemap listed only the hub, and (c) `github.io` is on the Public Suffix List so the host cannot be verified in Search Console. Those repos now serve redirect stubs.
 
 Workspace rules: `x:\crusher-labs\AGENTS.md`. Global rules: `~/.claude/CLAUDE.md`.
 
@@ -11,6 +11,7 @@ Workspace rules: `x:\crusher-labs\AGENTS.md`. Global rules: `~/.claude/CLAUDE.md
 - A static site. `index.html` carries the catalog as **static HTML** (generated from `tools.json` by `scripts/render-catalog.mjs`); its script only indexes that DOM for search. It must never fetch `tools.json` at runtime again - that is what made the tools invisible to Google, and `check-static.mjs` now fails if the fetch comes back.
 - Each tool is a subdirectory with its own `index.html` (a world page owning its CSS, fonts and mode) plus `README.md` and `AGENTS.md`. Only the hub still pins `crusher-ui-kit` via jsDelivr.
 - Owns `scripts/render-catalog.mjs`, `scripts/render-sitemap.mjs`, `scripts/check-static.mjs` and `scripts/smoke.mjs`. There is one `robots.txt` and one `sitemap.xml`, at the repo root, because there is one host.
+- `_config.yml` stops GitHub Pages' Jekyll from publishing the Markdown notes (`AGENTS.md` would otherwise be served as an indexable `AGENTS.html`), the scripts and `package.json`. `npm run smoke` fails if any of them is served.
 
 ## Commands
 
@@ -19,7 +20,7 @@ Workspace rules: `x:\crusher-labs\AGENTS.md`. Global rules: `~/.claude/CLAUDE.md
 | `npm run build` | **run this after any `tools.json` change**: regenerates the catalog + sitemap, then validates. CI fails if these are stale |
 | `npm run check:static` | validate the contract for hub + 37 tool pages |
 | `npm run render:catalog` | rewrite the static catalog in `index.html` from `tools.json` |
-| `npm run render:sitemap` | rebuild `sitemap.xml` from the pages on disk |
+| `npm run render:sitemap` | rebuild `sitemap.xml` from the pages on disk; each `lastmod` is the page's last git author date (a page with uncommitted edits gets today), so it needs a full-history checkout |
 | `npm run preview` | http.server on `127.0.0.1:8723` |
 | `npm run smoke` | hit every URL in the sitemap post-deploy |
 
