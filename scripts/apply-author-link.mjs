@@ -2,7 +2,7 @@
 // Adds a "Built by Muhammad Hassaan Javed" link to every tool page's footer,
 // between AUTHOR-LINK-START/END markers (strip-then-reinsert, safe to rerun).
 //
-// Why: the tools are meant to make the founder discoverable, but until now not one
+// Why: the tools are meant to make their author discoverable, but until now not one
 // of the 41 pages linked anywhere except back to the hub. This is the outbound
 // half of that goal, and it gives the personal site a real server-rendered inbound
 // link from every tool - the exact thing the site's own <crusher-button> cannot

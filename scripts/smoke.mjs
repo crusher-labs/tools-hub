@@ -132,13 +132,13 @@ async function checkDiscoveryFiles() {
 }
 
 // Repo notes and build files must not be published. Without _config.yml's exclude
-// list, Pages' Jekyll turned every AGENTS.md into an indexable AGENTS.html.
+// list, Pages' Jekyll turns every Markdown file into an indexable page.
 async function checkUnpublished() {
-  const paths = ['AGENTS.html', 'CLAUDE.html', 'README.md', 'README.html', 'json-prettifier/AGENTS.html',
+  const paths = ['README.md', 'README.html', 'json-prettifier/README.html',
     'json-prettifier/README.md', 'scripts/render-sitemap.mjs', 'compress-image-to-kb/scripts/gen-variants.mjs', 'package.json'];
   const statuses = await Promise.all(paths.map((p) => statusOf(HUB_URL + p)));
   const errors = paths.map((p, i) => [p, statuses[i]]).filter(([, s]) => s !== 404).map(([p, s]) => `${p} is published (${s})`);
-  return { name: 'repo files not published', url: HUB_URL + 'AGENTS.html', ok: errors.length === 0, errors };
+  return { name: 'repo files not published', url: HUB_URL + 'README.html', ok: errors.length === 0, errors };
 }
 
 const stamp = new Date().toISOString().replace('T', ' ').slice(0, 16) + 'Z';

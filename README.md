@@ -35,7 +35,7 @@ CI runs `check:static` and fails if the generated files are stale.
 
 ## Adding a tool
 
-1. Create `<slug>/index.html` (plus `README.md` and `AGENTS.md`) following the world-page contract.
+1. Create `<slug>/index.html` (plus a `README.md`) following the world-page contract.
 2. Add the entry to `tools.json`.
 3. `npm run build`.
 

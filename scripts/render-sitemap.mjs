@@ -46,7 +46,7 @@ if (shallow === 'true') {
 const now = new Date();
 const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 // A tool's page is its index.html plus the scripts and styles beside it (qrcode.js,
-// lame.min.js); its notes (AGENTS.md, README.md) are not the page. The hub is
+// lame.min.js); its README is not the page. The hub is
 // index.html alone, because the root also holds sitemap.xml, which this writes.
 // Author date (%as), not committer date: a rebase, amend or cherry-pick keeps it.
 const ASSET = /\.(html|js|css|svg|png|jpe?g|webp|gif|ico|woff2?|ttf|txt)$/i;
