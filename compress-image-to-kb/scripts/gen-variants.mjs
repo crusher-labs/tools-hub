@@ -29,6 +29,5 @@ for (const v of VARIANTS) {
   html = html.replace('OF 50 KB', 'OF ' + v.kb + ' KB').replace("setGauge(0, 50);", 'setGauge(0, ' + v.kb + ');');
   await mkdir(join(repoRoot, v.kb + 'kb'), { recursive: true }); await writeFile(join(repoRoot, v.kb + 'kb', 'index.html'), html); console.log('[gen-variants] wrote ' + v.kb + 'kb/index.html');
 }
-const today = new Date().toISOString().slice(0, 10); const urls = [BASE, ...VARIANTS.map(v => BASE + v.kb + 'kb/')];
-await writeFile(join(repoRoot, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => '  <url>\n    <loc>' + u + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>' + (u === BASE ? '0.8' : '0.7') + '</priority>\n  </url>').join('\n') + '\n</urlset>\n');
-console.log('[gen-variants] sitemap.xml updated (' + urls.length + ' URLs)');
+// The size pages are listed in the site's one sitemap (tools-hub/scripts/render-sitemap.mjs);
+// there is no per-tool sitemap. Run `npm run build` at the repo root after this script.
